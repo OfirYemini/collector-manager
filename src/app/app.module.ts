@@ -20,6 +20,9 @@ import { HomeComponent } from './home/home.component';
 import { PrayersComponent } from './prayers/prayers.component';
 import { TransactionsComponent } from './transactions/transactions.component';
 import { ReportsComponent } from './reports/reports.component';
+import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
+//import { PrayersService } from './prayers.service';
+import { DataService } from './data.service';
 
 @NgModule({
   declarations: [
@@ -39,7 +42,8 @@ import { ReportsComponent } from './reports/reports.component';
     MatFormFieldModule,    
     MatButtonModule,
     MatInputModule,
-    MatToolbarModule
+    MatToolbarModule,
+    InMemoryWebApiModule.forRoot(DataService)
   ],
   providers: [],
   bootstrap: [AppComponent]
