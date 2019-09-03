@@ -40,14 +40,13 @@ export class PrayersComponent implements OnInit {
     });
   }
 
-  addRowData(row_obj){
-    var d = new Date();
-    this.prayers.push({
-      id:d.getTime(),
-      name:row_obj.name
-    });
-    this.table.renderRows();
-    
+  addRowData(row_obj){    
+    this.prayersService.addPrayer(row_obj.name).subscribe((data)=>{
+      this.prayersService.getPrayers().subscribe((data : any[])=>{        
+        this.prayers = data;
+        this.table.renderRows();
+      })
+    })
   }
 
   updateRowData(row_obj){
