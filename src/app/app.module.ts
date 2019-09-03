@@ -7,19 +7,25 @@ import { AppComponent } from './app.component';
 import { TransactionsTableComponent } from './transactions-table/transactions-table.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
-import { MatSortModule,MatDialogModule, 
+import { MatSortModule,
+  MatDialogModule, 
   MatFormFieldModule,
   MatInputModule,
-  MatButtonModule } from '@angular/material';
+  MatButtonModule,
+  MatToolbarModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DialogBoxComponent } from './dialog-box/dialog-box.component';
 import { NavComponent } from './nav/nav.component';
+import { HomeComponent } from './home/home.component';
+import { PrayersComponent } from './prayers/prayers.component';
+import { TransactionsComponent } from './transactions/transactions.component';
+import { ReportsComponent } from './reports/reports.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     TransactionsTableComponent, 
-    DialogBoxComponent, NavComponent
+    DialogBoxComponent, NavComponent, HomeComponent, PrayersComponent, TransactionsComponent, ReportsComponent
   ],
   imports: [
     BrowserModule,
@@ -32,7 +38,8 @@ import { NavComponent } from './nav/nav.component';
     MatDialogModule,
     MatFormFieldModule,    
     MatButtonModule,
-    MatInputModule
+    MatInputModule,
+    MatToolbarModule
   ],
   providers: [],
   bootstrap: [AppComponent]
