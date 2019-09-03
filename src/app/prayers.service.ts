@@ -9,30 +9,26 @@ export class PrayersService {
 
 
   SERVER_URL: string = "http://localhost:8080/api/";
+  prayers_endpoint = 'prayers';
+
   constructor(private httpClient: HttpClient) { }
 
   public getPrayers(){ 
-       return this.httpClient.get(this.SERVER_URL + 'prayers');
+       return this.httpClient.get(`${this.SERVER_URL + this.prayers_endpoint}`);
   }
 
   public getPrayer(prayerId:number){
-       return this.httpClient.get(`${this.SERVER_URL}prayer/{prayerId}`); 
+       return this.httpClient.get(`${this.SERVER_URL + this.prayers_endpoint}/{prayerId}`); 
   }
   
   public addPrayer(name: string){
-    // var d = new Date();
-    // this.dataSource.push({
-    //   id:d.getTime(),
-    //   name:row_obj.name
-    // });
-    var temp  = '${this.SERVER_URL} + prayer';
-      return this.httpClient.post(`${this.SERVER_URL}prayer`,{name:name});
+      return this.httpClient.post(`${this.SERVER_URL + this.prayers_endpoint}`,{name:name});
   }
 
   public deletePrayer(prayerId:number){
-      return this.httpClient.delete(`${this.SERVER_URL}/prayer{prayerId}`)
+      return this.httpClient.delete(`${this.SERVER_URL + this.prayers_endpoint}/{prayerId}`)
   }
   public updatePrayer(prayer: {id: number, name: string}){
-      return this.httpClient.put(`${this.SERVER_URL}prayer/{prayer.id}`,prayer.name)
+      return this.httpClient.put(`${this.SERVER_URL + this.prayers_endpoint}/{prayer.id}`,prayer.name)
   }
 }
