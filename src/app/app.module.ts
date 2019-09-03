@@ -23,6 +23,7 @@ import { ReportsComponent } from './reports/reports.component';
 import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
 //import { PrayersService } from './prayers.service';
 import { DataService } from './data.service';
+import { HttpClientModule } from '@angular/common/http'; 
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { DataService } from './data.service';
     MatButtonModule,
     MatInputModule,
     MatToolbarModule,
-    InMemoryWebApiModule.forRoot(DataService)
+    InMemoryWebApiModule.forRoot(DataService),
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,3 +1,4 @@
+import { PrayersService } from './../prayers.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -6,10 +7,16 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./prayers.component.css']
 })
 export class PrayersComponent implements OnInit {
-
-  constructor() { }
+  prayers:any[]
+  displayedColumns = ['id', 'name'];
+  
+  constructor(private prayersService:PrayersService) { }
 
   ngOnInit() {
+    this.prayersService.getPrayers().subscribe((data : any[])=>{
+      console.log(data);
+      this.prayers = data;
+  })
   }
 
 }
