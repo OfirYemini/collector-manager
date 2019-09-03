@@ -68,7 +68,7 @@ export class TransactionsTableDataSource extends DataSource<TransactionsTableIte
   }
 
   push(item:TransactionsTableItem){
-
+    this.data.push(item);
   }
   /**
    *  Called when the table is being destroyed. Use this function, to clean up
