@@ -47,6 +47,9 @@ import { HttpClientModule } from '@angular/common/http';
     InMemoryWebApiModule.forRoot(DataService),
     HttpClientModule
   ],
+  entryComponents: [
+    DialogBoxComponent
+  ],
   providers: [],
   bootstrap: [AppComponent]
 })

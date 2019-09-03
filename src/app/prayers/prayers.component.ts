@@ -1,5 +1,7 @@
 import { PrayersService } from './../prayers.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,ViewChild  } from '@angular/core';
+import { MatDialog, MatTable } from '@angular/material';
+import { DialogBoxComponent } from '../dialog-box/dialog-box.component';
 
 @Component({
   selector: 'app-prayers',
@@ -9,8 +11,9 @@ import { Component, OnInit } from '@angular/core';
 export class PrayersComponent implements OnInit {
   prayers:any[]
   displayedColumns = ['id', 'name'];
-  
-  constructor(private prayersService:PrayersService) { }
+  @ViewChild(MatTable,{static:true}) table: MatTable<any>;
+
+  constructor(private prayersService:PrayersService, public dialog: MatDialog) { }
 
   ngOnInit() {
     this.prayersService.getPrayers().subscribe((data : any[])=>{
@@ -19,4 +22,46 @@ export class PrayersComponent implements OnInit {
   })
   }
 
+  openDialog(action,obj) {
+    obj.action = action;
+    const dialogRef = this.dialog.open(DialogBoxComponent, {
+      width: '250px',
+      data:obj
+    });
+ 
+    dialogRef.afterClosed().subscribe(result => {
+      if(result.event == 'Add'){
+        this.addRowData(result.data);
+      }else if(result.event == 'Update'){
+        this.updateRowData(result.data);
+      }else if(result.event == 'Delete'){
+        this.deleteRowData(result.data);
+      }
+    });
+  }
+
+  addRowData(row_obj){
+    var d = new Date();
+    this.prayers.push({
+      id:d.getTime(),
+      name:row_obj.name
+    });
+    this.table.renderRows();
+    
+  }
+
+  updateRowData(row_obj){
+    this.prayers = this.prayers.filter((value,key)=>{
+      if(value.id == row_obj.id){
+        value.name = row_obj.name;
+      }
+      return true;
+    });
+  }
+
+  deleteRowData(row_obj){
+    this.prayers = this.prayers.filter((value,key)=>{
+      return value.id != row_obj.id;
+    });
+  }
 }
