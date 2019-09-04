@@ -24,9 +24,10 @@ export class PrayersComponent implements OnInit {
 
   openDialog(action,obj) {
     obj.action = action;
+    obj.dialogType = 'prayer';
     const dialogRef = this.dialog.open(DialogBoxComponent, {
-      width: '250px',
-      data:obj
+      width: '250px',      
+      data:obj,      
     });
  
     dialogRef.afterClosed().subscribe(result => {

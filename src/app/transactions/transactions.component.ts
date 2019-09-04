@@ -1,6 +1,7 @@
 import { Component, OnInit,ViewChild  } from '@angular/core';
 import { MatDialog, MatTable } from '@angular/material';
 import { DialogBoxComponent } from '../dialog-box/dialog-box.component';
+import { TransactionsService } from './../transactions.service';
 
 @Component({
   selector: 'app-transactions',
@@ -8,11 +9,11 @@ import { DialogBoxComponent } from '../dialog-box/dialog-box.component';
   styleUrls: ['./transactions.component.css']
 })
 export class TransactionsComponent implements OnInit {
-  prayers:any[]
+  transactions:any[]
   displayedColumns = ['id', 'name','action'];
   @ViewChild(MatTable,{static:true}) table: MatTable<any>;
 
-  constructor(private prayersService:PrayersService, public dialog: MatDialog) { }
+  constructor(private transactionsService:TransactionsService, public dialog: MatDialog) { }
 
   ngOnInit() {
   }
@@ -36,16 +37,16 @@ export class TransactionsComponent implements OnInit {
   }
 
   addRowData(row_obj){    
-    this.prayersService.addPrayer(row_obj.name).subscribe((data)=>{
-      this.prayersService.getPrayers().subscribe((data : any[])=>{        
-        this.prayers = data;
-        this.table.renderRows();
-      })
+    this.transactionsService.addTransaction(row_obj.name).subscribe((data)=>{
+      // this.transactionsService.getTransactions().subscribe((data : any[])=>{        
+      //   this.transactions = data;
+      //   this.table.renderRows();
+      // })
     })
   }
 
   updateRowData(row_obj){
-    this.prayers = this.prayers.filter((value,key)=>{
+    this.transactions = this.transactions.filter((value,key)=>{
       if(value.id == row_obj.id){
         value.name = row_obj.name;
       }
@@ -54,7 +55,7 @@ export class TransactionsComponent implements OnInit {
   }
 
   deleteRowData(row_obj){
-    this.prayers = this.prayers.filter((value,key)=>{
+    this.transactions = this.transactions.filter((value,key)=>{
       return value.id != row_obj.id;
     });
   }
