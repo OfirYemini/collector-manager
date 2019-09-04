@@ -3,8 +3,11 @@
 <div *ngIf="dialogType == 'prayer'">
   <div mat-dialog-content>
     <mat-form-field *ngIf="action != 'Delete'; else elseTemplate">
-      <input placeholder="{{action}} Name" matInput [(ngModel)]="local_data.name">
+      <input placeholder="{{action}} Last Name" matInput [(ngModel)]="local_data.lastName">
     </mat-form-field>
+    <mat-form-field *ngIf="action != 'Delete';">
+        <input placeholder="{{action}} First Name" matInput [(ngModel)]="local_data.firstName">
+      </mat-form-field>
     <ng-template #elseTemplate>
       Sure to delete <b>{{local_data.name}}</b>?
     </ng-template>

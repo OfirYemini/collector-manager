@@ -1,2 +1,22 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~@angular/material/prebuilt-themes/deeppurple-amber.css";
+
+        
+table {
+    text-align: right;
+    margin-right: 0px;
+    margin-left: auto
+}
+
+.mat-row {
+    height: auto !important;
+  }
+  
+  .mat-cell {
+    padding-left: 8px !important;    
+  }
+
+  td button.btn {
+    margin-left: 5px;
+    padding: 1px 4px;
+  }

@@ -53,7 +53,9 @@ export class PrayersComponent implements OnInit {
   updateRowData(row_obj){
     this.prayers = this.prayers.filter((value,key)=>{
       if(value.id == row_obj.id){
-        value.name = row_obj.name;
+        value.lastName = row_obj.lastName;
+        value.firstName = row_obj.firstName;
+        this.table.renderRows();
       }
       return true;
     });
