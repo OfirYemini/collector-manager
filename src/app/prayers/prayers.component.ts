@@ -10,7 +10,7 @@ import { DialogBoxComponent } from '../dialog-box/dialog-box.component';
 })
 export class PrayersComponent implements OnInit {
   prayers:any[]
-  displayedColumns = ['id', 'name'];
+  displayedColumns = ['id', 'name','action'];
   @ViewChild(MatTable,{static:true}) table: MatTable<any>;
 
   constructor(private prayersService:PrayersService, public dialog: MatDialog) { }
