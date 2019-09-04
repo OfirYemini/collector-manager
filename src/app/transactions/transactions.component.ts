@@ -27,6 +27,7 @@ export class TransactionsComponent implements OnInit {
 
   openDialog(action,obj) {
     obj.action = action;
+    obj.dialogType = 'transaction';
     const dialogRef = this.dialog.open(DialogBoxComponent, {
       width: '250px',
       data:obj
@@ -44,8 +45,8 @@ export class TransactionsComponent implements OnInit {
   }
 
   addRowData(row_obj){    
-    this.transactionsService.addTransaction(row_obj).subscribe((data)=>{
-      this.transactionsService.getTransaction(row_obj.id).subscribe((data : any)=>{        
+    this.transactionsService.addTransaction(row_obj).subscribe((newTransId: any)=>{
+      this.transactionsService.getTransaction(newTransId.id).subscribe((data : any)=>{        
         this.transactions.push(data);
         this.table.renderRows();
       })

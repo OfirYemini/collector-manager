@@ -15,12 +15,12 @@ export class TransactionsService {
        return this.httpClient.get(`${this.SERVER_URL + this.endpoint}`);
   }
 
-  public getTransaction(id?:number){      
-    return this.httpClient.get(`${this.SERVER_URL + this.endpoint}/{transId}`);
+  public getTransaction(id:number){      
+    return this.httpClient.get(`${this.SERVER_URL + this.endpoint}/${id}`);
   }
 
   public getTransactionByPrayer(prayerId:number){
-       return this.httpClient.get(`${this.SERVER_URL + this.endpoint}/prayers/{prayerId}`); 
+       return this.httpClient.get(`${this.SERVER_URL + this.endpoint}/prayers/${prayerId}`); 
   }
   
   public addTransaction(trans:any){
@@ -28,9 +28,9 @@ export class TransactionsService {
   }
 
   public deleteTransaction(transId:number){
-      return this.httpClient.delete(`${this.SERVER_URL + this.endpoint}/{transId}`)
+      return this.httpClient.delete(`${this.SERVER_URL + this.endpoint}/${transId}`)
   }
   public updateTransaction(trans:any){
-      return this.httpClient.put(`${this.SERVER_URL + this.endpoint}/{trans.id}`,trans)
+      return this.httpClient.put(`${this.SERVER_URL + this.endpoint}/${trans.id}`,trans)
   }
 }
