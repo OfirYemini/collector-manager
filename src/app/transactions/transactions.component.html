@@ -1,1 +1,33 @@
-<p>transactions works!</p>
+<button mat-button (click)="openDialog('Add',{})" dir="rtl" mat-flat-button color="primary">תנועה חדשה</button>
+<table mat-table class="full-width-table" matSort aria-label="Elements" [dataSource]="prayers" dir="rtl">
+    <!-- Id Column -->
+    <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>מספר מתפלל</th>
+        <td mat-cell *matCellDef="let row">{{row.id}}</td>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>מתפלל</th>
+        <td mat-cell *matCellDef="let row">{{row.name}}</td>
+    </ng-container>
+
+    <!-- Action Column -->
+    <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef> Action </th>
+        <td mat-cell *matCellDef="let element" class="action-link"> 
+            <button class="btn btn-success" (click)="openDialog('Update',element)">
+                <i class="fa fa-edit"></i>
+            </button>
+            <button class="btn btn-danger" (click)="openDialog('Delete',element)">
+                    <i class="fa fa-remove"></i>
+                </button>
+          <!-- <a (click)="openDialog('Update',element)">Edit<i class=”fa fa-edit”></i>/a> | 
+          <a (click)="openDialog('Delete',element)">Delete</a>   -->
+        </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
+    
