@@ -13,7 +13,14 @@ export class DataService implements InMemoryDbService{
       {  id:  4,  name:  'יהודה דאר' }
      ];
   
-     return {prayers: prayers};
+     var now = Date.now();
+     let transactions=[
+        {id:1,prayerName:'משה זהבי',description:'שביעי',amount:50,date:new Date(2019,8,1)},
+        {id:2,prayerName:'שלמה ימיני',description:'חמישי',amount:55,date:new Date(2019,8,2)},
+        {id:3,prayerName:'שלמה ימיני',description:'מוסף',amount:40,date:new Date(2019,8,1)},
+        {id:4,prayerName:'יהודה דאר',description:'שביעי',amount:30,date:new Date(2019,8,2)},        
+     ];
+     return {prayers: prayers,transactions:transactions};
   }
   
 

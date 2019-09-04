@@ -10,12 +10,19 @@ import { TransactionsService } from './../transactions.service';
 })
 export class TransactionsComponent implements OnInit {
   transactions:any[]
-  displayedColumns = ['id', 'name','action'];
+  displayedColumns = ['id', 'prayerName','description','amount','date','action'];
   @ViewChild(MatTable,{static:true}) table: MatTable<any>;
 
   constructor(private transactionsService:TransactionsService, public dialog: MatDialog) { }
 
   ngOnInit() {
+    var from = new Date();
+    from.setDate(from.getDate()-14);
+    
+    this.transactionsService.getTransactions(from,new Date()).subscribe((data : any[])=>{
+      console.log(data);
+      this.transactions = data;
+    });
   }
 
   openDialog(action,obj) {
@@ -37,26 +44,38 @@ export class TransactionsComponent implements OnInit {
   }
 
   addRowData(row_obj){    
-    this.transactionsService.addTransaction(row_obj.name).subscribe((data)=>{
-      // this.transactionsService.getTransactions().subscribe((data : any[])=>{        
-      //   this.transactions = data;
-      //   this.table.renderRows();
-      // })
+    this.transactionsService.addTransaction(row_obj).subscribe((data)=>{
+      this.transactionsService.getTransaction(row_obj.id).subscribe((data : any)=>{        
+        this.transactions.push(data);
+        this.table.renderRows();
+      })
     })
   }
 
-  updateRowData(row_obj){
-    this.transactions = this.transactions.filter((value,key)=>{
-      if(value.id == row_obj.id){
-        value.name = row_obj.name;
-      }
-      return true;
-    });
+  updateRowData(trans:any){
+    this.transactionsService.updateTransaction(trans).subscribe((row)=>{
+      this.transactionsService.getTransaction(trans.id).subscribe((data : any)=>{        
+        this.transactions = this.transactions.filter((value,key)=>{
+          if(value.id == data.id){
+            value.prayerName = data.prayerName;
+            value.date = data.date;
+            value.amount = data.amount;
+            value.description = data.description;
+          }
+          return true;
+        });
+        this.table.renderRows();
+      })
+    })
+    
   }
 
-  deleteRowData(row_obj){
-    this.transactions = this.transactions.filter((value,key)=>{
-      return value.id != row_obj.id;
-    });
+  deleteRowData(trans:any){
+    this.transactionsService.deleteTransaction(trans.id).subscribe((data)=>{
+      this.transactions = this.transactions.filter((value,key)=>{
+        return value.id != trans.id;
+      });
+    })
+    
   }
 }

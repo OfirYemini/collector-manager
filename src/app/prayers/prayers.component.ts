@@ -19,7 +19,7 @@ export class PrayersComponent implements OnInit {
     this.prayersService.getPrayers().subscribe((data : any[])=>{
       console.log(data);
       this.prayers = data;
-  })
+    })
   }
 
   openDialog(action,obj) {
