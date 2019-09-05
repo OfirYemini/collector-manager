@@ -3,6 +3,9 @@ import { Component, OnInit,ViewChild  } from '@angular/core';
 import { MatDialog, MatTable,MatAutocomplete } from '@angular/material';
 import { DialogBoxComponent } from '../dialog-box/dialog-box.component';
 import { TransactionsService } from './../transactions.service';
+import { FormControl,FormGroup,ReactiveFormsModule } from '@angular/forms';
+import { Observable } from 'rxjs';
+import { startWith, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-transactions',
@@ -10,13 +13,19 @@ import { TransactionsService } from './../transactions.service';
   styleUrls: ['./transactions.component.css']
 })
 export class TransactionsComponent implements OnInit {
-  transactions:any[]
-  transactionsTypes:string[]
-  prayers:any[]
+  transactions:any[];
+  transactionsTypes:string[];
+  prayers:any[];
+  
+  filteredPrayers: Observable<any[]>;
+  filteredTransactionsTypes: Observable<string[]>;
+  
   newRow:any;
   displayedColumns = ['id', 'prayerName','description','amount','date','action'];
   @ViewChild(MatTable,{static:true}) table: MatTable<any>;
-
+  addPrayerControl = new FormControl();
+  addDescControl = new FormControl();
+  
   constructor(private transactionsService:TransactionsService,private prayersService: PrayersService, public dialog: MatDialog) { }
 
   ngOnInit() {
@@ -30,12 +39,32 @@ export class TransactionsComponent implements OnInit {
     this.transactionsService.getTransactionTypes().subscribe((settings : any)=>{
       console.log(settings);
       this.transactionsTypes = settings.types;
+      this.filteredTransactionsTypes = this.addDescControl.valueChanges
+      .pipe(
+        startWith(''),
+        map(value => this._filter(value,this.transactionsTypes))
+      );
     });
     this.prayersService.getPrayers().subscribe((data : any[])=>{      
       console.log(data);
       this.prayers = data;
+      var prayersFullName = data.map(p=>p.lastName + ' ' + p.firstName);
+      this.filteredPrayers = this.addPrayerControl.valueChanges      
+      .pipe(
+        startWith(''),
+        map(value => this._filter(value,prayersFullName))
+      );
     });
+
+    
   }
+
+  private _filter(value: string,fromList:string[]): string[] {
+    const filterValue = value.toLowerCase();
+
+    return fromList.filter(option => (option.toLowerCase().includes(filterValue)));
+  }
+
 
   openDialog(action,obj) {
     obj.action = action;
