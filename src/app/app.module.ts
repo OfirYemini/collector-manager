@@ -12,6 +12,7 @@ import { MatSortModule,
   MatFormFieldModule,
   MatInputModule,
   MatButtonModule,
+  MatAutocompleteModule,
   MatToolbarModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DialogBoxComponent } from './dialog-box/dialog-box.component';
@@ -39,6 +40,7 @@ import { HttpClientModule } from '@angular/common/http';
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
+    MatAutocompleteModule,
     FormsModule,    
     MatDialogModule,
     MatFormFieldModule,    

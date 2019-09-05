@@ -8,11 +8,16 @@ export class TransactionsService {
 
   SERVER_URL: string = "http://localhost:8080/api/";
   endpoint = 'transactions';
+  settingsEndpoint = 'transactionsSettings';
 
   constructor(private httpClient: HttpClient) { }
 
   public getTransactions(from:Date,to:Date,prayerId?:number){      
        return this.httpClient.get(`${this.SERVER_URL + this.endpoint}`);
+  }
+
+  public getTransactionTypes(){      
+    return this.httpClient.get(`${this.SERVER_URL + this.settingsEndpoint}`);
   }
 
   public getTransaction(id:number){      

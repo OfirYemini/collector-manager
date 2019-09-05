@@ -1,5 +1,6 @@
+import { PrayersService } from './../prayers.service';
 import { Component, OnInit,ViewChild  } from '@angular/core';
-import { MatDialog, MatTable } from '@angular/material';
+import { MatDialog, MatTable,MatAutocomplete } from '@angular/material';
 import { DialogBoxComponent } from '../dialog-box/dialog-box.component';
 import { TransactionsService } from './../transactions.service';
 
@@ -10,11 +11,13 @@ import { TransactionsService } from './../transactions.service';
 })
 export class TransactionsComponent implements OnInit {
   transactions:any[]
+  transactionsTypes:string[]
+  prayers:any[]
   newRow:any;
   displayedColumns = ['id', 'prayerName','description','amount','date','action'];
   @ViewChild(MatTable,{static:true}) table: MatTable<any>;
 
-  constructor(private transactionsService:TransactionsService, public dialog: MatDialog) { }
+  constructor(private transactionsService:TransactionsService,private prayersService: PrayersService, public dialog: MatDialog) { }
 
   ngOnInit() {
     var from = new Date();
@@ -23,6 +26,14 @@ export class TransactionsComponent implements OnInit {
     this.transactionsService.getTransactions(from,new Date()).subscribe((data : any[])=>{
       console.log(data);
       this.transactions = data;
+    });
+    this.transactionsService.getTransactionTypes().subscribe((settings : any)=>{
+      console.log(settings);
+      this.transactionsTypes = settings.types;
+    });
+    this.prayersService.getPrayers().subscribe((data : any[])=>{      
+      console.log(data);
+      this.prayers = data;
     });
   }
 
@@ -35,20 +46,19 @@ export class TransactionsComponent implements OnInit {
     });
  
     dialogRef.afterClosed().subscribe(result => {
-      if(result.event == 'Add'){
-        this.addRowData(result.data);
-      }else if(result.event == 'Update'){
+      if(result.event == 'Update'){
         this.updateRowData(result.data);
-      }else if(result.event == 'Delete'){
+      }else {
         this.deleteRowData(result.data);
       }
     });
   }
 
-  addRowData(row_obj){    
-    this.transactionsService.addTransaction(row_obj).subscribe((newTransId: any)=>{
+  addRowData(){    
+    this.transactionsService.addTransaction(this.newRow).subscribe((newTransId: any)=>{
       this.transactionsService.getTransaction(newTransId.id).subscribe((data : any)=>{        
         this.transactions.push(data);
+        this.newRow = {};
         this.table.renderRows();
       })
     })
