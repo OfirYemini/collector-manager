@@ -10,6 +10,7 @@ import { TransactionsService } from './../transactions.service';
 })
 export class TransactionsComponent implements OnInit {
   transactions:any[]
+  newRow:any;
   displayedColumns = ['id', 'prayerName','description','amount','date','action'];
   @ViewChild(MatTable,{static:true}) table: MatTable<any>;
 
@@ -18,7 +19,7 @@ export class TransactionsComponent implements OnInit {
   ngOnInit() {
     var from = new Date();
     from.setDate(from.getDate()-14);
-    
+    this.newRow = {};
     this.transactionsService.getTransactions(from,new Date()).subscribe((data : any[])=>{
       console.log(data);
       this.transactions = data;
