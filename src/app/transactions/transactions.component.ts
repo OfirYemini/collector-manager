@@ -26,7 +26,7 @@ export class TransactionsComponent implements OnInit {
   addPrayerControl = new FormControl();
   addDescControl = new FormControl();
   
-  constructor(private transactionsService:TransactionsService,private prayersService: UsersService, public dialog: MatDialog) { }
+  constructor(private transactionsService:TransactionsService,private usersService: UsersService, public dialog: MatDialog) { }
 
   ngOnInit() {
     var from = new Date();
@@ -45,7 +45,7 @@ export class TransactionsComponent implements OnInit {
         map(value => this._filter(value,this.transactionsTypes))
       );
     });
-    this.prayersService.getUsers().subscribe((data : any[])=>{      
+    this.usersService.getUsers().subscribe((data : any[])=>{      
       console.log(data);
       this.prayers = data;
       var prayersFullName = data.map(p=>p.lastName + ' ' + p.firstName);
