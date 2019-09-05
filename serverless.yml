@@ -10,6 +10,48 @@ provider:
   runtime: nodejs10.x
   region: eu-central-1
 
+functions:
+  create:
+    handler: src/services/users/handler.create
+    events:
+      - http:
+          path: users
+          method: post
+          cors: true
+
+  list:
+    handler: src/services/users/handler.list
+    events:
+      - http:
+          path: users
+          method: get
+          cors: true
+
+  get:
+    handler: src/services/users/handler.getById
+    events:
+      - http:
+          path: users/{id}
+          method: get
+          cors: true
+
+  update:
+    handler: src/services/users/handler.update
+    events:
+      - http:
+          path: users/{id}
+          method: put
+          cors: true
+
+  delete:
+    handler: src/services/users/handler.delete
+    events:
+      - http:
+          path: users/{id}
+          method: delete
+          cors: true
+
+
 custom:
   hooks:
     before:package:createDeploymentArtifacts:
