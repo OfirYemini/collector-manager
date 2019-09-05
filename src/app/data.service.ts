@@ -21,7 +21,7 @@ export class DataService implements InMemoryDbService {
       { id: 4, prayerName: 'יהודה דאר', description: 'שביעי', amount: 30, date: new Date(2019, 8, 2).toLocaleDateString() },
     ];
     return {
-      prayers: prayers, transactions: transactions,
+      users: prayers, transactions: transactions,
       transactionsSettings: {
         types: [
           'ראשון','שני','שלישי','רביעי','חמישי','שישי','שביעי','מוסף','מפטיר','שחרית',

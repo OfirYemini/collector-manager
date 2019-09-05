@@ -1,4 +1,4 @@
-import { PrayersService } from './../prayers.service';
+import { UsersService } from './../users.service';
 import { Component, OnInit,ViewChild  } from '@angular/core';
 import { MatDialog, MatTable } from '@angular/material';
 import { DialogBoxComponent } from '../dialog-box/dialog-box.component';
@@ -13,10 +13,10 @@ export class PrayersComponent implements OnInit {
   displayedColumns = ['id', 'name','action'];
   @ViewChild(MatTable,{static:true}) table: MatTable<any>;
 
-  constructor(private prayersService:PrayersService, public dialog: MatDialog) { }
+  constructor(private prayersService:UsersService, public dialog: MatDialog) { }
 
   ngOnInit() {
-    this.prayersService.getPrayers().subscribe((data : any[])=>{
+    this.prayersService.getUsers().subscribe((data : any[])=>{
       console.log(data);
       this.prayers = data;
     })
@@ -42,8 +42,8 @@ export class PrayersComponent implements OnInit {
   }
 
   addRowData(row_obj){    
-    this.prayersService.addPrayer(row_obj.name).subscribe((data)=>{
-      this.prayersService.getPrayers().subscribe((data : any[])=>{        
+    this.prayersService.addUser(row_obj.name).subscribe((data)=>{
+      this.prayersService.getUsers().subscribe((data : any[])=>{        
         this.prayers = data;
         this.table.renderRows();
       })

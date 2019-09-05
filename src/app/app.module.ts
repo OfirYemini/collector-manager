@@ -22,7 +22,7 @@ import { PrayersComponent } from './prayers/prayers.component';
 import { TransactionsComponent } from './transactions/transactions.component';
 import { ReportsComponent } from './reports/reports.component';
 import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
-import { PrayersService } from './prayers.service';
+import { UsersService } from './users.service';
 import { TransactionsService } from './transactions.service';
 import { DataService } from './data.service';
 import { HttpClientModule } from '@angular/common/http';
@@ -54,7 +54,7 @@ import { HttpClientModule } from '@angular/common/http';
   entryComponents: [
     DialogBoxComponent
   ],
-  providers: [PrayersService, TransactionsService],
+  providers: [UsersService, TransactionsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
