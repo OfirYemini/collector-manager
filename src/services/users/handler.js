@@ -48,17 +48,30 @@ module.exports.create = async event => {
 }
 
 module.exports.list = async event => {
-  return {
-    statusCode: 200,
-    body: JSON.stringify(
-      {
-        message: 'Go Serverless v1.0! Your list function executed successfully!',
-        input: event,
-      },
-      null,
-      2
-    ),
-  };
+
+  const { Client } = require('pg');  //  Needs the nodePostgres Lambda Layer.
+  const client = new Client();
+  await client.connect();
+
+  const res = await client.query(`select * from users;`);
+    await client.end();  
+
+    const response = {
+        statusCode: 200,
+        body: JSON.stringify(res.rows),
+    };
+    return response;
+  // return {
+  //   statusCode: 200,
+  //   body: JSON.stringify(
+  //     {
+  //       message: 'Go Serverless v1.0! Your list function executed successfully!',
+  //       input: event,
+  //     },
+  //     null,
+  //     2
+  //   ),
+  // };
 }
 
 
