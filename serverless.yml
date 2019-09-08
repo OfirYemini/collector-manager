@@ -16,7 +16,7 @@ provider:
 
 environment:
   PGDATABASE: postgres
-  PGHOST: tableName1
+  PGHOST: collector-manager-db.cs1yuxavq9wp.eu-central-1.rds.amazonaws.com
   PGPASSWORD: "${self:custom.secrets.POSTGRES_PASS}"
   PGPORT: 5432
   PGUSER: root
