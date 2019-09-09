@@ -49,9 +49,9 @@ module.exports.create = async event => {
 
 module.exports.list = async event => {
 
-  const { Client } = require('pg');  //  Needs the nodePostgres Lambda Layer.
-  const client = new Client();
-  await client.connect();
+   const { Client } = require('pg');  //  Needs the nodePostgres Lambda Layer.
+   const client = new Client();  
+   await client.connect();
 
   const res = await client.query(`select * from users;`);
     await client.end();  
@@ -61,7 +61,7 @@ module.exports.list = async event => {
         body: JSON.stringify(res.rows),
     };
     return response;
-  // return {
+  // return {    
   //   statusCode: 200,
   //   body: JSON.stringify(
   //     {

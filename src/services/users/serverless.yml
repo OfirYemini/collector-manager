@@ -4,19 +4,18 @@ service: users
 provider:
   name: aws
   runtime: nodejs10.x
-
-
-environment:
-  PGDATABASE: postgres
-  PGHOST: collector-manager-db.cs1yuxavq9wp.eu-central-1.rds.amazonaws.com
-  PGPASSWORD: "${self:custom.secrets.POSTGRES_PASS}"
-  PGPORT: 5432
-  PGUSER: root
+  region: eu-central-1
+  environment:
+    PGDATABASE: postgres
+    PGHOST: collector-manager-db.cs1yuxavq9wp.eu-central-1.rds.amazonaws.com
+    PGPASSWORD: "${self:custom.secrets.POSTGRES_PASS}"
+    PGPORT: 5432
+    PGUSER: root
 
 
 functions:
   create:
-    handler: src/services/users/handler.create
+    handler: handler.create
     events:
       - http:
           path: users
@@ -24,7 +23,7 @@ functions:
           cors: true
 
   list:
-    handler: src/services/users/handler.list
+    handler: handler.list
     events:
       - http:
           path: users
@@ -32,7 +31,7 @@ functions:
           cors: true
 
   get:
-    handler: src/services/users/handler.getById
+    handler: handler.getById
     events:
       - http:
           path: users/{id}
@@ -40,7 +39,7 @@ functions:
           cors: true
 
   update:
-    handler: src/services/users/handler.update
+    handler: handler.update
     events:
       - http:
           path: users/{id}
@@ -48,7 +47,7 @@ functions:
           cors: true
 
   delete:
-    handler: src/services/users/handler.delete
+    handler: handler.delete
     events:
       - http:
           path: users/{id}
