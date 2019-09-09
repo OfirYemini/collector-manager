@@ -49,5 +49,5 @@ Thumbs.db
 jspm_packages
 
 # Serverless directories
-.serverless.yml
+.serverless
 secrets.yml

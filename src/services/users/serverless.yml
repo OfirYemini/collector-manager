@@ -1,0 +1,60 @@
+
+service: users
+
+provider:
+  name: aws
+  runtime: nodejs10.x
+
+
+environment:
+  PGDATABASE: postgres
+  PGHOST: collector-manager-db.cs1yuxavq9wp.eu-central-1.rds.amazonaws.com
+  PGPASSWORD: "${self:custom.secrets.POSTGRES_PASS}"
+  PGPORT: 5432
+  PGUSER: root
+
+
+functions:
+  create:
+    handler: src/services/users/handler.create
+    events:
+      - http:
+          path: users
+          method: post
+          cors: true
+
+  list:
+    handler: src/services/users/handler.list
+    events:
+      - http:
+          path: users
+          method: get
+          cors: true
+
+  get:
+    handler: src/services/users/handler.getById
+    events:
+      - http:
+          path: users/{id}
+          method: get
+          cors: true
+
+  update:
+    handler: src/services/users/handler.update
+    events:
+      - http:
+          path: users/{id}
+          method: put
+          cors: true
+
+  delete:
+    handler: src/services/users/handler.delete
+    events:
+      - http:
+          path: users/{id}
+          method: delete
+          cors: true
+custom:
+  stage: ${opt:stage, 'dev'}
+  secrets: ${file(../../../secrets.yml):${self:custom.stage}}
+  config: file(../../config/${self:custom.stage}.json)
