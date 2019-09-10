@@ -1,3 +1,37 @@
-<div class="invoice" *ngFor="let invoice of invoiceIds">
+<!-- <div class="invoice" *ngFor="let invoice of invoiceIds">
     <h1>Invoice Num. {{ invoice }}</h1>
-</div>
+</div> -->
+<ng-container *ngFor="let report of reports">
+    <table dir="rtl" class="invoice">
+        <thead>
+            <th>תאריך</th>
+            <th>פרטים</th>
+            <th>חובה\זכות</th>
+        </thead>
+        <tbody>
+            <ng-container *ngFor="let row of report.transactions">
+                <tr>
+                    <td>{{ row.date }}</td>
+                    <td>{{ row.description }}</td>
+                    <td class="amount">{{ row.amount }}</td>
+                </tr>
+            </ng-container>
+
+
+
+        </tbody>
+        <tfoot>
+            <tr>
+                <td>
+                    <div class="footer-space">&nbsp;</div>
+                </td>
+                <td>
+                    <div>סה"כ יתרתך:</div>
+                </td>
+                <td>
+                    <div>{{report.closingBalance}}</div>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+</ng-container>

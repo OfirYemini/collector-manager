@@ -23,7 +23,8 @@ export class DataService implements InMemoryDbService {
 
     let reports = [
       {
-        userId: 1, openingBalance: 20, transactions: [          
+        userId: 1, transactions: [          
+          { description: 'העברת יתרה', amount: 20, date: new Date(2019, 7, 1).toLocaleDateString(),hebrewDate:'א תשרי' },
           { description: 'שביעי', amount: -50, date: new Date(2019, 7, 1).toLocaleDateString(),hebrewDate:'א תשרי' },
           { description: 'מוסף', amount: -50, date: new Date(2019, 8, 8).toLocaleDateString(),hebrewDate:'ד חוה"מ סוכות' },
           { description: 'ראשון', amount: -20, date: new Date(2019, 8, 18).toLocaleDateString(),hebrewDate:'שמחת תורה' },
@@ -31,7 +32,18 @@ export class DataService implements InMemoryDbService {
           { description: 'מנחה', amount: -70, date: new Date(2019, 9, 1).toLocaleDateString(),hebrewDate:'ערב פסח תשע"ט' },
           { description: 'קבלה 0054', amount: 150, date: new Date(2019, 9, 5).toLocaleDateString(),hebrewDate:'כא ניסן' },
         ], closingBalance: -95
-      }      
+      },
+      {
+        userId: 2, transactions: [          
+          { description: 'העברת יתרה', amount: 50, date: new Date(2019, 7, 1).toLocaleDateString(),hebrewDate:'א תשרי' },
+          { description: 'שביעי', amount: -20, date: new Date(2019, 7, 1).toLocaleDateString(),hebrewDate:'א תשרי' },
+          { description: 'מנחה', amount: -50, date: new Date(2019, 9, 1).toLocaleDateString(),hebrewDate:'ערב פסח תשע"ט' },
+          { description: 'ראשון', amount: -100, date: new Date(2019, 8, 18).toLocaleDateString(),hebrewDate:'שמחת תורה' },
+          { description: 'מוסף', amount: -100, date: new Date(2019, 8, 8).toLocaleDateString(),hebrewDate:'ד חוה"מ סוכות' },
+          { description: 'מפטיר', amount: -50, date: new Date(2019, 9, 1).toLocaleDateString(),hebrewDate:'נח' },          
+          { description: 'קבלה 0054', amount: 300, date: new Date(2019, 9, 5).toLocaleDateString(),hebrewDate:'כא ניסן' },
+        ], closingBalance: 0
+      }
     ];
 
     return {

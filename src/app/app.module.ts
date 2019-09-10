@@ -28,6 +28,7 @@ import { DataService } from './data.service';
 import { HttpClientModule } from '@angular/common/http';
 import { PrintLayoutComponent } from './print-layout/print-layout.component';
 import { InvoiceComponent } from './invoice/invoice.component';
+import { ReportsService } from './reports.service';
 
 @NgModule({
   declarations: [
@@ -56,7 +57,7 @@ import { InvoiceComponent } from './invoice/invoice.component';
   entryComponents: [
     DialogBoxComponent
   ],
-  providers: [UsersService, TransactionsService],
+  providers: [UsersService, TransactionsService,ReportsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
