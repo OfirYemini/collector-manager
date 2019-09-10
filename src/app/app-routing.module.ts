@@ -5,12 +5,17 @@ import { PrayersComponent } from './prayers/prayers.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { PrintLayoutComponent } from './print-layout/print-layout.component';
+import { InvoiceComponent } from './invoice/invoice.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'prayers', component: PrayersComponent },
   { path: 'transactions', component: TransactionsComponent },
   { path: 'reports', component: ReportsComponent },
+  { path: 'print',outlet:'print', component: PrintLayoutComponent,children: [
+    { path: 'invoice', component: InvoiceComponent }
+  ] },
 ];
 
 @NgModule({

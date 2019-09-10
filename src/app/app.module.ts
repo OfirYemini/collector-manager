@@ -26,12 +26,14 @@ import { UsersService } from './users.service';
 import { TransactionsService } from './transactions.service';
 import { DataService } from './data.service';
 import { HttpClientModule } from '@angular/common/http';
+import { PrintLayoutComponent } from './print-layout/print-layout.component';
+import { InvoiceComponent } from './invoice/invoice.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     TransactionsTableComponent, 
-    DialogBoxComponent, NavComponent, HomeComponent, PrayersComponent, TransactionsComponent, ReportsComponent
+    DialogBoxComponent, NavComponent, HomeComponent, PrayersComponent, TransactionsComponent, ReportsComponent, PrintLayoutComponent, InvoiceComponent
   ],
   imports: [
     BrowserModule,
