@@ -20,3 +20,8 @@ table {
     margin-left: 5px;
     padding: 1px 4px;
   }
+
+  @media print {
+    app-root > * { display: none; }
+    app-root app-print-layout { display: block; }
+  }
