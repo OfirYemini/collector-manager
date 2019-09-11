@@ -1,7 +1,26 @@
 .invoice { page-break-after: always; }
 .invoice:last-child { page-break-after: avoid; }
 
+table {
+    table-layout: fixed;
+    width: 992px;
+}
 
+table thead {
+    text-align: center;
+}
+
+table thead th:nth-child(1) {
+    width: 30%;
+}
+
+table thead th:nth-child(2) {
+    width: 60%;
+}
+
+table thead th:nth-child(3) {
+    width: 10%;
+}
 table, th , td  {
     border: 1px solid grey;
     border-collapse: collapse;
@@ -23,7 +42,15 @@ table, th , td  {
     font-weight: bold;
   }
 
+  table tfoot tr td:nth-child(2){
+    text-align: left;
+  }
+
   table tfoot tr td.amount{
     background-color:lightgray;
     
+  }
+
+  div.report-footer {
+      font-size: 24px;
   }
