@@ -2,6 +2,7 @@ import { ReportsService } from './../reports.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { HebrewDateService } from '../hebrew-date.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-invoice',
@@ -9,7 +10,7 @@ import { HebrewDateService } from '../hebrew-date.service';
   styleUrls: ['./invoice.component.css']
 })
 export class InvoiceComponent implements OnInit {
-  hebrewDate:any;
+  hebrewDate:Observable<any>;
   eofDateTs:number;
   reports:any[];
 
@@ -21,9 +22,9 @@ export class InvoiceComponent implements OnInit {
     var from = new Date();
     from.setDate(from.getDate()-14);
     
-    this.hebDateService.getHebrewDate(this.eofDateTs).subscribe((data:any)=>{
+    this.hebDateService.getHebrewDate(this.eofDateTs).subscribe((data:any[])=>{
       console.log(data);
-      this.hebrewDate = data;
+      this.hebrewDate = data[0].hebrewDate;
     });
 
     this.reportService.getAllReports(from,new Date()).subscribe((data : any[])=>{
