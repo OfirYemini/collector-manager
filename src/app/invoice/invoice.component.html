@@ -19,7 +19,7 @@
                 <tr>
                     <td>{{ row.date }}</td>
                     <td>{{ row.description }}</td>
-                    <td class="amount">{{ row.amount }}</td>
+                    <td class="amount"><i class="fa fa-shekel">{{ row.amount }}</i></td>
                 </tr>
             </ng-container>
 
@@ -35,7 +35,7 @@
                     <div>סה"כ יתרתך:</div>
                 </td>
                 <td class="amount">
-                    <div>{{report.payload.closingBalance}}</div>
+                    <div><i class="fa fa-shekel">{{ report.payload.closingBalance }}</i></div>
                 </td>
             </tr>
         </tfoot>

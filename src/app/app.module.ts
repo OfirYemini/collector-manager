@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
+import { AngularFontAwesomeModule } from 'angular-font-awesome';
 import { FormsModule,ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -29,7 +29,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { PrintLayoutComponent } from './print-layout/print-layout.component';
 import { InvoiceComponent } from './invoice/invoice.component';
 import { ReportsService } from './reports.service';
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -52,7 +51,8 @@ import { ReportsService } from './reports.service';
     MatInputModule,
     MatToolbarModule,
     InMemoryWebApiModule.forRoot(DataService),
-    HttpClientModule
+    HttpClientModule,
+    AngularFontAwesomeModule
   ],
   entryComponents: [
     DialogBoxComponent
@@ -60,4 +60,6 @@ import { ReportsService } from './reports.service';
   providers: [UsersService, TransactionsService,ReportsService],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+  
+ }
