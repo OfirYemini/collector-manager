@@ -51,6 +51,16 @@ table, th , td  {
     
   }
 
+  div.report-header {
+    text-align: right;
+    font-weight: 500;
+    font-size: 20px;
+  }
+
   div.report-footer {
+      margin-top: 50px;
       font-size: 24px;
+      text-align: center;
+      font-family: -webkit-body;
+      font-weight: 600;
   }

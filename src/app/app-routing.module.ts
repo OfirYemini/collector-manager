@@ -14,7 +14,7 @@ const routes: Routes = [
   { path: 'transactions', component: TransactionsComponent },
   { path: 'reports', component: ReportsComponent },
   { path: 'print',outlet:'print', component: PrintLayoutComponent,children: [
-    { path: 'invoice/:invoiceIds', component: InvoiceComponent }
+    { path: 'invoice/:eofDateTs', component: InvoiceComponent }
   ] },
 ];
 

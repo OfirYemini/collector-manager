@@ -1,15 +1,20 @@
 <!-- <div class="invoice" *ngFor="let invoice of invoiceIds">
     <h1>Invoice Num. {{ invoice }}</h1>
 </div> -->
-<ng-container *ngFor="let report of reports">
-    <table dir="rtl" class="invoice">
+<div *ngFor="let report of reports" class="invoice">
+    <div class=report-header>
+        <div>:לכבוד</div>
+        <div>{{report.payload.fullName}}</div>
+        <div>{{hebrewDate.festival}} להלן פירוט פעילותך בחשבון עד ל</div>
+    </div>
+    <table dir="rtl">
         <thead>
             <th>תאריך</th>
             <th>פרטים</th>
             <th>חובה\זכות</th>
         </thead>
         <tbody>
-            <ng-container *ngFor="let row of report.transactions">
+            <ng-container *ngFor="let row of report.payload.transactions">
                 <tr>
                     <td>{{ row.date }}</td>
                     <td>{{ row.description }}</td>
@@ -29,10 +34,10 @@
                     <div>סה"כ יתרתך:</div>
                 </td>
                 <td class="amount">
-                    <div>{{report.closingBalance}}</div>
+                    <div>{{report.payload.closingBalance}}</div>
                 </td>
             </tr>
         </tfoot>
     </table>
     <div class="report-footer">תזכו לשנים רבות ומועדים טובים</div>
-</ng-container>
+</div>
