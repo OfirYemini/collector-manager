@@ -7,14 +7,23 @@ table, th , td  {
     border-collapse: collapse;
     padding: 5px;
   }
-  table tr:nth-child(odd) {
-    background-color: #f1f1f1;
-  }
-  table tr:nth-child(even) {
-    background-color: #ffffff;
+  
+  table tr:nth-child(4n+0) {
+    border-bottom-width: 2px;
+    border-bottom-color: black;
+    border-bottom-style: solid
   }
 
   table td.amount {
     direction: ltr;
     text-align: center;
+    
+  }
+  table tfoot{
+    font-weight: bold;
+  }
+
+  table tfoot tr td.amount{
+    background-color:lightgray;
+    
   }
