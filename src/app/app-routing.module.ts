@@ -12,10 +12,7 @@ const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'prayers', component: PrayersComponent },
   { path: 'transactions', component: TransactionsComponent },
-  { path: 'reports', component: ReportsComponent },
-  { path: 'print',outlet:'print', component: PrintLayoutComponent,children: [
-    { path: 'invoice/:eofDateTs', component: InvoiceComponent }
-  ] },
+  { path: 'reports', component: ReportsComponent},  
 ];
 
 @NgModule({

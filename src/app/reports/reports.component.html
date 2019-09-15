@@ -15,4 +15,53 @@
       </mat-option>
     </mat-select>
   </mat-form-field>
+
+  <button class="btn" mat-button (click)="getReports()"  mat-flat-button color="primary">
+    הפק דוחות
+    </button>
+    
+    
+</div>
+<div class="printable-invoice">
+    <div *ngFor="let report of reports" class="invoice">
+        <div class=report-header>
+            <div>:לכבוד</div>
+            <div>{{report.payload.fullName}}</div>
+            
+            <div> להלן פירוט פעילותך בחשבון עד לערב {{hebrewDate.festival}} {{hebrewDate.year}}</div>
+        </div>
+        <table dir="rtl">
+            <thead>
+                <th>תאריך</th>
+                <th>פרטים</th>
+                <th>חובה\זכות</th>
+            </thead>
+            <tbody>
+                <ng-container *ngFor="let row of report.payload.transactions">
+                    <tr>
+                        <td>{{ row.date }}</td>
+                        <td>{{ row.description }}</td>
+                        <td class="amount"><i class="fa fa-shekel">{{ row.amount }}</i></td>
+                    </tr>
+                </ng-container>
+
+
+
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td>
+                        <div class="footer-space">&nbsp;</div>
+                    </td>
+                    <td>
+                        <div>סה"כ יתרתך:</div>
+                    </td>
+                    <td class="amount">
+                        <div><i class="fa fa-shekel">{{ report.payload.closingBalance }}</i></div>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+        <div class="report-footer">תזכו לשנים רבות ומועדים טובים</div>
+    </div>
 </div>

@@ -4,3 +4,89 @@ div.root-element {
     margin-top: 15px;
     margin-left: auto
 }
+
+div.root-element * {    
+    margin-left: 15px;    
+}
+
+
+.invoice { page-break-after: always; }
+.invoice:last-child { page-break-after: avoid; }
+
+table {
+    table-layout: fixed;
+    width: 992px;
+}
+
+table thead {
+    text-align: center;
+    background-color: lightgray;
+}
+
+table thead th:nth-child(1) {
+    width: 30%;
+}
+
+table thead th:nth-child(2) {
+    width: 60%;
+}
+
+table thead th:nth-child(3) {
+    width: 10%;
+}
+table, th , td  {
+    border: 1px solid grey;
+    border-collapse: collapse;
+    padding: 5px;
+  }
+  
+  table tr:nth-child(4n+0) {
+    border-bottom-width: 2px;
+    border-bottom-color: black;
+    border-bottom-style: solid
+  }
+
+  table td.amount {
+    direction: ltr;
+    text-align: center;
+    
+  }
+  table tfoot{
+    font-weight: bold;
+  }
+
+  table tfoot tr td:nth-child(2){
+    text-align: left;
+  }
+
+  table tfoot tr td.amount{
+    background-color:lightgray;
+    
+  }
+
+  div.report-header {
+    text-align: right;
+    font-weight: 500;
+    font-size: 20px;
+  }
+
+  div.report-header div:nth-child(2) {
+    margin-bottom: 20px;
+  }
+
+  div.report-header div:nth-child(3) {
+    margin-bottom: 10px;
+  }
+
+  div.report-footer {
+      margin-top: 50px;
+      font-size: 24px;
+      text-align: center;
+      font-family: -webkit-body;
+      font-weight: 600;
+  }
+
+  @media print {
+    app-reports * {display:none !important;;}
+    app-reports div.printable-invoice { display: block !important;; }
+  }
