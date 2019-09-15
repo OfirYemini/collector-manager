@@ -12,6 +12,7 @@ import { MatSortModule,
   MatFormFieldModule,
   MatInputModule,
   MatButtonModule,
+  MatSelectModule,
   MatAutocompleteModule,
   MatToolbarModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -49,6 +50,7 @@ import { ReportsService } from './reports.service';
     MatFormFieldModule,    
     MatButtonModule,
     MatInputModule,
+    MatSelectModule,
     MatToolbarModule,
     InMemoryWebApiModule.forRoot(DataService),
     HttpClientModule,
