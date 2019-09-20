@@ -1,0 +1,22 @@
+POST https://24mdfdusj8.execute-api.eu-central-1.amazonaws.com/dev/users
+
+{
+    "first_name":"first name",
+    "last_name":"last name",
+    "email":"email"
+}
+
+###
+
+GET https://24mdfdusj8.execute-api.eu-central-1.amazonaws.com/dev/users
+
+###
+GET https://24mdfdusj8.execute-api.eu-central-1.amazonaws.com/dev/users/1
+
+
+###
+ https://24mdfdusj8.execute-api.eu-central-1.amazonaws.com/dev/users/{id}
+
+
+ ###
+ https://24mdfdusj8.execute-api.eu-central-1.amazonaws.com/dev/users/{id}

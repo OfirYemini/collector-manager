@@ -21,7 +21,7 @@ provider:
 
 functions:
   create:
-    handler: handler.create
+    handler: create.handler
     layers:
       - arn:aws:lambda:eu-central-1:345413125048:layer:postgres-nodejs:1
     events:
@@ -31,7 +31,7 @@ functions:
           cors: true
 
   list:
-    handler: handler.list
+    handler: list.handler
     layers:
       - arn:aws:lambda:eu-central-1:345413125048:layer:postgres-nodejs:1
     events:
@@ -41,7 +41,7 @@ functions:
           cors: true
 
   get:
-    handler: handler.getById
+    handler: get.handler
     layers:
       - arn:aws:lambda:eu-central-1:345413125048:layer:postgres-nodejs:1
     events:
@@ -51,7 +51,7 @@ functions:
           cors: true
 
   update:
-    handler: handler.update
+    handler: update.handler
     layers:
       - arn:aws:lambda:eu-central-1:345413125048:layer:postgres-nodejs:1
     events:
@@ -61,7 +61,7 @@ functions:
           cors: true
 
   delete:
-    handler: handler.delete
+    handler: delete.handler
     layers:
       - arn:aws:lambda:eu-central-1:345413125048:layer:postgres-nodejs:1
     events:
