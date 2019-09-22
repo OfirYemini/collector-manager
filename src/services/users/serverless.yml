@@ -1,6 +1,9 @@
 
 service: users
-
+package:
+  individually: true
+  exclude:
+    - ./**
 provider:
   name: aws  
   runtime: nodejs10.x
@@ -23,8 +26,6 @@ functions:
   create:
     handler: create.handler
     package:
-      exclude:
-        - update.js
       include: # Specify the directories and files which should be included in the deployment package for this specific function.      
         - create.js
     layers:
@@ -37,6 +38,9 @@ functions:
 
   list:
     handler: list.handler
+    package:
+      include: # Specify the directories and files which should be included in the deployment package for this specific function.      
+        - list.js
     layers:
       - arn:aws:lambda:eu-central-1:345413125048:layer:postgres-nodejs:1
     events:
@@ -47,6 +51,9 @@ functions:
 
   get:
     handler: get.handler
+    package:
+      include: # Specify the directories and files which should be included in the deployment package for this specific function.      
+        - get.js
     layers:
       - arn:aws:lambda:eu-central-1:345413125048:layer:postgres-nodejs:1
     events:
@@ -57,6 +64,9 @@ functions:
 
   update:
     handler: update.handler
+    package:
+      include: # Specify the directories and files which should be included in the deployment package for this specific function.      
+        - update.js
     layers:
       - arn:aws:lambda:eu-central-1:345413125048:layer:postgres-nodejs:1
     events:
@@ -67,6 +77,9 @@ functions:
 
   delete:
     handler: delete.handler
+    package:
+      include: # Specify the directories and files which should be included in the deployment package for this specific function.      
+        - delete.js
     layers:
       - arn:aws:lambda:eu-central-1:345413125048:layer:postgres-nodejs:1
     events:
