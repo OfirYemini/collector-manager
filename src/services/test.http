@@ -34,25 +34,26 @@ POST https://kgz5a5cmll.execute-api.eu-central-1.amazonaws.com/dev/transactions
 
 {
     "userId": 1,
-    "transactionTypeId": 1,
-    "amount":25,
-    "date": "24/03/2019"
+    "transactionTypeId": 3,
+    "amount":35,
+    "date": "2019-09-18T16:15:15"
 }
 
 ### transactions list
-GET https://kgz5a5cmll.execute-api.eu-central-1.amazonaws.com/dev/transactions/?from=1546293600&to=1569013200
+GET https://kgz5a5cmll.execute-api.eu-central-1.amazonaws.com/dev/transactions/?from=1564606800000&to=1569178186700
 
 ###
-GET https://kgz5a5cmll.execute-api.eu-central-1.amazonaws.com/dev/transactions/{id}
+GET https://kgz5a5cmll.execute-api.eu-central-1.amazonaws.com/dev/transactions/3
 
-PUT https://kgz5a5cmll.execute-api.eu-central-1.amazonaws.com/dev/transactions/15
+###
+PUT https://kgz5a5cmll.execute-api.eu-central-1.amazonaws.com/dev/transactions/2
 
 {
-    "userId": 1,
+    "userId": 2,
     "transactionTypeId": 1,
     "amount":26,
-    "date": "24/03/2019"
+    "date": "2019-09-15T16:15:15"
 }
 
 ###
-DELETE https://kgz5a5cmll.execute-api.eu-central-1.amazonaws.com/dev/transactions/25
+DELETE https://kgz5a5cmll.execute-api.eu-central-1.amazonaws.com/dev/transactions/3

@@ -6,18 +6,18 @@ exports.handler = async (event) => {
     
     const client = new Client();  
     await client.connect();
-// prayerName: 'משה זהבי', description: 'שביעי', amount: 50, date:
+
     const text = 'INSERT INTO transactions (user_id,type_id,amount,exec_date) VALUES($1, $2, $3, $4) RETURNING id'
     const values = [data.userId,data.transactionTypeId,data.amount,data.date];
     // callback
     var response;
     try {
         const res = await client.query(text, values);
-        response = sendRes(201,res.rows[0]);
+        response = sendRes(201,res.rows[0],"application/json");
         
     } catch (e) {
       
-        response = sendRes(500,e.detail);
+        response = sendRes(500,e.detail,"text/plain");
     }
     
     await client.end();  
@@ -26,11 +26,11 @@ exports.handler = async (event) => {
     return response;
 };
 
-const sendRes = (status, body) => {
+const sendRes = (status, body,contentType) => {
   var response = {
     statusCode: status,
     headers: {
-      "Content-Type": "application/json"
+      "Content-Type": contentType
     },
     body: JSON.stringify(body)
   };

@@ -17,7 +17,7 @@ exports.handler = async (event) => {
     await client.end();  
 
     const response = {
-        statusCode: 204,
+        statusCode: res.rowCount == 1? 204:404,
         body:JSON.stringify({})
     };
     return response;
