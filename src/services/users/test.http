@@ -1,7 +1,7 @@
 POST https://24mdfdusj8.execute-api.eu-central-1.amazonaws.com/dev/users
 
 {
-    "first_name":"first name",
+    "first_name":"first name2",
     "last_name":"last name",
     "email":"email"
 }
@@ -15,8 +15,16 @@ GET https://24mdfdusj8.execute-api.eu-central-1.amazonaws.com/dev/users/1
 
 
 ###
- https://24mdfdusj8.execute-api.eu-central-1.amazonaws.com/dev/users/{id}
+ PUT https://24mdfdusj8.execute-api.eu-central-1.amazonaws.com/dev/users/1
+ 
+ {
+    "first_name":"first_updated2",
+    "last_name":"last_updated",
+    "email":"email_updated"
+ }
 
 
  ###
- https://24mdfdusj8.execute-api.eu-central-1.amazonaws.com/dev/users/{id}
+ DELETE https://24mdfdusj8.execute-api.eu-central-1.amazonaws.com/dev/users/20
+
+ ###
