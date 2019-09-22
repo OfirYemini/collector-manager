@@ -1,0 +1,93 @@
+
+service: transactions
+package:
+  individually: true
+  exclude:
+    - ./**
+provider:
+  name: aws  
+  runtime: nodejs10.x
+  region: eu-central-1
+  environment:
+    PGDATABASE: postgres
+    PGHOST: collector-manager-db.cs1yuxavq9wp.eu-central-1.rds.amazonaws.com
+    PGPASSWORD: "${self:custom.secrets.POSTGRES_PASS}"
+    PGPORT: 5432
+    PGUSER: root
+  vpc:
+    securityGroupIds:
+      - sg-0fed9e6c      
+    subnetIds:
+      - subnet-afa1afd2
+      - subnet-3818cb52
+  role: arn:aws:iam::345413125048:role/lambdaRDSDataAccess
+
+functions:
+  create:
+    handler: create.handler
+    package:
+      include: # Specify the directories and files which should be included in the deployment package for this specific function.      
+        - create.js
+    layers:
+      - arn:aws:lambda:eu-central-1:345413125048:layer:postgres-nodejs:1
+    events:
+      - http:
+          path: transactions
+          method: post
+          cors: true
+
+  list:
+    handler: list.handler
+    package:
+      include: # Specify the directories and files which should be included in the deployment package for this specific function.      
+        - list.js
+    layers:
+      - arn:aws:lambda:eu-central-1:345413125048:layer:postgres-nodejs:1
+    events:
+      - http:
+          path: transactions
+          method: get
+          cors: true
+
+  get:
+    handler: get.handler
+    package:
+      include: # Specify the directories and files which should be included in the deployment package for this specific function.      
+        - get.js
+    layers:
+      - arn:aws:lambda:eu-central-1:345413125048:layer:postgres-nodejs:1
+    events:
+      - http:
+          path: transactions/{id}
+          method: get
+          cors: true
+
+  update:
+    handler: update.handler
+    package:
+      include: # Specify the directories and files which should be included in the deployment package for this specific function.      
+        - update.js
+    layers:
+      - arn:aws:lambda:eu-central-1:345413125048:layer:postgres-nodejs:1
+    events:
+      - http:
+          path: transactions/{id}
+          method: put
+          cors: true
+
+  delete:
+    handler: delete.handler
+    package:
+      include: # Specify the directories and files which should be included in the deployment package for this specific function.      
+        - delete.js
+    layers:
+      - arn:aws:lambda:eu-central-1:345413125048:layer:postgres-nodejs:1
+    events:
+      - http:
+          path: transactions/{id}
+          method: delete
+          cors: true
+custom:
+  stage: ${opt:stage, 'dev'}
+  secrets: ${file(../../../secrets.yml):${self:custom.stage}}
+  config: file(../../config/${self:custom.stage}.json)
