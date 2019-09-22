@@ -9,7 +9,7 @@ exports.handler = async (event) => {
     const client = new Client();  
     await client.connect();
     
-    const text = 'delete * from users where id=$1'
+    const text = 'delete from users where id=$1'
     
     // callback
     var response;
