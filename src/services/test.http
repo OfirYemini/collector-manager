@@ -39,8 +39,8 @@ POST https://kgz5a5cmll.execute-api.eu-central-1.amazonaws.com/dev/transactions
     "date": "24/03/2019"
 }
 
-###
-GET https://kgz5a5cmll.execute-api.eu-central-1.amazonaws.com/dev/transactions?from=1546293600&to=1569013200
+### transactions list
+GET https://kgz5a5cmll.execute-api.eu-central-1.amazonaws.com/dev/transactions/?from=1546293600&to=1569013200
 
 ###
 GET https://kgz5a5cmll.execute-api.eu-central-1.amazonaws.com/dev/transactions/{id}
