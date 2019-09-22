@@ -32,7 +32,7 @@ const sendRes = (status, body) => {
     headers: {
       "Content-Type": "application/json"
     },
-    body: body
+    body: JSON.stringify(body)
   };
   return response;
 }
