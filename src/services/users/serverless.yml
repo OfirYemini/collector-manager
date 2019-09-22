@@ -22,6 +22,11 @@ provider:
 functions:
   create:
     handler: create.handler
+    package:
+      exclude:
+        - update.js
+      include: # Specify the directories and files which should be included in the deployment package for this specific function.      
+        - create.js
     layers:
       - arn:aws:lambda:eu-central-1:345413125048:layer:postgres-nodejs:1
     events:
