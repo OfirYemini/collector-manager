@@ -25,3 +25,34 @@ GET https://24mdfdusj8.execute-api.eu-central-1.amazonaws.com/dev/users/1
 
 ###
 DELETE https://24mdfdusj8.execute-api.eu-central-1.amazonaws.com/dev/users/21
+
+
+# transactions
+
+###
+POST https://kgz5a5cmll.execute-api.eu-central-1.amazonaws.com/dev/transactions
+
+{
+    "userId": 1,
+    "transactionTypeId": 1,
+    "amount":25,
+    "date": "24/03/2019"
+}
+
+###
+GET https://kgz5a5cmll.execute-api.eu-central-1.amazonaws.com/dev/transactions?from=1546293600&to=1569013200
+
+###
+GET https://kgz5a5cmll.execute-api.eu-central-1.amazonaws.com/dev/transactions/{id}
+
+PUT https://kgz5a5cmll.execute-api.eu-central-1.amazonaws.com/dev/transactions/15
+
+{
+    "userId": 1,
+    "transactionTypeId": 1,
+    "amount":26,
+    "date": "24/03/2019"
+}
+
+###
+DELETE https://kgz5a5cmll.execute-api.eu-central-1.amazonaws.com/dev/transactions/25

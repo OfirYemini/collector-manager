@@ -8,7 +8,7 @@ exports.handler = async (event) => {
     const client = new Client();  
     await client.connect();
 
-    const text = 'Update transactions SET user_id= $1, transaction_type_id=$2, amount=$3, date=$4 where id=$5';
+    const text = 'Update transactions SET user_id= $1, type_id=$2, amount=$3, exec_date=$4 where id=$5';
     const values = [data.userId,data.transactionTypeId,data.amount,data.date,id];
     // callback
     
