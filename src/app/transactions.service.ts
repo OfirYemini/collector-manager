@@ -6,18 +6,19 @@ import { HttpClient } from '@angular/common/http';
 })
 export class TransactionsService {
 
-  SERVER_URL: string = "http://localhost:8080/api/";
+  //SERVER_URL: string = "http://localhost:8080/api/";
+  SERVER_URL: string = "https://kgz5a5cmll.execute-api.eu-central-1.amazonaws.com/dev/";
   endpoint = 'transactions';
   settingsEndpoint = 'transactionsSettings';
 
   constructor(private httpClient: HttpClient) { }
 
   public getTransactions(from:Date,to:Date,prayerId?:number){      
-       return this.httpClient.get(`${this.SERVER_URL + this.endpoint}`);
+       return this.httpClient.get(`${this.SERVER_URL + this.endpoint}/?from=${from.getTime()}&to=${to.getTime()}`);
   }
 
   public getTransactionTypes(){      
-    return this.httpClient.get(`${this.SERVER_URL + this.settingsEndpoint}`);
+    return this.httpClient.get(`${this.SERVER_URL + this.endpoint}/settings`);
   }
 
   public getTransaction(id:number){      

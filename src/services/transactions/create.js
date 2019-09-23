@@ -30,6 +30,8 @@ const sendRes = (status, body,contentType) => {
   var response = {
     statusCode: status,
     headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Credentials': true,
       "Content-Type": contentType
     },
     body: JSON.stringify(body)

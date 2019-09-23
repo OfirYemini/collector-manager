@@ -17,6 +17,10 @@ exports.handler = async (event) => {
     await client.end();  
 
     const response = {
+        headers: {
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Credentials': true
+        },
         statusCode: 204,
         body:JSON.stringify({})
     };

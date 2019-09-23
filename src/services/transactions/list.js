@@ -5,7 +5,9 @@ exports.handler = async (event) => {
         return {
             statusCode: 400,
             headers: {
-                "Content-Type": "text/plain"
+                "Content-Type": "text/plain",
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Credentials': true
               },
             body: 'no dates variables',
         };
@@ -20,6 +22,10 @@ exports.handler = async (event) => {
 
     const response = {
         statusCode: 200,
+        headers: {
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Credentials': true
+        },
         body: JSON.stringify(res.rows.map(function(r){
             return {
                 id:r.id,

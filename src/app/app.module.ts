@@ -52,7 +52,7 @@ import { ReportsService } from './reports.service';
     MatInputModule,
     MatSelectModule,
     MatToolbarModule,
-    InMemoryWebApiModule.forRoot(DataService),
+    //InMemoryWebApiModule.forRoot(DataService),
     HttpClientModule,
     AngularFontAwesomeModule
   ],

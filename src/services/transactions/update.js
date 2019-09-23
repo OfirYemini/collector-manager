@@ -18,6 +18,10 @@ exports.handler = async (event) => {
 
     const response = {
         statusCode: res.rowCount == 1? 204:404,
+        headers: {
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Credentials': true
+        },
         body:JSON.stringify({})
     };
     return response;

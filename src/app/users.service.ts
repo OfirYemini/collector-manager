@@ -8,7 +8,8 @@ import { stringify } from '@angular/compiler/src/util';
 export class UsersService {
 
 
-  SERVER_URL: string = "http://localhost:8080/api/";
+  //SERVER_URL: string = "http://localhost:8080/api/";
+  SERVER_URL: string = "https://24mdfdusj8.execute-api.eu-central-1.amazonaws.com/dev/";
   endpoint = 'users';
 
   constructor(private httpClient: HttpClient) { }

@@ -32,6 +32,10 @@ exports.handler = async (event) => {
 const sendRes = (status, body) => {
   var response = {
     statusCode: status,    
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Credentials': true,
+    },
     body:JSON.stringify(body)
   };
   return response;

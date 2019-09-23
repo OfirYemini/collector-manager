@@ -34,7 +34,16 @@ functions:
       - http:
           path: transactions
           method: post
-          cors: true
+          cors:
+            origin: '*' # <-- Specify allowed origin
+            headers: # <-- Specify allowed headers
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+              - X-Amz-User-Agent
+            allowCredentials: false
 
   list:
     handler: list.handler
@@ -47,7 +56,37 @@ functions:
       - http:
           path: transactions
           method: get
-          cors: true
+          cors:
+            origin: '*' # <-- Specify allowed origin
+            headers: # <-- Specify allowed headers
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+              - X-Amz-User-Agent
+            allowCredentials: false
+  settings:
+      handler: settings.handler
+      package:
+        include: # Specify the directories and files which should be included in the deployment package for this specific function.      
+          - settings.js
+      layers:
+        - arn:aws:lambda:eu-central-1:345413125048:layer:postgres-nodejs:1
+      events:
+        - http:
+            path: transactions/settings
+            method: get
+            cors:
+              origin: '*' # <-- Specify allowed origin
+              headers: # <-- Specify allowed headers
+                - Content-Type
+                - X-Amz-Date
+                - Authorization
+                - X-Api-Key
+                - X-Amz-Security-Token
+                - X-Amz-User-Agent
+              allowCredentials: false
 
   get:
     handler: get.handler
@@ -60,7 +99,16 @@ functions:
       - http:
           path: transactions/{id}
           method: get
-          cors: true
+          cors:
+            origin: '*' # <-- Specify allowed origin
+            headers: # <-- Specify allowed headers
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+              - X-Amz-User-Agent
+            allowCredentials: false
 
   update:
     handler: update.handler
@@ -73,7 +121,16 @@ functions:
       - http:
           path: transactions/{id}
           method: put
-          cors: true
+          cors:
+            origin: '*' # <-- Specify allowed origin
+            headers: # <-- Specify allowed headers
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+              - X-Amz-User-Agent
+            allowCredentials: false
 
   delete:
     handler: delete.handler
@@ -86,7 +143,16 @@ functions:
       - http:
           path: transactions/{id}
           method: delete
-          cors: true
+          cors:
+            origin: '*' # <-- Specify allowed origin
+            headers: # <-- Specify allowed headers
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+              - X-Amz-User-Agent
+            allowCredentials: false
 custom:
   stage: ${opt:stage, 'dev'}
   secrets: ${file(../../../secrets.yml):${self:custom.stage}}

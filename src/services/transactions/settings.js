@@ -3,22 +3,20 @@ const { Client } = require('pg');  //  Needs the nodePostgres Lambda Layer.
 
     
 exports.handler = async (event) => {
-    
-    const id = event.pathParameters.id;
-    
     const client = new Client();  
     await client.connect();
     
-    const text = 'delete from users where id=$1'
+    const text = 'select * from transaction_types'
     
     // callback
     var response;
     try {
-        const res = await client.query(text, [id]);
-        response = sendRes(204,{});
+        const res = await client.query(text);
+        response = sendRes(200,res.rows);
         
     } catch (e) {
-        response = sendRes(404,{});
+        console.log('error getting transaction_types ',e);
+        response = sendRes(500,'error has occured');
     }
     
     await client.end();  
@@ -31,12 +29,13 @@ exports.handler = async (event) => {
 
 const sendRes = (status, body) => {
   var response = {
+    statusCode: status,
     headers: {
+      "Content-Type": "application/json",
       'Access-Control-Allow-Origin': '*',
       'Access-Control-Allow-Credentials': true
     },
-    statusCode: status,    
-    body:JSON.stringify(body)
+    body: JSON.stringify(body)
   };
   return response;
 }
