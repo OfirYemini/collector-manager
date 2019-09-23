@@ -15,7 +15,12 @@ exports.handler = async (event) => {
     var response;
     try {
         const res = await client.query(text, [id]);
-        response = sendRes(200,res.rows[0]);
+        response = sendRes(200,{
+            id: res.rows[0].id,
+            firstName: res.rows[0].first_name,
+            lastName: res.rows[0].last_name,            
+            isGuest: res.rows[0].is_guest
+        });
         
     } catch (e) {
         response = sendRes(404,'user not found');

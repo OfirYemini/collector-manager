@@ -15,7 +15,13 @@ exports.handler = async (event) => {
     var response;
     try {
         const res = await client.query(text, [id]);
-        response = sendRes(200,res.rows[0]);
+        response = sendRes(200,{
+          id:res.rows[0].id,
+          userId:res.rows[0].user_id,
+          typeId: res.rows[0].type_id,
+          amount: res.rows[0].amount,
+          date: res.rows[0].exec_date
+      });
         
     } catch (e) {
         response = sendRes(404,'transaction not found');

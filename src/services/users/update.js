@@ -8,8 +8,8 @@ exports.handler = async (event) => {
     const client = new Client();  
     await client.connect();
 
-    const text = 'Update users SET first_name= $1, last_name=$2, email=$3 where id=$4';
-    const values = [data.first_name,data.last_name,data.email,id];
+    const text = 'Update users SET first_name= $1, last_name=$2, email=$3, is_guest=$4 where id=$5';
+    const values = [data.first_name,data.last_name,data.email,data.isGuest,id];
     // callback
     
     const res = await client.query(text, values);

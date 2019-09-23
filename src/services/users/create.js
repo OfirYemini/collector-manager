@@ -7,8 +7,8 @@ exports.handler = async (event) => {
     const client = new Client();  
     await client.connect();
 
-    const text = 'INSERT INTO users (first_name,last_name,email) VALUES($1, $2, $3) RETURNING id'
-    const values = [data.first_name,data.last_name,data.email];
+    const text = 'INSERT INTO users (first_name,last_name,email,is_guest) VALUES($1, $2, $3, $4) RETURNING id'
+    const values = [data.first_name,data.last_name,data.email,data.isGuest];
     // callback
     var response;
     try {
