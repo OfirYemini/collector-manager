@@ -15,20 +15,29 @@ exports.handler = async (event) => {
   try {
     const data = await client.query('select * from get_transactions_reports($1,$2)', [from, to]);
     await client.end();
-    var res = {};
-    const transactions = new Map();
+    var res = [];
+    
     data.rows.forEach(function (row) {
-      var currentUser = res.filter(r=>r.userId==row.user_id);
-      currentUser = currentUser.length == 1 ? currentUser[0] : {
-        userId:row.user_id,
-        transactions:[],l
-      }
-      const collection = map.get(r.user_id);
-      if (!collection) {
-          map.set(key, [item]);
-      } else {
-          collection.push(item);
-      }
+      var currentUser = res.find(o => o.userId === row.user_id);
+      
+      if(currentUser === undefined){
+        currentUser = {
+          userId:row.user_id,
+          transactions:[],
+        };
+        res.push(currentUser);
+      }      
+      console.log('currentUser ', currentUser);
+      if(row.type_name==='closingBalance'){
+        currentUser.closingBalance = row.amount;
+      } else{
+        currentUser.transactions.push({
+          typeName:row.type_name,
+          amount:row.amount,
+          date:row.exec_date,
+          hebrewDate:row.hebrewDate
+        });
+      }      
     });
     response = sendRes(200, res);
   }

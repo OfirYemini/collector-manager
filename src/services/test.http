@@ -67,46 +67,46 @@ PUT https://kgz5a5cmll.execute-api.eu-central-1.amazonaws.com/dev/transactions/2
 DELETE https://kgz5a5cmll.execute-api.eu-central-1.amazonaws.com/dev/transactions/3
 
 
-# --drop function get_transactions_reports
-# create or replace function get_transactions_reports(fromDate date, toDate date) 
-# returns TABLE(user_id int2, type_name varchar(20), exec_date date,amount numeric(10,2))AS
-# $$
-# BEGIN
-# DROP TABLE IF EXISTS user_balances;
-# CREATE TEMP TABLE user_balances AS
-# select 
-# 	t.user_id,
-# 	'העברת יתרה'::varchar(20) as type_name,
-# 	fromDate as exec_date,
-# 	sum(t.amount) as amount
-# from transactions t where t.exec_date < fromDate group by t.user_id;
+--drop function get_transactions_reports
+create or replace function get_transactions_reports(fromDate date, toDate date) 
+returns TABLE(user_id int2, type_name varchar(20), exec_date date,amount numeric(10,2))AS
+$$
+BEGIN
+DROP TABLE IF EXISTS user_balances;
+CREATE TEMP TABLE user_balances AS
+select 
+	t.user_id,
+	'העברת יתרה'::varchar(20) as type_name,
+	fromDate as exec_date,
+	sum(t.amount) as amount
+from transactions t where t.exec_date < fromDate group by t.user_id;
 
-# DROP TABLE IF EXISTS user_transactions;
-# CREATE TEMP TABLE user_transactions AS
-# select 
-# t.user_id,
-# tt."name" as type_name,
-# t.exec_date,
-# t.amount
-# from transactions t 
-# join transaction_types tt 
-# on tt.id=t.type_id 
-# where t.exec_date>=fromDate and t.exec_date < toDate;
+DROP TABLE IF EXISTS user_transactions;
+CREATE TEMP TABLE user_transactions AS
+select 
+t.user_id,
+tt."name" as type_name,
+t.exec_date,
+t.amount
+from transactions t 
+join transaction_types tt 
+on tt.id=t.type_id 
+where t.exec_date>=fromDate and t.exec_date < toDate;
 
-# RETURN QUERY SELECT b.user_id,b.type_name,b.exec_date,b.amount
-# from user_balances b 
-# union 
-# select t.user_id,t.type_name,t.exec_date,t.amount from user_transactions t
-# union 
-# (select totals.user_id,
-# 	'יתרה'::varchar(20) as type_name,
-# 	toDate as exec_date,
-# 	sum(totals.amount) as amount from (select ub.user_id,ub.amount from user_balances ub union SELECT uti.user_id,uti.amount from user_transactions uti) as totals
-# 	group by totals.user_id)
-# order by user_id,exec_date asc;
+RETURN QUERY SELECT b.user_id,b.type_name,b.exec_date,b.amount
+from user_balances b 
+union 
+select t.user_id,t.type_name,t.exec_date,t.amount from user_transactions t
+union 
+(select totals.user_id,
+	'יתרה'::varchar(20) as type_name,
+	toDate as exec_date,
+	sum(totals.amount) as amount from (select ub.user_id,ub.amount from user_balances ub union SELECT uti.user_id,uti.amount from user_transactions uti) as totals
+	group by totals.user_id)
+order by user_id,exec_date asc;
 
-# END
-# $$
-# language 'plpgsql';
+END
+$$
+language 'plpgsql';
 
-# select * from get_transactions_reports('2019-03-18', '2019-10-13')
+select * from get_transactions_reports('2019-03-18', '2019-10-13')
