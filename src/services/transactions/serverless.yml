@@ -153,6 +153,27 @@ functions:
               - X-Amz-Security-Token
               - X-Amz-User-Agent
             allowCredentials: false
+  reports:
+    handler: reports.handler
+    package:
+      include: # Specify the directories and files which should be included in the deployment package for this specific function.      
+        - reports.js
+    layers:
+      - arn:aws:lambda:eu-central-1:345413125048:layer:postgres-nodejs:1
+    events:
+      - http:
+          path: transactions/reports
+          method: get
+          cors:
+            origin: '*' # <-- Specify allowed origin
+            headers: # <-- Specify allowed headers
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+              - X-Amz-User-Agent
+            allowCredentials: false
 custom:
   stage: ${opt:stage, 'dev'}
   secrets: ${file(../../../secrets.yml):${self:custom.stage}}
