@@ -10,18 +10,25 @@ import { DialogBoxComponent } from '../dialog-box/dialog-box.component';
 })
 export class UsersComponent implements OnInit {
   users:any[]
-  displayedColumns = ['id','name','isGuest','action'];
+  displayedColumns = ['id','lastName','isGuest','action'];
   @ViewChild(MatTable,{static:true}) table: MatTable<any>;
+  action: string;
+  updatedUserId: number;
 
   constructor(private usersService:UsersService, public dialog: MatDialog) { }
 
   ngOnInit() {
     this.usersService.getUsers().subscribe((data : any[])=>{
       console.log(data);
-      this.users = data;
-    })
+      this.users = data;      
+    });
   }
 
+  setAction(action,obj) {
+    this.action = action;
+    this.updatedUserId = obj.id;
+  }
+  
   openDialog(action,obj) {
     obj.action = action;
     obj.dialogType = 'prayer';
