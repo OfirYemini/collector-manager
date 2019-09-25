@@ -18,8 +18,8 @@ GET https://24mdfdusj8.execute-api.eu-central-1.amazonaws.com/dev/users/1
  PUT https://24mdfdusj8.execute-api.eu-central-1.amazonaws.com/dev/users/1
  
  {
-    "first_name":"first_updated2",
-    "last_name":"last_updated22",
+    "firstName":"ss",
+    "lastName":"last_updated22",
     "email":"email_updated",
     "isGuest":true
  }

@@ -28,6 +28,7 @@ export class UsersComponent implements OnInit {
     this.usersService.getUsers().subscribe((data : any[])=>{
       console.log('refreshUsers ', data);
       this.users = data;      
+      //this.table.renderRows();
     });
   }
   setAction(action,obj) {
@@ -36,13 +37,15 @@ export class UsersComponent implements OnInit {
   }
   saveUser(row){
     this.usersService.updateUser(row.id,{
-      firstName:"first_updated2",
-      lastName:"last_updated22",
-      email:"email_updated",
-      isGuest:true
+      firstName:row.firstName,
+      lastName:row.lastName,
+      email:'row.email',
+      isGuest:row.isGuest
     }).subscribe((data : any)=>{
       this.refreshUsers();
-    });
+      this.action = null;
+      this.updatedUserId = null;
+    },err=>console.log('error saving user',err));
   }
   // openDialog(action,obj) {
   //   obj.action = action;
