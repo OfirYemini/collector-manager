@@ -6,16 +6,35 @@
         <td mat-cell *matCellDef="let row">{{row.id}}</td>
     </ng-container>
 
-    <!-- Name Column -->
+
     <!-- Name Column -->
     <ng-container matColumnDef="lastName">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>שם משפחה</th>
         <td mat-cell *matCellDef="let row">
-            <mat-form-field *ngIf="action == 'edit' && row.id==updatedUserId; else defaultTemplate">
-                <input matInput [(ngModel)]="row.lastName">
-            </mat-form-field>
-            <ng-template #defaultTemplate>
+                <ng-container *ngIf="action == 'edit' && row.id==updatedUserId; then saveTemplate; else editTemplate"></ng-container>
+            <ng-template #saveTemplate>
+                <mat-form-field>
+                    <input matInput [(ngModel)]="row.lastName">
+                </mat-form-field>
+            </ng-template>
+            <ng-template #editTemplate>
                 {{row.lastName}}
+            </ng-template>
+        </td>
+    </ng-container>
+
+    <ng-container matColumnDef="firstName">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>שם פרטי</th>
+        <td mat-cell *matCellDef="let row">
+            <ng-container *ngIf="action == 'edit' && row.id==updatedUserId; then saveTemplate; else editTemplate"></ng-container>
+            <ng-template #saveTemplate>
+                <mat-form-field>
+                    <input matInput [(ngModel)]="row.firstName">
+                </mat-form-field>
+            </ng-template>
+
+            <ng-template #editTemplate>
+                {{row.firstName}}
             </ng-template>
         </td>
     </ng-container>
@@ -31,12 +50,13 @@
     <ng-container matColumnDef="action">
         <th mat-header-cell *matHeaderCellDef> Action </th>
         <td mat-cell *matCellDef="let row" class="action-link">
-            <ng-container *ngIf="action == 'edit' && row.id==updatedUserId; then saveTemplate; else editTemplate"></ng-container>            
+            <ng-container *ngIf="action == 'edit' && row.id==updatedUserId; then saveTemplate; else editTemplate">
+            </ng-container>
             <ng-template #editTemplate>
-                    <button class="btn btn-success" (click)="setAction('edit',row)">
-                            <i class="fa fa-edit"></i>
-                        </button>
-                </ng-template>
+                <button class="btn btn-success" (click)="setAction('edit',row)">
+                    <i class="fa fa-edit"></i>
+                </button>
+            </ng-template>
             <ng-template #saveTemplate>
                 <button class="btn btn-success" (click)="saveUser(row)">
                     <i class="fa fa-save"></i>

@@ -29,7 +29,7 @@ export class UsersService {
   public deleteUser(id:number){
       return this.httpClient.delete(`${this.SERVER_URL + this.endpoint}/${id}`)
   }
-  public updatePrayer(user: {id: number, name: string}){
-      return this.httpClient.put(`${this.SERVER_URL + this.endpoint}/${user.id}`,user.name)
+  public updateUser(id: number,details: {lastName: string,firstName: string,email: string,isGuest: boolean}){
+      return this.httpClient.put(`${this.SERVER_URL + this.endpoint}/${id}`,details);
   }
 }

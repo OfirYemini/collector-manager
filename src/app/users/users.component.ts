@@ -10,7 +10,7 @@ import { DialogBoxComponent } from '../dialog-box/dialog-box.component';
 })
 export class UsersComponent implements OnInit {
   users:any[]
-  displayedColumns = ['id','lastName','isGuest','action'];
+  displayedColumns = ['id','lastName','firstName','isGuest','action'];
   @ViewChild(MatTable,{static:true}) table: MatTable<any>;
   action: string;
   updatedUserId: number;
@@ -19,34 +19,49 @@ export class UsersComponent implements OnInit {
 
   ngOnInit() {
     this.usersService.getUsers().subscribe((data : any[])=>{
-      console.log(data);
+      console.log('ngOnInit ',data);
       this.users = data;      
     });
   }
 
+  refreshUsers(){
+    this.usersService.getUsers().subscribe((data : any[])=>{
+      console.log('refreshUsers ', data);
+      this.users = data;      
+    });
+  }
   setAction(action,obj) {
     this.action = action;
     this.updatedUserId = obj.id;
   }
-  
-  openDialog(action,obj) {
-    obj.action = action;
-    obj.dialogType = 'prayer';
-    const dialogRef = this.dialog.open(DialogBoxComponent, {
-      width: '250px',      
-      data:obj,      
-    });
- 
-    dialogRef.afterClosed().subscribe(result => {
-      if(result.event == 'Add'){
-        this.addRowData(result.data);
-      }else if(result.event == 'Update'){
-        this.updateRowData(result.data);
-      }else if(result.event == 'Delete'){
-        this.deleteRowData(result.data);
-      }
+  saveUser(row){
+    this.usersService.updateUser(row.id,{
+      firstName:"first_updated2",
+      lastName:"last_updated22",
+      email:"email_updated",
+      isGuest:true
+    }).subscribe((data : any)=>{
+      this.refreshUsers();
     });
   }
+  // openDialog(action,obj) {
+  //   obj.action = action;
+  //   obj.dialogType = 'prayer';
+  //   const dialogRef = this.dialog.open(DialogBoxComponent, {
+  //     width: '250px',      
+  //     data:obj,      
+  //   });
+ 
+  //   dialogRef.afterClosed().subscribe(result => {
+  //     if(result.event == 'Add'){
+  //       this.addRowData(result.data);
+  //     }else if(result.event == 'Update'){
+  //       this.updateRowData(result.data);
+  //     }else if(result.event == 'Delete'){
+  //       this.deleteRowData(result.data);
+  //     }
+  //   });
+  // }
 
   addRowData(row_obj){    
     this.usersService.addUser(row_obj.name).subscribe((data)=>{
