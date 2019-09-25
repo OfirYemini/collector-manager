@@ -17,6 +17,7 @@ exports.handler = async (event) => {
                 id:r.id,
                 firstName:r.first_name,
                 lastName:r.last_name,
+                email:r.email,
                 isGuest:r.is_guest
             }
         })),

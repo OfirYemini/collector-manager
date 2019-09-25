@@ -39,6 +39,22 @@
         </td>
     </ng-container>
 
+    <ng-container matColumnDef="email">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>מייל</th>
+            <td mat-cell *matCellDef="let row">
+                <ng-container *ngIf="action == 'edit' && row.id==updatedUserId; then saveTemplate; else editTemplate"></ng-container>
+                <ng-template #saveTemplate>
+                    <mat-form-field>
+                        <input matInput [(ngModel)]="row.email">
+                    </mat-form-field>
+                </ng-template>
+    
+                <ng-template #editTemplate>
+                    {{row.email}}
+                </ng-template>
+            </td>
+        </ng-container>
+
     <!-- Is Guest Column -->
     <ng-container matColumnDef="isGuest">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>אורח?</th>

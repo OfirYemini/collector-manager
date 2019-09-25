@@ -10,7 +10,7 @@ import { DialogBoxComponent } from '../dialog-box/dialog-box.component';
 })
 export class UsersComponent implements OnInit {
   users:any[]
-  displayedColumns = ['id','lastName','firstName','isGuest','action'];
+  displayedColumns = ['id','lastName','firstName','email','isGuest','action'];
   @ViewChild(MatTable,{static:true}) table: MatTable<any>;
   action: string;
   updatedUserId: number;
@@ -39,7 +39,7 @@ export class UsersComponent implements OnInit {
     this.usersService.updateUser(row.id,{
       firstName:row.firstName,
       lastName:row.lastName,
-      email:'row.email',
+      email:row.email,
       isGuest:row.isGuest
     }).subscribe((data : any)=>{
       this.refreshUsers();
