@@ -15,6 +15,7 @@ export class UsersComponent implements OnInit {
   action: string;
   updatedUserId: number;
   newRow:any = {isGuest:false};
+  
 
   constructor(private usersService:UsersService, public dialog: MatDialog) { }
 

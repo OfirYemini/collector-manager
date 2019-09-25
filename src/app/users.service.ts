@@ -22,8 +22,8 @@ export class UsersService {
        return this.httpClient.get(`${this.SERVER_URL + this.endpoint}/${id}`); 
   }
   
-  public addUser(name: string){
-      return this.httpClient.post(`${this.SERVER_URL + this.endpoint}`,{name:name});
+  public addUser(user: {lastName: string,firstName: string,email: string,isGuest: boolean}){
+      return this.httpClient.post(`${this.SERVER_URL + this.endpoint}`,user);
   }
 
   public deleteUser(id:number){
