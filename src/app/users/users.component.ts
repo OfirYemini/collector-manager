@@ -14,6 +14,7 @@ export class UsersComponent implements OnInit {
   @ViewChild(MatTable,{static:true}) table: MatTable<any>;
   action: string;
   updatedUserId: number;
+  newRow:any = {};
 
   constructor(private usersService:UsersService, public dialog: MatDialog) { }
 
@@ -35,6 +36,14 @@ export class UsersComponent implements OnInit {
     this.action = action;
     this.updatedUserId = obj.id;
   }
+  addUser(){
+    this.usersService.addUser(this.newRow).subscribe((data : any)=>{
+      this.refreshUsers();
+      this.action = null;
+      this.updatedUserId = null;
+      this.newRow = {};
+    },err=>console.log('error adding user',err));
+  }
   saveUser(row){
     this.usersService.updateUser(row.id,{
       firstName:row.firstName,
@@ -53,49 +62,5 @@ export class UsersComponent implements OnInit {
       this.action = null;
       this.updatedUserId = null;
     },err=>console.log('error removing user',err));
-  }
-  // openDialog(action,obj) {
-  //   obj.action = action;
-  //   obj.dialogType = 'prayer';
-  //   const dialogRef = this.dialog.open(DialogBoxComponent, {
-  //     width: '250px',      
-  //     data:obj,      
-  //   });
- 
-  //   dialogRef.afterClosed().subscribe(result => {
-  //     if(result.event == 'Add'){
-  //       this.addRowData(result.data);
-  //     }else if(result.event == 'Update'){
-  //       this.updateRowData(result.data);
-  //     }else if(result.event == 'Delete'){
-  //       this.deleteRowData(result.data);
-  //     }
-  //   });
-  // }
-
-  addRowData(row_obj){    
-    this.usersService.addUser(row_obj.name).subscribe((data)=>{
-      this.usersService.getUsers().subscribe((data : any[])=>{        
-        this.users = data;
-        this.table.renderRows();
-      })
-    })
-  }
-
-  updateRowData(row_obj){
-    this.users = this.users.filter((value,key)=>{
-      if(value.id == row_obj.id){
-        value.lastName = row_obj.lastName;
-        value.firstName = row_obj.firstName;
-        this.table.renderRows();
-      }
-      return true;
-    });
-  }
-
-  deleteRowData(row_obj){
-    this.users = this.users.filter((value,key)=>{
-      return value.id != row_obj.id;
-    });
   }
 }
