@@ -21,7 +21,7 @@ export class TransactionsComponent implements OnInit {
   filteredTransactionsTypes: Observable<string[]>;
 
   newRow: any;
-  displayedColumns = ['id', 'prayerName', 'description', 'amount', 'date', 'action'];
+  displayedColumns = ['id', 'userName', 'transactionType', 'amount', 'date', 'action'];
   @ViewChild(MatTable, { static: true }) table: MatTable<any>;
   addPrayerControl = new FormControl();
   addDescControl = new FormControl();
@@ -34,11 +34,27 @@ export class TransactionsComponent implements OnInit {
     this.newRow = {};
 
 
-    const transactions$ = this.transactionsService.getTransactions(from, new Date())
+    const transactions$ = this.transactionsService.getTransactions(from, new Date());
     const users$ = this.usersService.getUsers();
+    const transactionTypes$ = this.transactionsService.getTransactionTypes();
 
-    combineLatest(transactions$, users$, (transactions: any[], users: any[]) => ({ transactions: transactions, users: users }))
-      .subscribe(data => {        
+    let _this = this;
+    function initTransactionTypes(settings: any) {
+      _this.transactionsTypes = settings.reduce(function (map, obj) {
+        map[obj.id] = obj.name;
+        return map;
+      }, {});
+      _this.filteredTransactionsTypes = _this.addDescControl.valueChanges
+        .pipe(
+          startWith(''),
+          map(value => _this._filter(value, settings.map(s=>s.name)))
+        );
+    };
+
+
+    combineLatest(transactions$, users$, transactionTypes$, (transactions: any[], users: any[], settings: any) => ({ transactions: transactions, users: users, settings: settings }))
+      .subscribe(data => {
+        initTransactionTypes(data.settings);
         this.users = data.users;
         var prayersFullName = data.users.map(p => p.lastName + ' ' + p.firstName);
         this.filteredPrayers = this.addPrayerControl.valueChanges
@@ -46,47 +62,19 @@ export class TransactionsComponent implements OnInit {
             startWith(''),
             map(value => this._filter(value, prayersFullName))
           );
-          
-          data.transactions.forEach(function (obj) {
-            let user = data.users.filter(u=>u.id==obj.userId)[0];
-            obj.userFullName = user.lastName + ' ' + user.firstName;
-          });
-          this.transactions = data.transactions;
+
+        data.transactions.forEach(function (obj) {
+          let user = data.users.filter(u => u.id == obj.userId)[0];
+          obj.userFullName = user.lastName + ' ' + user.firstName;
+        });
+        this.transactions = data.transactions;
       })
-
-    // this.transactionsService.getTransactions(from, new Date()).subscribe((data: any[]) => {
-    //   console.log(data);
-    //   this.transactions = data;
-    // });
-    this.transactionsService.getTransactionTypes().subscribe((settings: any) => {
-      this.transactionsTypes = settings.reduce(function (map, obj) {
-        map[obj.id] = obj.name;
-        return map;
-      }, {});
-      this.filteredTransactionsTypes = this.addDescControl.valueChanges
-        .pipe(
-          startWith(''),
-          map(value => this._filter(value, settings))
-        );
-    });
-    // this.usersService.getUsers().subscribe((data: any[]) => {
-    //   console.log(data);
-    //   this.users = data;
-    //   var prayersFullName = data.map(p => p.lastName + ' ' + p.firstName);
-    //   this.filteredPrayers = this.addPrayerControl.valueChanges
-    //     .pipe(
-    //       startWith(''),
-    //       map(value => this._filter(value, prayersFullName))
-    //     );
-    // });
-
-
   }
 
-  private _filter(value: string, fromList: any): string[] {
+  private _filter(value: string, fromList: string[]): string[] {
     const filterValue = value.toLowerCase();
 
-    return fromList.filter(option => (option.name.toLowerCase().includes(filterValue)));
+    return fromList.filter(option => (option.toLowerCase().includes(filterValue)));
   }
 
 
