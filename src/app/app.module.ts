@@ -6,6 +6,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { TransactionsTableComponent } from './transactions-table/transactions-table.component';
 import { MatTableModule } from '@angular/material/table';
+import {MatCheckboxModule} from '@angular/material/checkbox';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule,
   MatDialogModule, 
@@ -41,6 +42,7 @@ import { ReportsService } from './reports.service';
     BrowserAnimationsModule,
     AppRoutingModule,
     MatTableModule,
+    MatCheckboxModule,
     MatPaginatorModule,
     MatSortModule,
     MatAutocompleteModule,

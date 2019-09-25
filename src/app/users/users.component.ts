@@ -9,16 +9,16 @@ import { DialogBoxComponent } from '../dialog-box/dialog-box.component';
   styleUrls: ['./users.component.css']
 })
 export class UsersComponent implements OnInit {
-  prayers:any[]
-  displayedColumns = ['id', 'name','action'];
+  users:any[]
+  displayedColumns = ['id','name','isGuest','action'];
   @ViewChild(MatTable,{static:true}) table: MatTable<any>;
 
-  constructor(private prayersService:UsersService, public dialog: MatDialog) { }
+  constructor(private usersService:UsersService, public dialog: MatDialog) { }
 
   ngOnInit() {
-    this.prayersService.getUsers().subscribe((data : any[])=>{
+    this.usersService.getUsers().subscribe((data : any[])=>{
       console.log(data);
-      this.prayers = data;
+      this.users = data;
     })
   }
 
@@ -42,16 +42,16 @@ export class UsersComponent implements OnInit {
   }
 
   addRowData(row_obj){    
-    this.prayersService.addUser(row_obj.name).subscribe((data)=>{
-      this.prayersService.getUsers().subscribe((data : any[])=>{        
-        this.prayers = data;
+    this.usersService.addUser(row_obj.name).subscribe((data)=>{
+      this.usersService.getUsers().subscribe((data : any[])=>{        
+        this.users = data;
         this.table.renderRows();
       })
     })
   }
 
   updateRowData(row_obj){
-    this.prayers = this.prayers.filter((value,key)=>{
+    this.users = this.users.filter((value,key)=>{
       if(value.id == row_obj.id){
         value.lastName = row_obj.lastName;
         value.firstName = row_obj.firstName;
@@ -62,7 +62,7 @@ export class UsersComponent implements OnInit {
   }
 
   deleteRowData(row_obj){
-    this.prayers = this.prayers.filter((value,key)=>{
+    this.users = this.users.filter((value,key)=>{
       return value.id != row_obj.id;
     });
   }
