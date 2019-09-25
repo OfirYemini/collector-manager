@@ -1,14 +1,14 @@
-import { UsersService } from './../users.service';
+import { UsersService } from '../users.service';
 import { Component, OnInit,ViewChild  } from '@angular/core';
 import { MatDialog, MatTable } from '@angular/material';
 import { DialogBoxComponent } from '../dialog-box/dialog-box.component';
 
 @Component({
-  selector: 'app-prayers',
-  templateUrl: './prayers.component.html',
-  styleUrls: ['./prayers.component.css']
+  selector: 'app-users',
+  templateUrl: './users.component.html',
+  styleUrls: ['./users.component.css']
 })
-export class PrayersComponent implements OnInit {
+export class UsersComponent implements OnInit {
   prayers:any[]
   displayedColumns = ['id', 'name','action'];
   @ViewChild(MatTable,{static:true}) table: MatTable<any>;

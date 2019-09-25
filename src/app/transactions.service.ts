@@ -25,8 +25,8 @@ export class TransactionsService {
     return this.httpClient.get(`${this.SERVER_URL + this.endpoint}/${id}`);
   }
 
-  public getTransactionByPrayer(prayerId:number){
-       return this.httpClient.get(`${this.SERVER_URL + this.endpoint}/prayers/${prayerId}`); 
+  public getTransactionByUser(userId:number){
+       return this.httpClient.get(`${this.SERVER_URL + this.endpoint}/users/${userId}`); 
   }
   
   public addTransaction(trans:any){

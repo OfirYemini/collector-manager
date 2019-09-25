@@ -19,7 +19,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DialogBoxComponent } from './dialog-box/dialog-box.component';
 import { NavComponent } from './nav/nav.component';
 import { HomeComponent } from './home/home.component';
-import { PrayersComponent } from './prayers/prayers.component';
+import { UsersComponent } from './users/users.component';
 import { TransactionsComponent } from './transactions/transactions.component';
 import { ReportsComponent } from './reports/reports.component';
 import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
@@ -34,7 +34,7 @@ import { ReportsService } from './reports.service';
   declarations: [
     AppComponent,
     TransactionsTableComponent, 
-    DialogBoxComponent, NavComponent, HomeComponent, PrayersComponent, TransactionsComponent, ReportsComponent, PrintLayoutComponent, InvoiceComponent
+    DialogBoxComponent, NavComponent, HomeComponent, UsersComponent, TransactionsComponent, ReportsComponent, PrintLayoutComponent, InvoiceComponent
   ],
   imports: [
     BrowserModule,
