@@ -3,7 +3,7 @@ exports.handler = async (event) => {
     
     const client = new Client();  
     await client.connect();
-    const res = await client.query(`select * from users;`);
+    const res = await client.query(`select * from users where is_active=true;`);
     await client.end();  
 
     const response = {

@@ -8,9 +8,8 @@ exports.handler = async (event) => {
     
     const client = new Client();  
     await client.connect();
-    
-    const text = 'delete from users where id=$1'
-    
+        
+    const text = 'Update users SET is_active=false where id=$1';
     // callback
     var response;
     try {
@@ -18,7 +17,8 @@ exports.handler = async (event) => {
         response = sendRes(204,{});
         
     } catch (e) {
-        response = sendRes(404,{});
+        console.log(`error deleting user ${id}`,e)
+        response = sendRes(404,{error:e.details});
     }
     
     await client.end();  

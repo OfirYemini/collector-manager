@@ -47,6 +47,13 @@ export class UsersComponent implements OnInit {
       this.updatedUserId = null;
     },err=>console.log('error saving user',err));
   }
+  deleteUser(userId:number){
+    this.usersService.deleteUser(userId).subscribe(()=>{
+      this.refreshUsers();
+      this.action = null;
+      this.updatedUserId = null;
+    },err=>console.log('error removing user',err));
+  }
   // openDialog(action,obj) {
   //   obj.action = action;
   //   obj.dialogType = 'prayer';
