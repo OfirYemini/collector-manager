@@ -4,7 +4,6 @@ import { AngularFontAwesomeModule } from 'angular-font-awesome';
 import { FormsModule,ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { TransactionsTableComponent } from './transactions-table/transactions-table.component';
 import { MatTableModule } from '@angular/material/table';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import { MatPaginatorModule } from '@angular/material/paginator';
@@ -33,8 +32,7 @@ import { InvoiceComponent } from './invoice/invoice.component';
 import { ReportsService } from './reports.service';
 @NgModule({
   declarations: [
-    AppComponent,
-    TransactionsTableComponent, 
+    AppComponent,    
     DialogBoxComponent, NavComponent, HomeComponent, UsersComponent, TransactionsComponent, ReportsComponent, PrintLayoutComponent, InvoiceComponent
   ],
   imports: [

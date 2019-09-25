@@ -3,7 +3,7 @@ exports.handler = async (event) => {
     
     const client = new Client();  
     await client.connect();
-    const res = await client.query(`select * from users where is_active=true;`);
+    const res = await client.query(`select * from users;`);
     await client.end();  
 
     const response = {
@@ -18,7 +18,8 @@ exports.handler = async (event) => {
                 firstName:r.first_name,
                 lastName:r.last_name,
                 email:r.email,
-                isGuest:r.is_guest
+                isGuest:r.is_guest,
+                isActive:r.is_active
             }
         })),
     };

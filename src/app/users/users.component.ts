@@ -22,7 +22,7 @@ export class UsersComponent implements OnInit {
   ngOnInit() {
     this.usersService.getUsers().subscribe((data : any[])=>{
       console.log('ngOnInit ',data);
-      this.users = data;      
+      this.users = data.filter(u=>u.isActive);
     });
   }
 
