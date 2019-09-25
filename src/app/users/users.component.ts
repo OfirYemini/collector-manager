@@ -14,7 +14,7 @@ export class UsersComponent implements OnInit {
   @ViewChild(MatTable,{static:true}) table: MatTable<any>;
   action: string;
   updatedUserId: number;
-  newRow:any = {};
+  newRow:any = {isGuest:false};
 
   constructor(private usersService:UsersService, public dialog: MatDialog) { }
 

@@ -83,9 +83,8 @@
             </mat-checkbox>
         </td>
         <td mat-footer-cell *matFooterCellDef>
-            <mat-form-field>
-                <input matInput placeholder="מייל" [(ngModel)]="newRow.email">
-                <mat-checkbox [(ngModel)]="newRow.isGuest"></mat-checkbox>
+            <mat-form-field>                
+                <mat-checkbox [(ngModel)]="newRow.isGuest" ></mat-checkbox>
             </mat-form-field>
         </td>
     </ng-container>
@@ -119,4 +118,5 @@
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
 </table>
