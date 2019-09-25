@@ -5,7 +5,7 @@ exports.handler = async (event) => {
     if (!(event && event.pathParameters && event.pathParameters.id)) {
         return sendRes(400, { error: 'no user id' });
     }
-    if (!(data && data.firstName && data.lastName && data.email && data.isGuest !== undefined)) {
+    if (!(data && data.firstName && data.lastName && data.isGuest !== undefined)) {
         console.log('not all details were sent, data:',data);
         return sendRes(400, { error: 'not all details were sent' });
     }
