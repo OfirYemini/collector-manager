@@ -15,6 +15,7 @@ import { startWith, map } from 'rxjs/operators';
 export class TransactionsComponent implements OnInit {
   transactions: any[];
   transactionsTypes: string[];
+  transactionsTypesArr: any;
   users: any[];
 
   filteredPrayers: Observable<any[]>;
@@ -24,9 +25,11 @@ export class TransactionsComponent implements OnInit {
   displayedColumns = ['id', 'userName', 'transactionType', 'amount', 'date', 'action'];
   @ViewChild(MatTable, { static: true }) table: MatTable<any>;
   addPrayerControl = new FormControl();
-  addDescControl = new FormControl();
+  addTransControl = new FormControl();
   action: string;
   updatedTransactionId: number;
+  filteredUsers: any[];
+  
 
   constructor(private transactionsService: TransactionsService, private usersService: UsersService, public dialog: MatDialog) { }
 
@@ -46,26 +49,22 @@ export class TransactionsComponent implements OnInit {
         map[obj.id] = obj.name;
         return map;
       }, {});
-      _this.filteredTransactionsTypes = _this.addDescControl.valueChanges
-        .pipe(
-          startWith(''),
-          map(value => _this._filter(value, settings.map(s=>s.name)))
-        );
+      _this.filteredTransactionsTypes = settings;
+      _this.transactionsTypesArr = settings;      
     };
 
+
+    
 
     combineLatest(transactions$, users$, transactionTypes$, (transactions: any[], users: any[], settings: any) => ({ transactions: transactions, users: users, settings: settings }))
       .subscribe(data => {
         initTransactionTypes(data.settings);
+        data.users.forEach(u => u.fullName = u.lastName + ' ' + u.firstName);
         this.users = data.users;
+        this.filteredUsers = data.users;
         var prayersFullName = data.users.map(p => p.lastName + ' ' + p.firstName);
         this.addPrayerControl.setValue(this.newRow.userName);
-        this.filteredPrayers = this.addPrayerControl.valueChanges
-          .pipe(
-            startWith(''),
-            map(value => this._filter(value, prayersFullName))
-          );
-
+        
         data.transactions.forEach(function (obj) {
           let user = data.users.filter(u => u.id == obj.userId)[0];
           obj.userFullName = user.lastName + ' ' + user.firstName;
@@ -73,12 +72,19 @@ export class TransactionsComponent implements OnInit {
         this.transactions = data.transactions;
       })
   }
-
-  setAction(action,obj) {
+  
+  filterTransactions(val) {      
+    this.filteredTransactionsTypes = this.transactionsTypesArr.filter((t) => t.name.indexOf(val) > -1);
+  }
+  filterUsers(val: string) {    
+    this.filteredUsers = this.users.filter(u => u.fullName.indexOf(val) > -1);
+  }
+  setAction(action, obj) {
     this.action = action;
     this.updatedTransactionId = obj.id;
   }
-  addTransaction(){
+  addTransaction() {
+    console.log(this.newRow);
     // this.usersService.addUser(this.newRow).subscribe((data : any)=>{
     //   this.refreshUsers();
     //   this.action = null;
@@ -86,7 +92,8 @@ export class TransactionsComponent implements OnInit {
     //   this.newRow = {};
     // },err=>console.log('error adding user',err));
   }
-  saveTransaction(row){
+  saveTransaction(row) {
+    console.log(row);
     // this.usersService.updateUser(row.id,{
     //   firstName:row.firstName,
     //   lastName:row.lastName,
@@ -98,18 +105,14 @@ export class TransactionsComponent implements OnInit {
     //   this.updatedUserId = null;
     // },err=>console.log('error saving user',err));
   }
-  deleteTransaction(transId:number){
+  deleteTransaction(transId: number) {
     // this.usersService.deleteUser(userId).subscribe(()=>{
     //   this.refreshUsers();
     //   this.action = null;
     //   this.updatedUserId = null;
     // },err=>console.log('error removing user',err));
   }
-  private _filter(value: string, fromList: string[]): string[] {
-    const filterValue = value.toLowerCase();
-
-    return fromList.filter(option => (option.toLowerCase().includes(filterValue)));
-  }
+  
 
 
   openDialog(action, obj) {

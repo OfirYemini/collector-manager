@@ -12,20 +12,22 @@
     <ng-container matColumnDef="userName">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>מתפלל</th>
         <td mat-cell *matCellDef="let row">
-            <ng-container *ngIf="action == 'edit' && row.id==updatedTransactionId; then saveTemplate; else editTemplate">
+            <ng-container
+                *ngIf="action == 'edit' && row.id==updatedTransactionId; then saveTemplate; else editTemplate">
             </ng-container>
             <ng-template #editTemplate>
-                    {{row.userFullName}}
+                {{row.userFullName}}
             </ng-template>
 
             <ng-template #saveTemplate>
                 <mat-form-field>
-                    <input placeholder="{{row.userFullName}}" matInput [matAutocomplete]="autoPrayerName"
-                        [formControl]="addPrayerControl">
-                    <mat-autocomplete autoActiveFirstOption #autoPrayerName="matAutocomplete">
-                        <mat-option *ngFor="let prayer of filteredPrayers | async" [value]="prayer">{{prayer}}
+                    <mat-select placeholder="{{row.userFullName}}" [(ngModel)]="row.userId" (openedChange)="userNameInput.focus()">
+                        <input #userNameInput matInput focused="'true'" type="text"
+                            (keyup)="filterUsers($event.target.value)" autocomplete="off">
+                        <mat-option *ngFor="let user of filteredUsers" [value]="user.id">
+                            {{user.fullName}}
                         </mat-option>
-                    </mat-autocomplete>
+                    </mat-select>                    
                 </mat-form-field>
             </ng-template>
         </td>
@@ -43,31 +45,34 @@
     <ng-container matColumnDef="transactionType">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>תיאור</th>
         <td mat-cell *matCellDef="let row">
-            <ng-container *ngIf="action == 'edit' && row.id==updatedTransactionId; then saveTemplate; else editTemplate">
+            <ng-container
+                *ngIf="action == 'edit' && row.id==updatedTransactionId; then saveTemplate; else editTemplate">
             </ng-container>
-            <ng-template #saveTemplate>
-                <mat-form-field>
-                    <input placeholder="תיאור" matInput [matAutocomplete]="autoTransactionType">
-                    <mat-autocomplete autoActiveFirstOption #autoTransactionType="matAutocomplete">
-                            <mat-option *ngFor="let type of filteredTransactionsTypes | async" [value]="type.id">
-                                {{type.name}}
-                            </mat-option>
-                        </mat-autocomplete>
-                </mat-form-field>
-            </ng-template>
-
             <ng-template #editTemplate>
                 {{this.transactionsTypes[row.typeId]}}
+            </ng-template>
+
+            <ng-template #saveTemplate>
+                <mat-form-field>
+                    <mat-select placeholder="תיאור" [(ngModel)]="row.typeId" (openedChange)="myInput.focus()">
+                        <input #myInput matInput focused="'true'" type="text"
+                            (keyup)="filterTransactions($event.target.value)" autocomplete="off">
+                        <mat-option *ngFor="let transSettings of filteredTransactionsTypes" [value]="transSettings.id">
+                            {{transSettings.name}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
             </ng-template>
         </td>
         <td mat-footer-cell *matFooterCellDef>
             <mat-form-field>
-                <input placeholder="תיאור" matInput [matAutocomplete]="autoTransactionType"
-                    [formControl]="addDescControl">
-                <mat-autocomplete autoActiveFirstOption #autoTransactionType="matAutocomplete">
-                    <mat-option *ngFor="let type of filteredTransactionsTypes | async" [value]="type.id">{{type.name}}
+                <mat-select placeholder="תיאור" [(ngModel)]="newRow.typeId" (openedChange)="myInput.focus()">
+                    <input #myInput matInput focused="'true'" type="text"
+                        (keyup)="filterTransactions($event.target.value)" autocomplete="off">
+                    <mat-option *ngFor="let transSettings of filteredTransactionsTypes" [value]="transSettings.id">
+                        {{transSettings.name}}
                     </mat-option>
-                </mat-autocomplete>
+                </mat-select>
             </mat-form-field>
         </td>
     </ng-container>
@@ -76,7 +81,8 @@
     <ng-container matColumnDef="amount">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>סכום</th>
         <td mat-cell *matCellDef="let row">
-            <ng-container *ngIf="action == 'edit' && row.id==updatedTransactionId; then saveTemplate; else editTemplate">
+            <ng-container
+                *ngIf="action == 'edit' && row.id==updatedTransactionId; then saveTemplate; else editTemplate">
             </ng-container>
             <ng-template #saveTemplate>
                 <mat-form-field>
@@ -110,7 +116,8 @@
     <ng-container matColumnDef="action">
         <th mat-header-cell *matHeaderCellDef> Action </th>
         <td mat-cell *matCellDef="let row" class="action-link">
-            <ng-container *ngIf="action == 'edit' && row.id==updatedTransactionId; then saveTemplate; else editTemplate">
+            <ng-container
+                *ngIf="action == 'edit' && row.id==updatedTransactionId; then saveTemplate; else editTemplate">
             </ng-container>
             <ng-template #editTemplate>
                 <button class="btn btn-success" (click)="setAction('edit',row)">
@@ -128,7 +135,7 @@
             </button>
         </td>
         <td mat-footer-cell *matFooterCellDef>
-            <button class="btn" mat-button (click)="addRowData()" dir="rtl" mat-flat-button color="primary">
+            <button class="btn" mat-button (click)="addTransaction()" dir="rtl" mat-flat-button color="primary">
                 <i class="fa fa-plus"></i>
             </button>
         </td>
