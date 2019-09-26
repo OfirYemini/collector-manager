@@ -25,6 +25,8 @@ export class TransactionsComponent implements OnInit {
   @ViewChild(MatTable, { static: true }) table: MatTable<any>;
   addPrayerControl = new FormControl();
   addDescControl = new FormControl();
+  action: string;
+  updatedTransactionId: number;
 
   constructor(private transactionsService: TransactionsService, private usersService: UsersService, public dialog: MatDialog) { }
 
@@ -72,6 +74,37 @@ export class TransactionsComponent implements OnInit {
       })
   }
 
+  setAction(action,obj) {
+    this.action = action;
+    this.updatedTransactionId = obj.id;
+  }
+  addTransaction(){
+    // this.usersService.addUser(this.newRow).subscribe((data : any)=>{
+    //   this.refreshUsers();
+    //   this.action = null;
+    //   this.updatedUserId = null;
+    //   this.newRow = {};
+    // },err=>console.log('error adding user',err));
+  }
+  saveTransaction(row){
+    // this.usersService.updateUser(row.id,{
+    //   firstName:row.firstName,
+    //   lastName:row.lastName,
+    //   email:row.email,
+    //   isGuest:row.isGuest
+    // }).subscribe((data : any)=>{
+    //   this.refreshUsers();
+    //   this.action = null;
+    //   this.updatedUserId = null;
+    // },err=>console.log('error saving user',err));
+  }
+  deleteTransaction(transId:number){
+    // this.usersService.deleteUser(userId).subscribe(()=>{
+    //   this.refreshUsers();
+    //   this.action = null;
+    //   this.updatedUserId = null;
+    // },err=>console.log('error removing user',err));
+  }
   private _filter(value: string, fromList: string[]): string[] {
     const filterValue = value.toLowerCase();
 
