@@ -31,13 +31,12 @@ export class TransactionsComponent implements OnInit {
   filteredUsers: any[];
   defaultFrom: Date;
   
-
   constructor(private transactionsService: TransactionsService, private usersService: UsersService, public dialog: MatDialog) { }
 
   ngOnInit() {
     this.defaultFrom = new Date();
     this.defaultFrom.setDate(this.defaultFrom.getDate() - 14);
-    this.newRow={};   
+    this.newRow={date:new Date()};   
     const transactions$ = this.transactionsService.getTransactions(this.defaultFrom,new Date(),null);
     const users$ = this.usersService.getUsers();
     const transactionTypes$ = this.transactionsService.getTransactionTypes();
@@ -64,18 +63,21 @@ export class TransactionsComponent implements OnInit {
         var prayersFullName = data.users.map(p => p.lastName + ' ' + p.firstName);
         this.addPrayerControl.setValue(this.newRow.userName);
         
-        data.transactions.forEach(function (obj) {
-          let user = data.users.filter(u => u.id == obj.userId)[0];
-          obj.userFullName = user.lastName + ' ' + user.firstName;
-        });
-        this.transactions = data.transactions;
+        this.initTransactions(data.transactions);
       })
   }
+  private initTransactions(transactions: any[]) {
+    let _this = this;
+    transactions.forEach(function (obj) {
+      let user = _this.users.filter(u => u.id == obj.userId)[0];
+      obj.userFullName = user.lastName + ' ' + user.firstName;
+    });
+    this.transactions = transactions;
+  }
+
   getTransactions() {    
-    this.transactionsService.getTransactions(from,new Date(),null).subscribe((data : any[])=>{
-      console.log('refreshUsers ', data);
-      this.users = data;      
-      //this.table.renderRows();
+    this.transactionsService.getTransactions(this.defaultFrom,new Date(),null).subscribe((transactions : any[])=>{      
+      this.initTransactions(transactions);      
     });
   }
   filterTransactions(val) {      
@@ -88,8 +90,7 @@ export class TransactionsComponent implements OnInit {
     this.action = action;
     this.updatedTransactionId = obj.id;
   }
-  addTransaction() {
-    console.log(this.newRow);
+  addTransaction() {    
     this.transactionsService.addTransaction(this.newRow).subscribe((data : any)=>{
       this.getTransactions();
       this.action = null;

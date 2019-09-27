@@ -35,7 +35,7 @@ POST https://kgz5a5cmll.execute-api.eu-central-1.amazonaws.com/dev/transactions
 
 {
     "userId": 2,
-    "transactionTypeId": 5,
+    "typeId": 5,
     "amount":25,
     "date": "2019-03-12T16:15:15"
 }
