@@ -21,7 +21,7 @@ export class TransactionsComponent implements OnInit {
   filteredPrayers: Observable<any[]>;
   filteredTransactionsTypes: Observable<string[]>;
 
-  newRow: any;
+  newRow: any;//{userId: number,typeId: number,amount: number,date: Date};
   displayedColumns = ['id', 'userName', 'transactionType', 'amount', 'date', 'action'];
   @ViewChild(MatTable, { static: true }) table: MatTable<any>;
   addPrayerControl = new FormControl();
@@ -29,17 +29,16 @@ export class TransactionsComponent implements OnInit {
   action: string;
   updatedTransactionId: number;
   filteredUsers: any[];
+  defaultFrom: Date;
   
 
   constructor(private transactionsService: TransactionsService, private usersService: UsersService, public dialog: MatDialog) { }
 
   ngOnInit() {
-    var from = new Date();
-    from.setDate(from.getDate() - 14);
-    this.newRow = {};
-
-
-    const transactions$ = this.transactionsService.getTransactions(from, new Date());
+    this.defaultFrom = new Date();
+    this.defaultFrom.setDate(this.defaultFrom.getDate() - 14);
+    this.newRow={};   
+    const transactions$ = this.transactionsService.getTransactions(this.defaultFrom,new Date(),null);
     const users$ = this.usersService.getUsers();
     const transactionTypes$ = this.transactionsService.getTransactionTypes();
 
@@ -72,7 +71,13 @@ export class TransactionsComponent implements OnInit {
         this.transactions = data.transactions;
       })
   }
-  
+  getTransactions() {    
+    this.transactionsService.getTransactions(from,new Date(),null).subscribe((data : any[])=>{
+      console.log('refreshUsers ', data);
+      this.users = data;      
+      //this.table.renderRows();
+    });
+  }
   filterTransactions(val) {      
     this.filteredTransactionsTypes = this.transactionsTypesArr.filter((t) => t.name.indexOf(val) > -1);
   }
@@ -85,12 +90,12 @@ export class TransactionsComponent implements OnInit {
   }
   addTransaction() {
     console.log(this.newRow);
-    // this.usersService.addUser(this.newRow).subscribe((data : any)=>{
-    //   this.refreshUsers();
-    //   this.action = null;
-    //   this.updatedUserId = null;
-    //   this.newRow = {};
-    // },err=>console.log('error adding user',err));
+    this.transactionsService.addTransaction(this.newRow).subscribe((data : any)=>{
+      this.getTransactions();
+      this.action = null;
+      this.updatedTransactionId = null;
+      this.newRow = {};
+    },err=>console.log('error adding transaction',err));
   }
   saveTransaction(row) {
     console.log(row);
