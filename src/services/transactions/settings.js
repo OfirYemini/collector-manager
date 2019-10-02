@@ -18,7 +18,7 @@ exports.handler = async (event) => {
       transTypes: transTypesRes.rows,
       templates: templatesRes.rows.reduce((result, item) => {
         if (!result[item.template_id]) {
-          result[item.template_id] = [];
+          result[item.template_id] = {name:};
         }
         result[item.template_id].push(item.transaction_type_id);
         return result;

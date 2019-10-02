@@ -15,6 +15,9 @@ import { startWith, map } from 'rxjs/operators';
 export class TransactionsComponent implements OnInit {
   transactions: any[];
   transactionsTypes: string[];
+  templates: any[];
+  filteredTemplatesArr:any[];
+  templatesArr:any[]= [];
   transactionsTypesArr: any;
   users: any[];
 
@@ -56,7 +59,14 @@ export class TransactionsComponent implements OnInit {
 
     combineLatest(transactions$, users$, transactionTypes$, (transactions: any[], users: any[], settings: any) => ({ transactions: transactions, users: users, settings: settings }))
       .subscribe(data => {
-        initTransactionTypes(data.settings);
+        initTransactionTypes(data.settings.transTypes);
+        this.templates = data.settings.templates;
+        Object.keys(data.settings.templates).forEach(key => {
+          data.settings.templates[key].forEach(transTypeId => {
+            this.templatesArr.push({id:key,typeId:transTypeId});    
+          });          
+        });
+        this.filteredTemplatesArr = this.templatesArr;
         data.users.forEach(u => u.fullName = u.lastName + ' ' + u.firstName);
         this.users = data.users;
         this.filteredUsers = data.users;
@@ -98,13 +108,9 @@ export class TransactionsComponent implements OnInit {
       this.newRow = {};
     },err=>console.log('error adding transaction',err));
   }
-  saveTransaction(row) {
-    console.log(row);
-    // this.usersService.updateUser(row.id,{
-    //   firstName:row.firstName,
-    //   lastName:row.lastName,
-    //   email:row.email,
-    //   isGuest:row.isGuest
+  saveTransaction(trans:any) {
+    console.log(trans);
+    // this.transactionsService.updateTransaction(trans.id,trans
     // }).subscribe((data : any)=>{
     //   this.refreshUsers();
     //   this.action = null;
@@ -119,59 +125,64 @@ export class TransactionsComponent implements OnInit {
     // },err=>console.log('error removing user',err));
   }
   
-
-
-  openDialog(action, obj) {
-    obj.action = action;
-    obj.dialogType = 'transaction';
-    const dialogRef = this.dialog.open(DialogBoxComponent, {
-      width: '250px',
-      data: obj
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result.event == 'Update') {
-        this.updateRowData(result.data);
-      } else {
-        this.deleteRowData(result.data);
-      }
-    });
+  filterTemplates(val) {      
+    this.filteredTemplatesArr = this.templatesArr.filter((t) => this.transactionsTypesArr[t.typeId].indexOf(val) > -1);
+  }
+  onTemplateChanged(templateId:number){
+    console.log('template ', templateId);
   }
 
-  addRowData() {
-    this.transactionsService.addTransaction(this.newRow).subscribe((newTransId: any) => {
-      this.transactionsService.getTransaction(newTransId.id).subscribe((data: any) => {
-        this.transactions.push(data);
-        this.newRow = {};
-        this.table.renderRows();
-      })
-    })
-  }
+  // openDialog(action, obj) {
+  //   obj.action = action;
+  //   obj.dialogType = 'transaction';
+  //   const dialogRef = this.dialog.open(DialogBoxComponent, {
+  //     width: '250px',
+  //     data: obj
+  //   });
 
-  updateRowData(trans: any) {
-    this.transactionsService.updateTransaction(trans).subscribe((row) => {
-      this.transactionsService.getTransaction(trans.id).subscribe((data: any) => {
-        this.transactions = this.transactions.filter((value, key) => {
-          if (value.id == data.id) {
-            value.prayerName = this.users.filter(u => u.id == data.userId);
-            value.date = data.date;
-            value.amount = data.amount;
-            value.description = data.description;
-          }
-          return true;
-        });
-        this.table.renderRows();
-      })
-    })
+  //   dialogRef.afterClosed().subscribe(result => {
+  //     if (result.event == 'Update') {
+  //       this.updateRowData(result.data);
+  //     } else {
+  //       this.deleteRowData(result.data);
+  //     }
+  //   });
+  // }
 
-  }
+  // addRowData() {
+  //   this.transactionsService.addTransaction(this.newRow).subscribe((newTransId: any) => {
+  //     this.transactionsService.getTransaction(newTransId.id).subscribe((data: any) => {
+  //       this.transactions.push(data);
+  //       this.newRow = {};
+  //       this.table.renderRows();
+  //     })
+  //   })
+  // }
 
-  deleteRowData(trans: any) {
-    this.transactionsService.deleteTransaction(trans.id).subscribe((data) => {
-      this.transactions = this.transactions.filter((value, key) => {
-        return value.id != trans.id;
-      });
-    })
+  // updateRowData(trans: any) {
+  //   this.transactionsService.updateTransaction(trans).subscribe((row) => {
+  //     this.transactionsService.getTransaction(trans.id).subscribe((data: any) => {
+  //       this.transactions = this.transactions.filter((value, key) => {
+  //         if (value.id == data.id) {
+  //           value.prayerName = this.users.filter(u => u.id == data.userId);
+  //           value.date = data.date;
+  //           value.amount = data.amount;
+  //           value.description = data.description;
+  //         }
+  //         return true;
+  //       });
+  //       this.table.renderRows();
+  //     })
+  //   })
 
-  }
+  //}
+
+  // deleteRowData(trans: any) {
+  //   this.transactionsService.deleteTransaction(trans.id).subscribe((data) => {
+  //     this.transactions = this.transactions.filter((value, key) => {
+  //       return value.id != trans.id;
+  //     });
+  //   })
+
+  //}
 }

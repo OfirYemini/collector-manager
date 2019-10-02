@@ -36,7 +36,7 @@ export class TransactionsService {
   public deleteTransaction(transId:number){
       return this.httpClient.delete(`${this.SERVER_URL + this.endpoint}/${transId}`)
   }
-  public updateTransaction(trans:any){
-      return this.httpClient.put(`${this.SERVER_URL + this.endpoint}/${trans.id}`,trans)
+  public updateTransaction(id:number,trans: {userId: number,typeId: number,amount: number,date: Date}){
+      return this.httpClient.put(`${this.SERVER_URL + this.endpoint}/${id}`,trans)
   }
 }
