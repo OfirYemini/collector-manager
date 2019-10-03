@@ -19,7 +19,9 @@ export class TransactionsComponent implements OnInit {
   filteredTemplatesArr:any[];
   templatesArr:any[]= [];
   transactionsTypesArr: any;
+  templateDate:Date;
   users: any[];
+  currentTemplate:any[];
 
   filteredPrayers: Observable<any[]>;
   filteredTransactionsTypes: Observable<string[]>;
@@ -40,6 +42,10 @@ export class TransactionsComponent implements OnInit {
     this.defaultFrom = new Date();
     this.defaultFrom.setDate(this.defaultFrom.getDate() - 14);
     this.newRow={date:new Date()};   
+
+    var prevSaturday = new Date();
+    prevSaturday.setDate(prevSaturday.getDate() - (prevSaturday.getDay()+3) % 7)
+    this.templateDate = new Date(prevSaturday);
     const transactions$ = this.transactionsService.getTransactions(this.defaultFrom,new Date(),null);
     const users$ = this.usersService.getUsers();
     const transactionTypes$ = this.transactionsService.getTransactionTypes();
@@ -65,6 +71,7 @@ export class TransactionsComponent implements OnInit {
           this.templatesArr.push({id:templateId,name:data.settings.templates[templateId].name});          
         });
         this.filteredTemplatesArr = this.templatesArr;
+        this.onTemplateChanged(1);
         data.users.forEach(u => u.fullName = u.lastName + ' ' + u.firstName);
         this.users = data.users;
         this.filteredUsers = data.users;
@@ -128,6 +135,13 @@ export class TransactionsComponent implements OnInit {
   }
   onTemplateChanged(templateId:number){
     console.log('template ', templateId);
+    this.currentTemplate = [];
+    this.templates[templateId].trans_type_ids.forEach(transTypeId => {
+      this.currentTemplate.push({
+        typeId:transTypeId,
+        date:this.templateDate,
+      });
+    });
   }
 
   // openDialog(action, obj) {

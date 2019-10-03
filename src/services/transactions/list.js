@@ -32,7 +32,7 @@ exports.handler = async (event) => {
                 userId:r.user_id,
                 typeId: r.type_id,
                 amount: r.amount,
-                date: r.exec_date
+                date: r.exec_date.toLocaleDateString()
             };            
         })),
     };
