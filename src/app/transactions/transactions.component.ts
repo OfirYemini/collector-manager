@@ -1,6 +1,6 @@
 import { UsersService } from './../users.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatDialog, MatTable, MatAutocomplete } from '@angular/material';
+import { MatDialog, MatTable, MatDatepicker, MatAutocomplete } from '@angular/material';
 import { DialogBoxComponent } from '../dialog-box/dialog-box.component';
 import { TransactionsService } from './../transactions.service';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
@@ -19,7 +19,8 @@ export class TransactionsComponent implements OnInit {
   filteredTemplatesArr:any[];
   templatesArr:any[]= [];
   transactionsTypesArr: any;
-  templateDate:Date;
+  templateDateCtl:FormControl;
+  
   users: any[];
   currentTemplate:any[];
 
@@ -45,7 +46,8 @@ export class TransactionsComponent implements OnInit {
 
     var prevSaturday = new Date();
     prevSaturday.setDate(prevSaturday.getDate() - (prevSaturday.getDay()+3) % 7)
-    this.templateDate = new Date(prevSaturday);
+    this.templateDateCtl = new FormControl(new Date(prevSaturday));
+    
     const transactions$ = this.transactionsService.getTransactions(this.defaultFrom,new Date(),null);
     const users$ = this.usersService.getUsers();
     const transactionTypes$ = this.transactionsService.getTransactionTypes();
@@ -139,7 +141,7 @@ export class TransactionsComponent implements OnInit {
     this.templates[templateId].trans_type_ids.forEach(transTypeId => {
       this.currentTemplate.push({
         typeId:transTypeId,
-        date:this.templateDate,
+        date:this.templateDateCtl.value,
       });
     });
   }

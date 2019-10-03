@@ -14,6 +14,8 @@ import { MatSortModule,
   MatInputModule,
   MatButtonModule,
   MatSelectModule,
+  MatDatepickerModule,
+  MatNativeDateModule,
   MatAutocompleteModule,
   MatToolbarModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -41,6 +43,8 @@ import { ReportsService } from './reports.service';
     BrowserAnimationsModule,
     AppRoutingModule,
     MatTableModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
     MatCheckboxModule,
     MatPaginatorModule,
     MatSortModule,

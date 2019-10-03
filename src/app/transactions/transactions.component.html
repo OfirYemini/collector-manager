@@ -175,12 +175,16 @@
 
     </mat-form-field>
 
-    <mat-form-field>
+    <!-- <mat-form-field>
             <input type="date" matInput [value]="templateDate | date:'yyyy-MM-dd'" (input)="templateDate=$event.target.valueAsDate" />
+    </mat-form-field> -->
+    <mat-form-field>
+        <input matInput [matDatepicker]="picker1" placeholder="Angular forms" [formControl]="templateDateCtl">
+        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+        <mat-datepicker #picker1></mat-datepicker>
     </mat-form-field>
-            
 
-        
+
 </div>
 
 
@@ -233,7 +237,7 @@
     <ng-container matColumnDef="date">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>תאריך</th>
         <td mat-cell *matCellDef>
-            {{templateDate}}
+                {{templateDateCtl.value.toLocaleDateString()}}
         </td>
         <td mat-footer-cell *matFooterCellDef>
 
