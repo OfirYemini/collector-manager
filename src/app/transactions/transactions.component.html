@@ -151,31 +151,20 @@
                 <i class="fa fa-remove"></i>
             </button>
         </td>
-        <td mat-footer-cell *matFooterCellDef>
+        <td mat-footer-cell *matFooterCellDef>            
+
             <mat-select  (openedChange)="templateInput.focus()" (selectionChange)="onTemplateChanged($event.value)">
                 <input #templateInput matInput focused="'true'" type="text" (keyup)="filterTemplates($event.target.value)"
                     autocomplete="off">
                 <mat-option *ngFor="let template of filteredTemplatesArr" [value]="template.id">
-                    {{templates[template.id]}}
+                    {{template.name}}
                 </mat-option>
             </mat-select>
             <button class="btn" mat-button (click)="addTransaction()" dir="rtl" mat-flat-button color="primary">
                 <i class="fa fa-plus"></i>
             </button>
         </td>
-    </ng-container>
-    <!-- <mat-form-field *ngIf="action != 'Delete'; else elseTemplate">
-            <input placeholder="{{action}} Name" matInput [(ngModel)]="local_data.name">
-          </mat-form-field>
-          <mat-form-field *ngIf="action != 'Delete';">
-              <input placeholder="{{action}} Description" matInput [(ngModel)]="local_data.description">
-          </mat-form-field>
-          <mat-form-field *ngIf="action != 'Delete';">
-              <input placeholder="{{action}} Amount" matInput [(ngModel)]="local_data.amount">
-          </mat-form-field>
-          <mat-form-field *ngIf="action != 'Delete';">
-              <input type="date" placeholder="{{action}} Date" matInput [(ngModel)]="local_data.date">
-          </mat-form-field> -->
+    </ng-container>    
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>

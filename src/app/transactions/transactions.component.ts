@@ -61,10 +61,8 @@ export class TransactionsComponent implements OnInit {
       .subscribe(data => {
         initTransactionTypes(data.settings.transTypes);
         this.templates = data.settings.templates;
-        Object.keys(data.settings.templates).forEach(key => {
-          data.settings.templates[key].forEach(transTypeId => {
-            this.templatesArr.push({id:key,typeId:transTypeId});    
-          });          
+        Object.keys(data.settings.templates).forEach(templateId => {          
+          this.templatesArr.push({id:templateId,name:data.settings.templates[templateId].name});          
         });
         this.filteredTemplatesArr = this.templatesArr;
         data.users.forEach(u => u.fullName = u.lastName + ' ' + u.firstName);
@@ -126,7 +124,7 @@ export class TransactionsComponent implements OnInit {
   }
   
   filterTemplates(val) {      
-    this.filteredTemplatesArr = this.templatesArr.filter((t) => this.transactionsTypesArr[t.typeId].indexOf(val) > -1);
+    this.filteredTemplatesArr = this.templatesArr.filter((t) => t.name.indexOf(val) > -1);
   }
   onTemplateChanged(templateId:number){
     console.log('template ', templateId);
