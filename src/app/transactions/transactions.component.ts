@@ -73,9 +73,10 @@ export class TransactionsComponent implements OnInit {
           this.templatesArr.push({id:templateId,name:data.settings.templates[templateId].name});          
         });
         this.filteredTemplatesArr = this.templatesArr;
-        this.onTemplateChanged(1);
         data.users.forEach(u => u.fullName = u.lastName + ' ' + u.firstName);
         this.users = data.users;
+        this.onTemplateChanged(1);
+        
         this.filteredUsers = data.users;
         var prayersFullName = data.users.map(p => p.lastName + ' ' + p.firstName);
         this.addPrayerControl.setValue(this.newRow.userName);
@@ -100,8 +101,9 @@ export class TransactionsComponent implements OnInit {
   filterTransactions(val) {      
     this.filteredTransactionsTypes = this.transactionsTypesArr.filter((t) => t.name.indexOf(val) > -1);
   }
-  filterUsers(val: string) {    
-    this.filteredUsers = this.users.filter(u => u.fullName.indexOf(val) > -1);
+  filterUsers(val: string,row:any) {    
+    console.log('filterUsers ', val);
+    row.filteredUsers = this.users.filter(u => u.fullName.indexOf(val) > -1);
   }
   setAction(action, obj) {
     this.action = action;
@@ -142,10 +144,15 @@ export class TransactionsComponent implements OnInit {
       this.currentTemplate.push({
         typeId:transTypeId,
         date:this.templateDateCtl.value,
+        filteredUsers:this.users
       });
     });
   }
-
+  addTransactions() {    
+    this.currentTemplate.forEach(function(v){ delete v.filteredUsers });
+    console.log('template', JSON.stringify(this.currentTemplate));
+    
+  }
   // openDialog(action, obj) {
   //   obj.action = action;
   //   obj.dialogType = 'transaction';

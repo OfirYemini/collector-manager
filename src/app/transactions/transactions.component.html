@@ -200,16 +200,22 @@
     <ng-container matColumnDef="userName">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>מתפלל</th>
         <td mat-cell *matCellDef="let row">
-            <mat-form-field>
-                <mat-select placeholder="{{row.userFullName}}" [(ngModel)]="row.userId"
-                    (openedChange)="userNameInput.focus()">
-                    <input #userNameInput matInput focused="'true'" type="text"
-                        (keyup)="filterUsers($event.target.value)" autocomplete="off">
-                    <mat-option *ngFor="let user of filteredUsers" [value]="user.id">
-                        {{user.fullName}}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
+                <ng-container
+                *ngIf="true; then userTemplate; else userTemplate">
+            </ng-container>
+            <ng-template #userTemplate>
+                <mat-form-field>
+                    <mat-select placeholder="{{row.userFullName}}" [(ngModel)]="row.userId"
+                        (openedChange)="userNameInput.focus()">
+                        <input #userNameInput matInput focused="'true'" type="text"
+                            (keyup)="filterUsers($event.target.value,row)" autocomplete="off">
+                        <mat-option *ngFor="let user of row.filteredUsers" [value]="user.id">
+                            {{user.fullName}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </ng-template>
+
         </td>
         <td mat-footer-cell *matFooterCellDef></td>
     </ng-container>
@@ -237,7 +243,7 @@
     <ng-container matColumnDef="date">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>תאריך</th>
         <td mat-cell *matCellDef>
-                {{templateDateCtl.value.toLocaleDateString()}}
+            {{templateDateCtl.value.toLocaleDateString()}}
         </td>
         <td mat-footer-cell *matFooterCellDef>
 
