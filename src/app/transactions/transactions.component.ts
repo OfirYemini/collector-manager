@@ -114,8 +114,9 @@ export class TransactionsComponent implements OnInit {
     this.action = action;
     this.updatedTransactionId = obj.id;
   }
-  addTransaction() {    
-    this.transactionsService.addTransaction(this.newRow).subscribe((data : any)=>{
+  addTransaction() {
+    delete this.newRow.filteredUsers;
+    this.transactionsService.addTransactions([this.newRow]).subscribe((data : any)=>{
       this.getTransactions();
       this.action = null;
       this.updatedTransactionId = null;
@@ -154,66 +155,14 @@ export class TransactionsComponent implements OnInit {
     });
   }
   addTransactions() {    
-    if (!this.templateForm.valid) {      
-      alert('not valid');
-    } else {
+    if (this.templateForm.valid) {            
       this.currentTemplate.forEach(function(v){ delete v.filteredUsers });
-    console.log('template', JSON.stringify(this.currentTemplate));
+      console.log('template', JSON.stringify(this.currentTemplate));
+      this.transactionsService.addTransactions(this.currentTemplate).subscribe(()=>{
+            this.transactionsService.getTransactions(this.defaultFrom,new Date(),null).subscribe((data:any[])=>{
+              this.initTransactions(data);
+            });            
+          },err=>console.log('error adding transactions',err));
     }
-    
-    
   }
-  // openDialog(action, obj) {
-  //   obj.action = action;
-  //   obj.dialogType = 'transaction';
-  //   const dialogRef = this.dialog.open(DialogBoxComponent, {
-  //     width: '250px',
-  //     data: obj
-  //   });
-
-  //   dialogRef.afterClosed().subscribe(result => {
-  //     if (result.event == 'Update') {
-  //       this.updateRowData(result.data);
-  //     } else {
-  //       this.deleteRowData(result.data);
-  //     }
-  //   });
-  // }
-
-  // addRowData() {
-  //   this.transactionsService.addTransaction(this.newRow).subscribe((newTransId: any) => {
-  //     this.transactionsService.getTransaction(newTransId.id).subscribe((data: any) => {
-  //       this.transactions.push(data);
-  //       this.newRow = {};
-  //       this.table.renderRows();
-  //     })
-  //   })
-  // }
-
-  // updateRowData(trans: any) {
-  //   this.transactionsService.updateTransaction(trans).subscribe((row) => {
-  //     this.transactionsService.getTransaction(trans.id).subscribe((data: any) => {
-  //       this.transactions = this.transactions.filter((value, key) => {
-  //         if (value.id == data.id) {
-  //           value.prayerName = this.users.filter(u => u.id == data.userId);
-  //           value.date = data.date;
-  //           value.amount = data.amount;
-  //           value.description = data.description;
-  //         }
-  //         return true;
-  //       });
-  //       this.table.renderRows();
-  //     })
-  //   })
-
-  //}
-
-  // deleteRowData(trans: any) {
-  //   this.transactionsService.deleteTransaction(trans.id).subscribe((data) => {
-  //     this.transactions = this.transactions.filter((value, key) => {
-  //       return value.id != trans.id;
-  //     });
-  //   })
-
-  //}
 }

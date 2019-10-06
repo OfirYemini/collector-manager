@@ -29,7 +29,7 @@ export class TransactionsService {
        return this.httpClient.get(`${this.SERVER_URL + this.endpoint}/users/${userId}`); 
   }
   
-  public addTransaction(trans: {userId: number,typeId: number,amount: number,date: Date}){
+  public addTransactions(trans: {userId: number,typeId: number,amount: number,date: Date}[]){
       return this.httpClient.post(`${this.SERVER_URL + this.endpoint}`,trans);
   }
 
