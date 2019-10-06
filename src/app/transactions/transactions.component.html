@@ -24,8 +24,8 @@
                     <mat-select placeholder="{{row.userFullName}}" [(ngModel)]="row.userId"
                         (openedChange)="userNameInput.focus()">
                         <input #userNameInput matInput focused="'true'" type="text"
-                            (keyup)="filterUsers($event.target.value)" autocomplete="off">
-                        <mat-option *ngFor="let user of filteredUsers" [value]="user.id">
+                            (keyup)="filterUsers($event.target.value,row)" autocomplete="off">
+                        <mat-option *ngFor="let user of row.filteredUsers" [value]="user.id">
                             {{user.fullName}}
                         </mat-option>
                     </mat-select>
@@ -36,8 +36,8 @@
             <mat-form-field>
                 <mat-select placeholder="מתפלל" [(ngModel)]="newRow.userId" (openedChange)="userNameInput.focus()">
                     <input #userNameInput matInput focused="'true'" type="text"
-                        (keyup)="filterUsers($event.target.value)" autocomplete="off">
-                    <mat-option *ngFor="let user of filteredUsers" [value]="user.id">
+                        (keyup)="filterUsers($event.target.value,newRow)" autocomplete="off">
+                    <mat-option *ngFor="let user of newRow.filteredUsers" [value]="user.id">
                         {{user.fullName}}
                     </mat-option>
                 </mat-select>
@@ -205,15 +205,15 @@
                 </ng-container>
                 <ng-template #userTemplate>
                     <mat-form-field>
-                        <mat-select name="userName-{{i}}" placeholder="{{row.userFullName}}" [(ngModel)]="row.userId"
-                            (openedChange)="userNameInput.focus()">
+                        <mat-select #userName name="userName-{{i}}" placeholder="{{row.userFullName}}" [(ngModel)]="row.userId"
+                            (openedChange)="userNameInput.focus()" required>
                             <input #userNameInput matInput focused="'true'" type="text"
                                 (keyup)="filterUsers($event.target.value,row)" autocomplete="off">
                             <mat-option *ngFor="let user of row.filteredUsers" [value]="user.id">
                                 {{user.fullName}}
                             </mat-option>
                         </mat-select>
-                    </mat-form-field>
+                    </mat-form-field>                    
                 </ng-template>
     
             </td>
@@ -235,7 +235,7 @@
                 <mat-form-field>
                     <input name="amount-{{i}}" matInput [(ngModel)]="row.amount" #amount="ngModel" required>
                 </mat-form-field>
-                <div *ngIf="amount.errors?.required">
+                <div *ngIf="amount.errors?.required && amount.touched">
                     סכום לא תקין
                 </div>
             </td>

@@ -37,7 +37,7 @@ export class TransactionsComponent implements OnInit {
   addTransControl = new FormControl();
   action: string;
   updatedTransactionId: number;
-  filteredUsers: any[];
+  //filteredUsers: any[];
   defaultFrom: Date;
   
   constructor(private transactionsService: TransactionsService, private usersService: UsersService, public dialog: MatDialog) { }
@@ -76,14 +76,15 @@ export class TransactionsComponent implements OnInit {
           this.templatesArr.push({id:templateId,name:data.settings.templates[templateId].name});          
         });
         this.filteredTemplatesArr = this.templatesArr;
-        data.users.forEach(u => u.fullName = u.lastName + ' ' + u.firstName);
+        data.users.forEach((u) => {
+          u.fullName = u.lastName + ' ' + u.firstName;          
+        });
         this.users = data.users;
-        this.onTemplateChanged(1);
+        this.onTemplateChanged(1);        
         
-        this.filteredUsers = data.users;
         var prayersFullName = data.users.map(p => p.lastName + ' ' + p.firstName);
         this.addPrayerControl.setValue(this.newRow.userName);
-        
+        this.newRow.filteredUsers = data.users;
         this.initTransactions(data.transactions);
       })
   }
@@ -92,6 +93,7 @@ export class TransactionsComponent implements OnInit {
     transactions.forEach(function (obj) {
       let user = _this.users.filter(u => u.id == obj.userId)[0];
       obj.userFullName = user.lastName + ' ' + user.firstName;
+      obj.filteredUsers = _this.users;
     });
     this.transactions = transactions;
   }
@@ -104,9 +106,12 @@ export class TransactionsComponent implements OnInit {
   filterTransactions(val) {      
     this.filteredTransactionsTypes = this.transactionsTypesArr.filter((t) => t.name.indexOf(val) > -1);
   }
-  filterUsers(val: string,row:any) {    
-    console.log('filterUsers ', val);
-    row.filteredUsers = this.users.filter(u => u.fullName.indexOf(val) > -1);
+  filterUsers(val: string,row?:any) {    
+    console.log('filterUsers ', val, row);
+    if(row!==undefined)
+      row.filteredUsers = this.users.filter(u => u.fullName.indexOf(val) > -1);
+    else
+      this.filteredUsers = this.users.filter(u => u.fullName.indexOf(val) > -1);
   }
   setAction(action, obj) {
     this.action = action;
