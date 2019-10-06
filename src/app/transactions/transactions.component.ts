@@ -144,7 +144,7 @@ export class TransactionsComponent implements OnInit {
     this.filteredTemplatesArr = this.templatesArr.filter((t) => t.name.indexOf(val) > -1);
   }
   onTemplateChanged(templateId:number){
-    console.log('template ', templateId);
+    console.log('template ', templateId);    
     this.currentTemplate = [];
     this.templates[templateId].trans_type_ids.forEach(transTypeId => {
       this.currentTemplate.push({
@@ -155,11 +155,22 @@ export class TransactionsComponent implements OnInit {
     });
   }
   addTransactions() {    
-    if (this.templateForm.valid) {            
-      this.currentTemplate.forEach(function(v){ delete v.filteredUsers });
-      console.log('template', JSON.stringify(this.currentTemplate));
-      this.transactionsService.addTransactions(this.currentTemplate).subscribe(()=>{
-            this.transactionsService.getTransactions(this.defaultFrom,new Date(),null).subscribe((data:any[])=>{
+    if (this.templateForm.valid) {
+      var transactionsToAdd = [];
+      let _this = this;
+      let date = new Date(this.templateDateCtl.value.toDateString());
+      this.currentTemplate.forEach(function(v){ 
+        v.filteredUsers = _this.users;
+        transactionsToAdd.push({
+          userId:v.userId,
+          typeId:v.typeId,
+          amount:v.amount,
+          date:date
+        });
+      });
+      console.log('template', JSON.stringify(transactionsToAdd));
+      this.transactionsService.addTransactions(transactionsToAdd).subscribe(()=>{
+            this.transactionsService.getTransactions(date,new Date(),null).subscribe((data:any[])=>{
               this.initTransactions(data);
             });            
           },err=>console.log('error adding transactions',err));
