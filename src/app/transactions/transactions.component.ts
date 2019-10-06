@@ -6,7 +6,7 @@ import { TransactionsService } from './../transactions.service';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Observable, combineLatest } from 'rxjs';
 import { startWith, map } from 'rxjs/operators';
-
+import { NgForm } from '@angular/forms';
 @Component({
   selector: 'app-transactions',
   templateUrl: './transactions.component.html',
@@ -30,6 +30,9 @@ export class TransactionsComponent implements OnInit {
   newRow: any;//{userId: number,typeId: number,amount: number,date: Date};
   displayedColumns = ['id', 'userName', 'transactionType', 'amount', 'date', 'action'];
   @ViewChild(MatTable, { static: true }) table: MatTable<any>;
+  @ViewChild(NgForm, { static: true }) templateForm: NgForm;
+  
+
   addPrayerControl = new FormControl();
   addTransControl = new FormControl();
   action: string;
@@ -149,8 +152,13 @@ export class TransactionsComponent implements OnInit {
     });
   }
   addTransactions() {    
-    this.currentTemplate.forEach(function(v){ delete v.filteredUsers });
+    if (!this.templateForm.valid) {      
+      alert('not valid');
+    } else {
+      this.currentTemplate.forEach(function(v){ delete v.filteredUsers });
     console.log('template', JSON.stringify(this.currentTemplate));
+    }
+    
     
   }
   // openDialog(action, obj) {
