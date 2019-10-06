@@ -1,19 +1,35 @@
 const { Client } = require('pg');  //  Needs the nodePostgres Lambda Layer.
+const format = require('pg-format');
 exports.handler = async (event) => {
     const data = JSON.parse(event.body);
     
-    // TODO implement
-    
+    // var format = require('pg-format');
+
+    // var values = [
+    //     [ 1, 'jack' ],
+    //     [ 2, 'john' ],
+    //     [ 3, 'jill' ],
+    // ];
+    // console.log(format('INSERT INTO test_table (id, name) VALUES %L', values));
+    // // INSERT INTO test_table (id, name) VALUES ('1', 'jack'), ('2', 'john'), ('3', 'jill')
+//console.log(format('INSERT INTO test_table (id, name) VALUES %L', values));
+
     const client = new Client();  
     await client.connect();
 
-    const text = 'INSERT INTO transactions (user_id,type_id,amount,exec_date) VALUES($1, $2, $3, $4) RETURNING id'
-    const values = [data.userId,data.typeId,data.amount,data.date];
+    
+    
     // callback
     var response;
     try {
-        const res = await client.query(text, values);
-        response = sendRes(201,res.rows[0],"application/json");
+        let values = [];
+        data.forEach(function(v){ 
+          values.push(Object.values(v));
+        }); 
+        const text = format('INSERT INTO transactions (user_id,type_id,amount,exec_date) VALUES %L returning id',values);
+        console.log(text);
+        const res = await client.query(text);
+        response = sendRes(201,res.rows,"application/json");
         
     } catch (e) {
         console.log('create transactions failed ',e);

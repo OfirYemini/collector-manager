@@ -22,6 +22,15 @@ provider:
       - subnet-3818cb52
   role: arn:aws:iam::345413125048:role/lambdaRDSDataAccess
 
+# layers:  
+#   pgFormat:    
+#     path: ../layers/pg-format
+#     package:
+#       include:
+#         - ../layers/pg-format/node-modules
+#     compatibleRuntimes:
+#       - nodejs10.x
+
 functions:
   create:
     handler: create.handler
@@ -30,6 +39,7 @@ functions:
         - create.js
     layers:
       - arn:aws:lambda:eu-central-1:345413125048:layer:postgres-nodejs:1
+      - arn:aws:lambda:eu-central-1:345413125048:layer:pgFormat:1
     events:
       - http:
           path: transactions
