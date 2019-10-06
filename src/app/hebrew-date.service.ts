@@ -11,7 +11,7 @@ export class HebrewDateService {
 
   constructor(private httpClient: HttpClient) { }
 
-  public getHebrewDate(ts:number){      
-       return this.httpClient.get(`${this.SERVER_URL + this.endpoint}/?ts=${ts}`);
+  public getHebrewDate(ts:number):any{      
+       return {festival:'festival',year:2019};
   }
 }

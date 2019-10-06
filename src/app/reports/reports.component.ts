@@ -10,10 +10,11 @@ import { HebrewDateService } from '../hebrew-date.service';
   styleUrls: ['./reports.component.css']
 })
 export class ReportsComponent implements OnInit {
-  private periods: string[] = ['H1','H2'];
-  private years: number[] =[];
+  periods: string[] = ['H1','H2'];
+  years: number[] =[];
   
-  hebrewDate:Observable<any>;
+  //hebrewDate:Observable<any>;
+  hebrewDate:any;
   eofDateTs:number;
   reports:any[];
 
@@ -35,10 +36,7 @@ export class ReportsComponent implements OnInit {
     from.setDate(from.getDate()-14);
     var until = new Date(1568190861684);
 
-    this.hebDateService.getHebrewDate(until.getTime()).subscribe((data:any[])=>{
-      console.log(data);
-      this.hebrewDate = data[0].hebrewDate;
-    });
+    this.hebrewDate = this.hebDateService.getHebrewDate(until.getTime());
 
     this.reportService.getAllReports(from,until).subscribe((data : any[])=>{
       console.log(data);

@@ -119,11 +119,11 @@ export class TransactionsComponent implements OnInit {
       this.getTransactions();
       this.action = null;
       this.updatedTransactionId = null;
-      this.newRow = {};
+      this.newRow = {filteredUsers:this.users};
     },err=>console.log('error adding transaction',err));
   }
   saveTransaction(trans:any) {
-    console.log(trans);
+    console.log(trans);    
     // this.transactionsService.updateTransaction(trans.id,trans
     // }).subscribe((data : any)=>{
     //   this.refreshUsers();
