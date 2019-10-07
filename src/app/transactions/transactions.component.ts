@@ -88,6 +88,17 @@ export class TransactionsComponent implements OnInit {
         this.transactions = this.initTransactions(data.transactions);
       })
   }
+
+
+  set newRowDate(e){
+    e = e.split('-');
+    let d = new Date(Date.UTC(e[0], e[1]-1, e[2]));
+    this.newRow.date.setFullYear(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate());
+  }
+
+  get newRowDate(){
+    return this.newRow.date.toISOString().substring(0, 10);
+  }
   private initTransactions(transactions: any[]):any[] {
     let _this = this;
     transactions.forEach(function (obj) {
@@ -120,7 +131,7 @@ export class TransactionsComponent implements OnInit {
       this.getTransactions();
       this.action = null;
       this.updatedTransactionId = null;
-      this.newRow = {filteredUsers:this.users};
+      this.newRow = {filteredUsers:this.users,date:new Date()};
     },err=>console.log('error adding transaction',err));
   }
   saveTransaction(trans:any) {

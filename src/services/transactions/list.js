@@ -9,7 +9,7 @@ exports.handler = async (event) => {
     if(event.queryStringParameters.from && event.queryStringParameters.to){
         const from = new Date(parseInt(event.queryStringParameters.from));
         const to = new Date(parseInt(event.queryStringParameters.to));
-        text = `select * from transactions where exec_date > $1 and exec_date < $2;`;
+        text = `select * from transactions where exec_date >= $1 and exec_date <= $2;`;
         values = [from,to];
     } else if(event.queryStringParameters.id){        
         text = `select * from transactions where id in (` + event.queryStringParameters.id + `)`;        
