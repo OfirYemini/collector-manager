@@ -13,8 +13,11 @@ export class TransactionsService {
 
   constructor(private httpClient: HttpClient) { }
 
-  public getTransactions(from:Date,to:Date,prayerId?:number){      
+  public getTransactionsByDate(from:Date,to:Date){      
        return this.httpClient.get(`${this.SERVER_URL + this.endpoint}/?from=${from.getTime()}&to=${to.getTime()}`);
+  }
+  public getTransactionsByIds(ids:number[]){      
+       return this.httpClient.get(`${this.SERVER_URL + this.endpoint}/?id=${ids.join(',')}`);
   }
 
   public getTransactionTypes(){      

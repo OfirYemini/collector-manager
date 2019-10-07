@@ -51,8 +51,11 @@ Content-Type: application/json
     
 
 
-### transactions list
+### transactions list by date
 GET https://kgz5a5cmll.execute-api.eu-central-1.amazonaws.com/dev/transactions/?from=1564606800000&to=1569178186700
+
+### transactions list by ids
+GET https://kgz5a5cmll.execute-api.eu-central-1.amazonaws.com/dev/transactions/?id=30,32,35
 
 ### get transactions reports
 GET https://kgz5a5cmll.execute-api.eu-central-1.amazonaws.com/dev/transactions/reports/?from=1564606800000&to=1569178186700

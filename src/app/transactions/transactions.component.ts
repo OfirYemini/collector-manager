@@ -45,13 +45,13 @@ export class TransactionsComponent implements OnInit {
   ngOnInit() {
     this.defaultFrom = new Date();
     this.defaultFrom.setDate(this.defaultFrom.getDate() - 14);
-    this.newRow={date:new Date()};   
+    this.newRow={userId:null,typeId:null,amount:null,date:new Date()};   
 
     var prevSaturday = new Date();
     prevSaturday.setDate(prevSaturday.getDate() - (prevSaturday.getDay()+3) % 7)
     this.templateDateCtl = new FormControl(new Date(prevSaturday));
     
-    const transactions$ = this.transactionsService.getTransactions(this.defaultFrom,new Date(),null);
+    const transactions$ = this.transactionsService.getTransactionsByDate(this.defaultFrom,new Date());
     const users$ = this.usersService.getUsers();
     const transactionTypes$ = this.transactionsService.getTransactionTypes();
 
@@ -99,7 +99,7 @@ export class TransactionsComponent implements OnInit {
   }
 
   getTransactions() {    
-    this.transactionsService.getTransactions(this.defaultFrom,new Date(),null).subscribe((transactions : any[])=>{      
+    this.transactionsService.getTransactionsByDate(this.defaultFrom,new Date()).subscribe((transactions : any[])=>{      
       this.transactions = this.initTransactions(transactions);      
     });
   }
@@ -145,15 +145,14 @@ export class TransactionsComponent implements OnInit {
     },err=>console.log('error saving user',err));
   }
   deleteTransaction(transId: number) {
-    // this.transactionsService.deleteTransaction(transId).subscribe(()=>{
-    //   this.transactionsService.getTransactions(trans.id).subscribe((updatedTrans : any)=>{
-    //     this.action = null;
-    //     this.updatedTransactionId = null;
-    //     const transIndex = this.transactions.map(t => t.id).indexOf(trans.id);
-    //     this.transactions[transIndex] = this.initTransactions([updatedTrans])[0];
-        
-    //   });
-    // },err=>console.log('error removing user',err));
+    this.transactionsService.deleteTransaction(transId).subscribe(()=>{
+      var ids = this.transactions.map(t=>t.id).filter(id=>id!==transId);
+      this.transactionsService.getTransactionsByIds(ids).subscribe((transactions : any[])=>{
+        this.transactions = this.initTransactions(transactions);      
+        this.action = null;
+        this.updatedTransactionId = null;
+      });
+    },err=>console.log('error removing user',err));
   }
   
   filterTemplates(val) {      
@@ -186,7 +185,7 @@ export class TransactionsComponent implements OnInit {
       });
       console.log('template', JSON.stringify(transactionsToAdd));
       this.transactionsService.addTransactions(transactionsToAdd).subscribe(()=>{
-            this.transactionsService.getTransactions(date,new Date(),null).subscribe((data:any[])=>{
+            this.transactionsService.getTransactionsByDate(date,new Date()).subscribe((data:any[])=>{
               this.transactions = this.initTransactions(data);
             });            
           },err=>console.log('error adding transactions',err));
