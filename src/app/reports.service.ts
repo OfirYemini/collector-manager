@@ -13,6 +13,8 @@ export class ReportsService {
   constructor(private httpClient: HttpClient) { }
 
   public getAllReports(from:Date,to:Date){       
+    from.setHours(0, 0, 0, 0); // start of day
+    to.setHours(23, 59, 59, 999); // end of day
     return this.httpClient.get(`${this.SERVER_URL + this.endpoint}/?from=${from.getTime()}&to=${to.getTime()}`);
   }
 

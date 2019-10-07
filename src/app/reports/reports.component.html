@@ -1,17 +1,17 @@
 <div class="root-element" dir="rtl">
 <mat-form-field>
     <mat-label>שנתון</mat-label>
-    <mat-select>
-      <mat-option *ngFor="let year of years" [value]="year">
-        {{year}}
+    <mat-select [(value)]="selectedYear">
+      <mat-option *ngFor="let year of years" [value]="year.value">
+        {{year.text}}
       </mat-option>
     </mat-select>
   </mat-form-field>
 <mat-form-field>
     <mat-label>חציון</mat-label>
-    <mat-select>
-      <mat-option *ngFor="let period of periods" [value]="period">
-        {{period}}
+    <mat-select [(value)]="selectedPeriodIndex">
+      <mat-option *ngFor="let period of periods;let i=index" [value]="i">
+        {{period.text}}
       </mat-option>
     </mat-select>
   </mat-form-field>
