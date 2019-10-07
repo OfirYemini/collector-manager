@@ -69,8 +69,8 @@ PUT https://kgz5a5cmll.execute-api.eu-central-1.amazonaws.com/dev/transactions/2
 
 {
     "userId": 2,
-    "transactionTypeId": 1,
-    "amount":26,
+    "typeId": 1,
+    "amount":88,
     "date": "2019-09-15T16:15:15"
 }
 

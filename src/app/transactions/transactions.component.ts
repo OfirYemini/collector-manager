@@ -85,22 +85,22 @@ export class TransactionsComponent implements OnInit {
         var prayersFullName = data.users.map(p => p.lastName + ' ' + p.firstName);
         this.addPrayerControl.setValue(this.newRow.userName);
         this.newRow.filteredUsers = data.users;
-        this.initTransactions(data.transactions);
+        this.transactions = this.initTransactions(data.transactions);
       })
   }
-  private initTransactions(transactions: any[]) {
+  private initTransactions(transactions: any[]):any[] {
     let _this = this;
     transactions.forEach(function (obj) {
       let user = _this.users.filter(u => u.id == obj.userId)[0];
       obj.userFullName = user.lastName + ' ' + user.firstName;
       obj.filteredUsers = _this.users;
     });
-    this.transactions = transactions;
+    return transactions;
   }
 
   getTransactions() {    
     this.transactionsService.getTransactions(this.defaultFrom,new Date(),null).subscribe((transactions : any[])=>{      
-      this.initTransactions(transactions);      
+      this.transactions = this.initTransactions(transactions);      
     });
   }
   filterTransactions(val) {      
@@ -125,18 +125,34 @@ export class TransactionsComponent implements OnInit {
   }
   saveTransaction(trans:any) {
     console.log(trans);    
-    // this.transactionsService.updateTransaction(trans.id,trans
-    // }).subscribe((data : any)=>{
-    //   this.refreshUsers();
-    //   this.action = null;
-    //   this.updatedUserId = null;
-    // },err=>console.log('error saving user',err));
+
+    this.transactionsService.updateTransaction(trans.id,{
+      userId: trans.userId,
+      typeId: trans.typeId,
+      amount:trans.amount,
+      date: trans.date
+    }).subscribe((data : any)=>{
+      this.transactionsService.getTransaction(trans.id).subscribe((updatedTrans : any)=>{        
+        const transIndex = this.transactions.map(t => t.id).indexOf(trans.id);
+        
+        updatedTrans = this.initTransactions([updatedTrans])[0];
+        this.transactions[transIndex].userFullName= updatedTrans.userFullName;//todo: remove & resolve this
+        this.transactions[transIndex] = updatedTrans;
+        
+        this.action = null;
+        this.updatedTransactionId = null;
+      });
+    },err=>console.log('error saving user',err));
   }
   deleteTransaction(transId: number) {
-    // this.usersService.deleteUser(userId).subscribe(()=>{
-    //   this.refreshUsers();
-    //   this.action = null;
-    //   this.updatedUserId = null;
+    // this.transactionsService.deleteTransaction(transId).subscribe(()=>{
+    //   this.transactionsService.getTransactions(trans.id).subscribe((updatedTrans : any)=>{
+    //     this.action = null;
+    //     this.updatedTransactionId = null;
+    //     const transIndex = this.transactions.map(t => t.id).indexOf(trans.id);
+    //     this.transactions[transIndex] = this.initTransactions([updatedTrans])[0];
+        
+    //   });
     // },err=>console.log('error removing user',err));
   }
   
@@ -171,7 +187,7 @@ export class TransactionsComponent implements OnInit {
       console.log('template', JSON.stringify(transactionsToAdd));
       this.transactionsService.addTransactions(transactionsToAdd).subscribe(()=>{
             this.transactionsService.getTransactions(date,new Date(),null).subscribe((data:any[])=>{
-              this.initTransactions(data);
+              this.transactions = this.initTransactions(data);
             });            
           },err=>console.log('error adding transactions',err));
     }
