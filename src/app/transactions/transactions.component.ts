@@ -81,8 +81,7 @@ export class TransactionsComponent implements OnInit {
         });
         this.users = data.users;
         this.onTemplateChanged(1);        
-        
-        var prayersFullName = data.users.map(p => p.lastName + ' ' + p.firstName);
+                
         this.addPrayerControl.setValue(this.newRow.userName);
         this.newRow.filteredUsers = data.users;
         this.transactions = this.initTransactions(data.transactions);

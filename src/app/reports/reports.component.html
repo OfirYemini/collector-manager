@@ -26,7 +26,7 @@
     <div *ngFor="let report of reports" class="invoice">
         <div class=report-header>
             <div>:לכבוד</div>
-            <div>{{report.payload.fullName}}</div>
+            <div>{{users[report.userId].fullName}}</div>
             
             <div> להלן פירוט פעילותך בחשבון עד לערב {{hebrewDate.festival}} {{hebrewDate.year}}</div>
         </div>
@@ -37,10 +37,10 @@
                 <th>חובה\זכות</th>
             </thead>
             <tbody>
-                <ng-container *ngFor="let row of report.payload.transactions">
+                <ng-container *ngFor="let row of report.transactions">
                     <tr>
                         <td>{{ row.date }}</td>
-                        <td>{{ row.description }}</td>
+                        <td>{{ row.typeName }}</td>
                         <td class="amount"><i class="fa fa-shekel">{{ row.amount }}</i></td>
                     </tr>
                 </ng-container>
@@ -57,7 +57,7 @@
                         <div>סה"כ יתרתך:</div>
                     </td>
                     <td class="amount">
-                        <div><i class="fa fa-shekel">{{ report.payload.closingBalance }}</i></div>
+                        <div><i class="fa fa-shekel">{{ report.closingBalance }}</i></div>
                     </td>
                 </tr>
             </tfoot>
