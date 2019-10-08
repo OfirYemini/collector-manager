@@ -80,7 +80,8 @@ export class ReportsComponent implements OnInit {
       this.reports = data.map((r)=>{
         r.transactions = r.transactions.map((t)=>{
           let hebDate = new HebcalDate(new Date(t.date));
-          t.date = Hebcal.gematriya(hebDate.getDate()) + ' ' + this.gregToHebMonth[hebDate.getMonthName()];
+          var isStartOfPeriod = (selectedPeriod.startDay-1)==hebDate.getDate() && selectedPeriod.startMonth==hebDate.getMonth();
+          t.date = isStartOfPeriod ? ('ערב ' + selectedPeriod.startText + ' ' + this.selectedYear.text): (Hebcal.gematriya(hebDate.getDate()) + ' ' + this.gregToHebMonth[hebDate.getMonthName()]);
           return t;
         },this);
         return r;
