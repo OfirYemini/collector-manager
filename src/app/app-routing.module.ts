@@ -5,8 +5,7 @@ import { UsersComponent } from './users/users.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import { PrintLayoutComponent } from './print-layout/print-layout.component';
-import { InvoiceComponent } from './invoice/invoice.component';
+
 
 const routes: Routes = [
   { path: '', component: HomeComponent },

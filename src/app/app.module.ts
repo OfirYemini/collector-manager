@@ -30,13 +30,11 @@ import { UsersService } from './users.service';
 import { TransactionsService } from './transactions.service';
 import { DataService } from './data.service';
 import { HttpClientModule } from '@angular/common/http';
-import { PrintLayoutComponent } from './print-layout/print-layout.component';
-import { InvoiceComponent } from './invoice/invoice.component';
 import { ReportsService } from './reports.service';
 @NgModule({
   declarations: [
     AppComponent,    
-    DialogBoxComponent, NavComponent, HomeComponent, UsersComponent, TransactionsComponent, ReportsComponent, PrintLayoutComponent, InvoiceComponent
+    DialogBoxComponent, NavComponent, HomeComponent, UsersComponent, TransactionsComponent, ReportsComponent, 
   ],
   imports: [
     BrowserModule,

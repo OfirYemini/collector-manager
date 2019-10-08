@@ -86,7 +86,4 @@ table, th , td  {
       font-weight: 600;
   }
 
-  @media print {
-    app-reports * {display:none !important;;}
-    app-reports div.printable-invoice { display: block !important;; }
-  }
+  

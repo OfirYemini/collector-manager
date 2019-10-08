@@ -21,3 +21,8 @@ table {
     padding: 1px 4px;
   }
 
+  @media print {
+    mat-toolbar * {display:none;}    
+    div.non-printable { display: none; }
+    div.printable { display: block !important; }
+  }
