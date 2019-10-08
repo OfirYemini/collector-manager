@@ -2,7 +2,7 @@
 <mat-form-field>
     <mat-label>שנתון</mat-label>
     <mat-select [(value)]="selectedYear">
-      <mat-option *ngFor="let year of years" [value]="year.value">
+      <mat-option *ngFor="let year of years" [value]="year">
         {{year.text}}
       </mat-option>
     </mat-select>
@@ -11,7 +11,7 @@
     <mat-label>חציון</mat-label>
     <mat-select [(value)]="selectedPeriodIndex">
       <mat-option *ngFor="let period of periods;let i=index" [value]="i">
-        {{period.text}}
+        {{period.startText + "-" + period.endText}}
       </mat-option>
     </mat-select>
   </mat-form-field>
@@ -28,7 +28,7 @@
             <div>:לכבוד</div>
             <div>{{users[report.userId].fullName}}</div>
             
-            <div> להלן פירוט פעילותך בחשבון עד לערב {{hebrewDate.festival}} {{hebrewDate.year}}</div>
+            <div> להלן פירוט פעילותך בחשבון עד {{periods[selectedPeriodIndex].endText}} {{selectedYear.text}}</div>
         </div>
         <table dir="rtl">
             <thead>
