@@ -1,4 +1,4 @@
-<table mat-table class="full-width-table" matSort aria-label="Elements" [dataSource]="users" dir="rtl">
+<table mat-table class="full-width-table" matSort aria-label="Elements" [dataSource]="dataSource" dir="rtl">
     <!-- Id Column -->
     <ng-container matColumnDef="id">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>מספר מתפלל</th>
@@ -118,3 +118,4 @@
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
 </table>
+<mat-paginator [pageSizeOptions]="[20, 30, 50]" showFirstLastButtons></mat-paginator>
