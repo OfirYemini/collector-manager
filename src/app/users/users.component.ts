@@ -1,6 +1,6 @@
 import { UsersService } from '../users.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatDialog, MatTable, MatPaginator, MatTableDataSource } from '@angular/material';
+import { MatDialog, MatTable, MatPaginator, MatTableDataSource, MatSort } from '@angular/material';
 import { DialogBoxComponent } from '../dialog-box/dialog-box.component';
 
 @Component({
@@ -16,6 +16,8 @@ export class UsersComponent implements OnInit {
   updatedUserId: number;
   newRow: any = { isGuest: false };
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
+
   dataSource:MatTableDataSource<User>;
   constructor(private usersService: UsersService, public dialog: MatDialog) { }
 
@@ -25,13 +27,15 @@ export class UsersComponent implements OnInit {
       this.users = data.filter(u => u.isActive);      
       this.dataSource = new MatTableDataSource<User>(this.users);
       this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
     });
   }
-
+  
   refreshUsers() {
     this.usersService.getUsers().subscribe((data: any[]) => {
       console.log('refreshUsers ', data);
       this.users = data.filter(u => u.isActive);
+      this.dataSource.data = this.users;
       this.table.renderRows();
     });
   }
