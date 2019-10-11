@@ -17,4 +17,4 @@ custom:
   secrets: ${file(../../../secrets.yml):${self:custom.stage}}
   config: file(../../config/${self:custom.stage}.json)
 
-  #https://github.com/serverless/examples
+  #https://github.com/serverless/examples/tree/master/aws-node-graphql-and-rds
