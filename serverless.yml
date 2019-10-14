@@ -14,17 +14,14 @@ provider:
   runtime: nodejs10.x
   region: eu-central-1
 
-resources:
-  Resources:
-    PostgresSqlRdsInstance: ${file(./src/resources/rds/PostgreSqlRDSInstance.yml)}    
+# resources:
+#   Resources:
+#     PostgresSqlRdsInstance: ${file(./src/resources/rds/PostgreSqlRDSInstance.yml)}    
 
 
 custom:
-  #stage: ${opt:stage, 'test'}  
-  stage: test  
-  #config: file(./src/config/${self:custom.stage}.json)
-  #config: file(./src/config/${opt:stage}.json)
-  config: ${file(./src/config/test.json)}
+  stage: ${opt:stage, 'dev'}    
+  config: file(./src/config/${self:custom.stage}.json) 
   secrets: ${file(secrets.yml)}
 
   hooks:
