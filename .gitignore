@@ -50,5 +50,6 @@ jspm_packages
 
 # Serverless directories
 .serverless/
+**/.serverless
 #.serverless/
 secrets.yml
