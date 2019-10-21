@@ -3,7 +3,7 @@ package:
     - secrets.yml
 
 service:
-  name: collector-manager
+  name: gabay-notebook
 
 plugins:
   - serverless-hooks-plugin
@@ -28,6 +28,6 @@ custom:
     before:package:createDeploymentArtifacts:
       - npm run build-prod
   s3Sync:
-    - bucketName: collector-manager
+    - bucketName: gabay-notebook.com
       localDir: dist/collector-manager
       acl: public-read
