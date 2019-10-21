@@ -1,9 +1,10 @@
-<mat-toolbar>  
-    <mat-toolbar-row>
+<mat-toolbar color="primary">  
+    <mat-toolbar-row>        
         <span class="example-fill-remaining-space"></span>
-        <a mat-button [routerLink]="'/reports'"> דוחות </a>        
-        <a mat-button [routerLink]="'/transactions'"> תנועות </a>
-        <a mat-button [routerLink]="'/users'"> מתפללים </a>
-        
+        <button *ngIf="_authService.isAuthenticated()" mat-button [routerLink]="'/reports'"> דוחות </button>
+        <button *ngIf="_authService.isAuthenticated()" mat-button [routerLink]="'/transactions'"> תנועות </button>
+        <button *ngIf="_authService.isAuthenticated()" mat-button [routerLink]="'/users'"> מתפללים </button>        
+        <button *ngIf="!_authService.isAuthenticated()" mat-button [routerLink]="'/login'"> התחבר </button>        
+        <button *ngIf="_authService.isAuthenticated()" mat-button (click)="disconnect()"> התנתק </button>        
     </mat-toolbar-row>     
   </mat-toolbar>
