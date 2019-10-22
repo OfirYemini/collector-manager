@@ -31,10 +31,11 @@ import { TransactionsService } from './transactions.service';
 import { DataService } from './data.service';
 import { HttpClientModule } from '@angular/common/http';
 import { ReportsService } from './reports.service';
+
 @NgModule({
   declarations: [
     AppComponent,    
-    DialogBoxComponent, NavComponent, HomeComponent, UsersComponent, TransactionsComponent, ReportsComponent, 
+    DialogBoxComponent, NavComponent, HomeComponent, UsersComponent, TransactionsComponent, ReportsComponent,  
   ],
   imports: [
     BrowserModule,
