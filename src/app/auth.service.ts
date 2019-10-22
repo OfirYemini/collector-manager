@@ -18,7 +18,7 @@ export class AuthService {
   }
 
   public isAuthenticated() {
-    return false;
+    return this._userPool.getCurrentUser() != null;
   }
 
   public signOut() {
