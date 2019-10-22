@@ -8,14 +8,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
-  constructor(private _authService:AuthService) { }
+  constructor(public _authService:AuthService) { }
 
   ngOnInit() {
-    if(!this._authService.isAuthenticated()){
-      this._authService.signIn().subscribe(result=>{
-        console.log(result);
-      });
-    }
+    
   }
 
 }
