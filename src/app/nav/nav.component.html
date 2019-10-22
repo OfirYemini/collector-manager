@@ -5,6 +5,6 @@
         <button *ngIf="_authService.isAuthenticated()" mat-button [routerLink]="'/transactions'"> תנועות </button>
         <button *ngIf="_authService.isAuthenticated()" mat-button [routerLink]="'/users'"> מתפללים </button>        
         <button *ngIf="!_authService.isAuthenticated()" mat-button [routerLink]="'/login'"> התחבר </button>        
-        <button *ngIf="_authService.isAuthenticated()" mat-button (click)="disconnect()"> התנתק </button>        
+        <button *ngIf="_authService.isAuthenticated()" mat-button (click)="_authService.signOut()"> התנתק </button>        
     </mat-toolbar-row>     
   </mat-toolbar>

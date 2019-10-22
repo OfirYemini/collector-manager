@@ -13,6 +13,9 @@ export class AuthService {
     return false;
   }
 
+  public signOut(){
+    console.log('todo');
+  }
   public signIn(){
     var authData = {
       ClientId : 'tqopm6bgbqm90nq5iipg2a7b7', // Your client id here
