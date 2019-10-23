@@ -5,13 +5,14 @@ import { UsersComponent } from './users/users.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { AuthGuard } from './auth.guard';
 
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
-  { path: 'users', component: UsersComponent },
-  { path: 'transactions', component: TransactionsComponent },
-  { path: 'reports', component: ReportsComponent},  
+  { path: 'users', component: UsersComponent,canActivate:[AuthGuard] },
+  { path: 'transactions', component: TransactionsComponent,canActivate:[AuthGuard] },
+  { path: 'reports', component: ReportsComponent,canActivate:[AuthGuard]},  
 ];
 
 @NgModule({

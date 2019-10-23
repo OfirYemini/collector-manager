@@ -1,19 +1,23 @@
 import { Injectable } from '@angular/core';
 import {  CognitoUserPool, CognitoUser } from 'amazon-cognito-identity-js'
 import * as AmazonCognitoIdentity from 'amazon-cognito-identity-js';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AuthService {  
+export class AuthService {
+    
   private _userPool:CognitoUserPool;
   private _cognitoUser: CognitoUser;
   private clientId: string = 'tqopm6bgbqm90nq5iipg2a7b7';
   _userData: AmazonCognitoIdentity.UserData;
-  tokenId: string;
+  tokenId: string;  
+  subject: Subject<string>;
 
   constructor() {    
+    this.subject = new Subject();
+    
     let data = {
       UserPoolId: 'eu-central-1_kbheFh6SU', // your user pool id here
       ClientId: this.clientId
@@ -25,9 +29,12 @@ export class AuthService {
       user.getSession( (err, session) => {
         if (err) {
           console.log(err);
+          that.subject.error(err);
           return;
         }
         that.tokenId = session.getIdToken().getJwtToken(); 
+        that.subject.next(that.tokenId);
+        that.subject.complete();
         //console.log(that.tokenId);
         user.getUserData(function(err, userData) {
           if (err) {
@@ -41,18 +48,22 @@ export class AuthService {
     }
     
   }
+  onAuthentication(): Observable<string> {
+    return this.subject.asObservable();    
+  }
   getTokenId(): string {
-    //return this.tokenId;
-    return 'eyJraWQiOiJGUXFVZEVySUFOR2NRcW1FVGE3U1wvRlMxNGJkNGQ4aml4MDQybVQ1d1hGST0iLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiI5ZjgwN2QzNi1jZGE3LTRiNDktYTJjZC0yMTg1OWIzMmVlOGEiLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwiaXNzIjoiaHR0cHM6XC9cL2NvZ25pdG8taWRwLmV1LWNlbnRyYWwtMS5hbWF6b25hd3MuY29tXC9ldS1jZW50cmFsLTFfa2JoZUZoNlNVIiwicGhvbmVfbnVtYmVyX3ZlcmlmaWVkIjp0cnVlLCJjb2duaXRvOnVzZXJuYW1lIjoiOWY4MDdkMzYtY2RhNy00YjQ5LWEyY2QtMjE4NTliMzJlZThhIiwiYXVkIjoidHFvcG02YmdicW05MG5xNWlpcGcyYTdiNyIsImV2ZW50X2lkIjoiMmZkYmE3NmEtNGYxMS00OGI2LWE3MzItZDAzZmZhMWFlNjk3IiwidG9rZW5fdXNlIjoiaWQiLCJhdXRoX3RpbWUiOjE1NzE4MjEzMTAsInBob25lX251bWJlciI6Iis5NzI1MjMzOTIwMTciLCJleHAiOjE1NzE4Mjk0NTEsImlhdCI6MTU3MTgyNTg1MSwiZW1haWwiOiJvZmlyeTE5ODFAZ21haWwuY29tIn0.DqWsiRl3bFVAjT80ZOzdHiFdh8weu10CL0xykvqjFav8Q-BT_DMu5B-1B4ozUv22c3_xyqtCbuKPg5m81GT_hGb0Xa97VveQRMUMInrnQAHylDuQiwjdkkwJKFx26VeIwYO4OTKDUHzD6LKic4mNmXNEjxU6MFmhdnAviR8bRe2Zzd2CRN9x9ynDUOBVlIBL3T1rOyvXWzy9FBt9K9wR4KbLEJ2VgN68Q4szfm4SKec9zyLudF1U9Fe6ocQplx67k8vxihgPCcWWvwy2OcagxSb5_rDIBZpReGyjZKM7HIRtNLdxYvV3IK9CzNEMyg5xCeh4KVuOGA5ld274j-dKXw';
+    return this.tokenId;
+    //return 'eyJraWQiOiJGUXFVZEVySUFOR2NRcW1FVGE3U1wvRlMxNGJkNGQ4aml4MDQybVQ1d1hGST0iLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiI5ZjgwN2QzNi1jZGE3LTRiNDktYTJjZC0yMTg1OWIzMmVlOGEiLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwiaXNzIjoiaHR0cHM6XC9cL2NvZ25pdG8taWRwLmV1LWNlbnRyYWwtMS5hbWF6b25hd3MuY29tXC9ldS1jZW50cmFsLTFfa2JoZUZoNlNVIiwicGhvbmVfbnVtYmVyX3ZlcmlmaWVkIjp0cnVlLCJjb2duaXRvOnVzZXJuYW1lIjoiOWY4MDdkMzYtY2RhNy00YjQ5LWEyY2QtMjE4NTliMzJlZThhIiwiYXVkIjoidHFvcG02YmdicW05MG5xNWlpcGcyYTdiNyIsImV2ZW50X2lkIjoiMmZkYmE3NmEtNGYxMS00OGI2LWE3MzItZDAzZmZhMWFlNjk3IiwidG9rZW5fdXNlIjoiaWQiLCJhdXRoX3RpbWUiOjE1NzE4MjEzMTAsInBob25lX251bWJlciI6Iis5NzI1MjMzOTIwMTciLCJleHAiOjE1NzE4Mjk0NTEsImlhdCI6MTU3MTgyNTg1MSwiZW1haWwiOiJvZmlyeTE5ODFAZ21haWwuY29tIn0.DqWsiRl3bFVAjT80ZOzdHiFdh8weu10CL0xykvqjFav8Q-BT_DMu5B-1B4ozUv22c3_xyqtCbuKPg5m81GT_hGb0Xa97VveQRMUMInrnQAHylDuQiwjdkkwJKFx26VeIwYO4OTKDUHzD6LKic4mNmXNEjxU6MFmhdnAviR8bRe2Zzd2CRN9x9ynDUOBVlIBL3T1rOyvXWzy9FBt9K9wR4KbLEJ2VgN68Q4szfm4SKec9zyLudF1U9Fe6ocQplx67k8vxihgPCcWWvwy2OcagxSb5_rDIBZpReGyjZKM7HIRtNLdxYvV3IK9CzNEMyg5xCeh4KVuOGA5ld274j-dKXw';
   }  
   public getCurrentUserEmail() {    
     return this._userData!==null ? this._userData.UserAttributes.find(t=>t.Name=="email").Value : null;
   }
 
   public isAuthenticated() {
-    var currentUser =  this._userPool.getCurrentUser();
+    return this.tokenId!==null;
+    // var currentUser =  this._userPool.getCurrentUser();
     
-    return currentUser!==null;
+    // return currentUser!==null;
   }
 
   public signOut() {
@@ -76,9 +87,12 @@ export class AuthService {
       var that = this;
       this._cognitoUser.authenticateUser(authenticationDetails, {
         onSuccess: function (result) {
-          var accessToken = result.getAccessToken().getJwtToken();
+          var accessToken = result.getIdToken().getJwtToken();
           observer.next(accessToken);
           observer.complete();
+          
+          that.subject.next(accessToken);
+          that.subject.complete();
         },
 
         onFailure: function (err) {          
@@ -89,6 +103,7 @@ export class AuthService {
           this._cognitoUser.sendMFACode(verificationCode, this);
         }
       });
-    });
+    });    
+    
   }
 }
