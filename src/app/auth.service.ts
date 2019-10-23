@@ -8,17 +8,30 @@ import { Observable } from 'rxjs';
 })
 export class AuthService {  
   private _userPool:CognitoUserPool;
-  _cognitoUser: CognitoUser;
+  private _cognitoUser: CognitoUser;
+  private clientId: string = 'tqopm6bgbqm90nq5iipg2a7b7';
+
   constructor() {    
     let data = {
       UserPoolId: 'eu-central-1_kbheFh6SU', // your user pool id here
-      ClientId: 'tqopm6bgbqm90nq5iipg2a7b7'
+      ClientId: this.clientId
     };
     this._userPool = new AmazonCognitoIdentity.CognitoUserPool(data);
+
+    this._userPool.getCurrentUser().getSession( (err, session) => {
+      if (err) {
+        console.log(err);
+        return;
+      }
+      const token = session.getIdToken().getJwtToken(); 
+      console.log(token);
+    });
   }
 
   public isAuthenticated() {
-    return this._userPool.getCurrentUser() != null;
+    var currentUser =  this._userPool.getCurrentUser();
+    
+    return currentUser!==null;
   }
 
   public signOut() {

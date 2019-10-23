@@ -54,6 +54,8 @@ functions:
               - X-Amz-Security-Token
               - X-Amz-User-Agent
             allowCredentials: false
+          authorizer:
+            arn: ${self:custom.shared.authorizerArn}
 
   list:
     handler: list.handler
@@ -76,6 +78,8 @@ functions:
               - X-Amz-Security-Token
               - X-Amz-User-Agent
             allowCredentials: false
+          authorizer:
+            arn: ${self:custom.shared.authorizerArn}
   settings:
       handler: settings.handler
       package:
@@ -97,6 +101,8 @@ functions:
                 - X-Amz-Security-Token
                 - X-Amz-User-Agent
               allowCredentials: false
+            authorizer:
+              arn: ${self:custom.shared.authorizerArn}
 
   get:
     handler: get.handler
@@ -119,6 +125,8 @@ functions:
               - X-Amz-Security-Token
               - X-Amz-User-Agent
             allowCredentials: false
+          authorizer:
+            arn: ${self:custom.shared.authorizerArn}
 
   update:
     handler: update.handler
@@ -141,6 +149,8 @@ functions:
               - X-Amz-Security-Token
               - X-Amz-User-Agent
             allowCredentials: false
+          authorizer:
+            arn: ${self:custom.shared.authorizerArn}
 
   delete:
     handler: delete.handler
@@ -163,6 +173,8 @@ functions:
               - X-Amz-Security-Token
               - X-Amz-User-Agent
             allowCredentials: false
+          authorizer:
+            arn: ${self:custom.shared.authorizerArn}
   reports:
     handler: reports.handler
     package:
@@ -184,7 +196,10 @@ functions:
               - X-Amz-Security-Token
               - X-Amz-User-Agent
             allowCredentials: false
+          authorizer:
+            arn: ${self:custom.shared.authorizerArn}
 custom:
   stage: ${opt:stage, 'dev'}
   secrets: ${file(../../../secrets.yml):${self:custom.stage}}
   config: file(../../config/${self:custom.stage}.json)
+  shared: ${file(../../../shared.yml):${self:custom.stage}}

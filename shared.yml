@@ -1,0 +1,16 @@
+default: &default
+  <<: *default
+  authorizerArn: arn:aws:cognito-idp:eu-central-1:345413125048:userpool/eu-central-1_kbheFh6SU
+
+dev:
+  <<: *default
+  #authorizerArn: arn:aws:cognito-idp:eu-central-1:345413125048:userpool/eu-central-1_kbheFh6SU
+
+test:
+  <<: *default
+  #authorizerArn: arn:aws:cognito-idp:eu-central-1:345413125048:userpool/eu-central-1_kbheFh6SU
+
+
+prod:
+  <<: *default
+  #authorizerArn: arn:aws:cognito-idp:eu-central-1:345413125048:userpool/eu-central-1_kbheFh6SU
