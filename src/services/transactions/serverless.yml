@@ -70,6 +70,7 @@ functions:
           method: get
           cors:
             origin: '*' # <-- Specify allowed origin
+            #origin: '*.gabay-notebook.com' # <-- Specify allowed origin
             headers: # <-- Specify allowed headers
               - Content-Type
               - X-Amz-Date

@@ -10,6 +10,7 @@ export class AuthService {
   private _userPool:CognitoUserPool;
   private _cognitoUser: CognitoUser;
   private clientId: string = 'tqopm6bgbqm90nq5iipg2a7b7';
+  _userData: AmazonCognitoIdentity.UserData;
 
   constructor() {    
     let data = {
@@ -17,15 +18,31 @@ export class AuthService {
       ClientId: this.clientId
     };
     this._userPool = new AmazonCognitoIdentity.CognitoUserPool(data);
+    let user = this._userPool.getCurrentUser();
+    var that = this;
+    if(user!==null) {
+      user.getSession( (err, session) => {
+        if (err) {
+          console.log(err);
+          return;
+        }
+        const token = session.getIdToken().getJwtToken(); 
+        //console.log(token);
+        user.getUserData(function(err, userData) {
+          if (err) {
+            alert(err.message || JSON.stringify(err));
+            return;
+          }
+          that._userData = userData;
+        });
+      });
+      
+    }
+    
+  }
 
-    this._userPool.getCurrentUser().getSession( (err, session) => {
-      if (err) {
-        console.log(err);
-        return;
-      }
-      const token = session.getIdToken().getJwtToken(); 
-      console.log(token);
-    });
+  public getCurrentUserEmail() {    
+    return this._userData!==null ? this._userData.UserAttributes.find(t=>t.Name=="email").Value : null;
   }
 
   public isAuthenticated() {
@@ -35,7 +52,7 @@ export class AuthService {
   }
 
   public signOut() {
-    this._cognitoUser.signOut();
+    this._userPool.getCurrentUser().signOut();
   }
   public signIn(username:string,password:string) {
     //this._auth.setState();

@@ -1,10 +1,14 @@
 <mat-toolbar color="primary">  
+        <mat-toolbar-row> 
+            <span class="example-fill-remaining-space"></span>
+            <span class="welcome" *ngIf="_authService.isAuthenticated()">{{currentUserName}} ברוך הבא</span>       
+        </mat-toolbar-row>
     <mat-toolbar-row>        
         <span class="example-fill-remaining-space"></span>
+        <button *ngIf="_authService.isAuthenticated()" mat-button (click)="_authService.signOut()"> התנתק </button>        
         <button *ngIf="_authService.isAuthenticated()" mat-button [routerLink]="'/reports'"> דוחות </button>
         <button *ngIf="_authService.isAuthenticated()" mat-button [routerLink]="'/transactions'"> תנועות </button>
-        <button *ngIf="_authService.isAuthenticated()" mat-button [routerLink]="'/users'"> מתפללים </button>        
-        <button *ngIf="!_authService.isAuthenticated()" mat-button [routerLink]="'/login'"> התחבר </button>        
-        <button *ngIf="_authService.isAuthenticated()" mat-button (click)="_authService.signOut()"> התנתק </button>        
+        <button *ngIf="_authService.isAuthenticated()" mat-button [routerLink]="'/users'"> מתפללים </button>                        
+        
     </mat-toolbar-row>     
   </mat-toolbar>

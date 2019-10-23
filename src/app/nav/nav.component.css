@@ -7,3 +7,12 @@
   ul {
      list-style: none;
   }
+
+  .welcome {
+     padding-right: 16px;
+     padding-top: 15px;
+  }
+
+  mat-toolbar-row:first-child{
+     height: 20px;
+  }

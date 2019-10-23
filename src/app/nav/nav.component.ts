@@ -7,10 +7,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./nav.component.css']
 })
 export class NavComponent implements OnInit {
-
+  currentUserName:string;
   constructor(public _authService:AuthService ) { }
 
   ngOnInit() {
+    this.currentUserName = this._authService.getCurrentUserEmail();
   }
 
 }
