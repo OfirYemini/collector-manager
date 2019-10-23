@@ -1,5 +1,6 @@
+import { AuthService } from './auth.service';
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -9,19 +10,22 @@ export class TransactionsService {
   endpoint = 'transactions';
   settingsEndpoint = 'transactionsSettings';
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient, private authService: AuthService) { }
 
   public getTransactionsByDate(from: Date, to: Date) {
     from.setHours(0, 0, 0, 0); // start of day
     to.setHours(23, 59, 59, 999); // end of day
-    return this.httpClient.get(`${this.SERVER_URL + this.endpoint}/?from=${from.getTime()}&to=${to.getTime()}`);
+    console.log(this.authService.getTokenId());
+    const headers = new HttpHeaders({ 'Authorization': this.authService.getTokenId() });
+    return this.httpClient.get(`${this.SERVER_URL + this.endpoint}/?from=${from.getTime()}&to=${to.getTime()}`, { headers: headers });
   }
   public getTransactionsByIds(ids: number[]) {
     return this.httpClient.get(`${this.SERVER_URL + this.endpoint}/?id=${ids.join(',')}`);
   }
 
   public getTransactionTypes() {
-    return this.httpClient.get(`${this.SERVER_URL + this.endpoint}/settings`);
+    const headers = new HttpHeaders({ 'Authorization': this.authService.getTokenId() });
+    return this.httpClient.get(`${this.SERVER_URL + this.endpoint}/settings`,{headers:headers});
   }
 
   public getTransaction(id: number) {

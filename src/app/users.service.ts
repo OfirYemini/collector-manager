@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { stringify } from '@angular/compiler/src/util';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,10 +13,12 @@ export class UsersService {
   SERVER_URL: string = "https://24mdfdusj8.execute-api.eu-central-1.amazonaws.com/dev/";
   endpoint = 'users';
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient, private authService: AuthService) { }
 
   public getUsers(){ 
-       return this.httpClient.get(`${this.SERVER_URL + this.endpoint}`);
+    const headers = new HttpHeaders({ 'Authorization': this.authService.getTokenId() });
+    //headers.set('myheader','myvalue');    
+    return this.httpClient.get(`${this.SERVER_URL + this.endpoint}`,{headers:headers});
   }
 
   public getUser(id:number){
