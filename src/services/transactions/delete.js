@@ -18,6 +18,7 @@ exports.handler = async (event) => {
         response = sendRes(204,{});
         
     } catch (e) {
+        console.log(`error on delete trans id ${id}`,e);
         response = sendRes(404,{});
     }
     
