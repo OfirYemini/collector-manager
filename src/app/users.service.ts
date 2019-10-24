@@ -12,27 +12,31 @@ export class UsersService {
   //SERVER_URL: string = "http://localhost:8080/api/";
   SERVER_URL: string = "https://24mdfdusj8.execute-api.eu-central-1.amazonaws.com/dev/";
   endpoint = 'users';
+  private headers:HttpHeaders;
+  constructor(private httpClient: HttpClient, private authService: AuthService) { 
+    this.authService.onAuthentication().subscribe(tokenId=>{
+      console.log('user service with ', tokenId);
+      this.headers = new HttpHeaders({ 'Authorization': tokenId });      
+    });    
+  }
 
-  constructor(private httpClient: HttpClient, private authService: AuthService) { }
 
   public getUsers(){ 
-    const headers = new HttpHeaders({ 'Authorization': this.authService.getTokenId() });
-    //headers.set('myheader','myvalue');    
-    return this.httpClient.get(`${this.SERVER_URL + this.endpoint}`,{headers:headers});
+    return this.httpClient.get(`${this.SERVER_URL + this.endpoint}`,{headers:this.headers});
   }
 
   public getUser(id:number){
-       return this.httpClient.get(`${this.SERVER_URL + this.endpoint}/${id}`); 
+       return this.httpClient.get(`${this.SERVER_URL + this.endpoint}/${id}`,{headers:this.headers}); 
   }
   
   public addUser(user: {lastName: string,firstName: string,email: string,isGuest: boolean}){
-      return this.httpClient.post(`${this.SERVER_URL + this.endpoint}`,user);
+      return this.httpClient.post(`${this.SERVER_URL + this.endpoint}`,user,{headers:this.headers});
   }
 
   public deleteUser(id:number){
-      return this.httpClient.delete(`${this.SERVER_URL + this.endpoint}/${id}`)
+      return this.httpClient.delete(`${this.SERVER_URL + this.endpoint}/${id}`,{headers:this.headers})
   }
   public updateUser(id: number,details: {lastName: string,firstName: string,email: string,isGuest: boolean}){
-      return this.httpClient.put(`${this.SERVER_URL + this.endpoint}/${id}`,details);
+      return this.httpClient.put(`${this.SERVER_URL + this.endpoint}/${id}`,details,{headers:this.headers});
   }
 }
