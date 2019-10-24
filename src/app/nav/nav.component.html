@@ -5,7 +5,7 @@
         </mat-toolbar-row>
     <mat-toolbar-row>        
         <span class="example-fill-remaining-space"></span>
-        <button *ngIf="_authService.isAuthenticated()" mat-button (click)="_authService.signOut()"> התנתק </button>        
+        <button *ngIf="_authService.isAuthenticated()" mat-button (click)="signOut()"> התנתק </button>        
         <button *ngIf="_authService.isAuthenticated()" mat-button [routerLink]="'/reports'"> דוחות </button>
         <button *ngIf="_authService.isAuthenticated()" mat-button [routerLink]="'/transactions'"> תנועות </button>
         <button *ngIf="_authService.isAuthenticated()" mat-button [routerLink]="'/users'"> מתפללים </button>                        

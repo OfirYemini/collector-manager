@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {  CognitoUserPool, CognitoUser } from 'amazon-cognito-identity-js'
 import * as AmazonCognitoIdentity from 'amazon-cognito-identity-js';
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject, BehaviorSubject, ReplaySubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -12,16 +12,22 @@ export class AuthService {
   private _cognitoUser: CognitoUser;
   private clientId: string = 'tqopm6bgbqm90nq5iipg2a7b7';
   _userData: AmazonCognitoIdentity.UserData;
-  tokenId: string;  
+  tokenId: string = null;  
   subject: Subject<string>;
 
   constructor() {    
-    this.subject = new Subject();
+    this.subject = new ReplaySubject();
     
+    this.subject.subscribe(data=>{
+      console.log('token received',data)
+    },err=>{
+      console.log('error token received',err)
+    },()=>{console.log('subject completed')});
     let data = {
       UserPoolId: 'eu-central-1_kbheFh6SU', // your user pool id here
       ClientId: this.clientId
     };
+
     this._userPool = new AmazonCognitoIdentity.CognitoUserPool(data);
     let user = this._userPool.getCurrentUser();
     var that = this;
@@ -32,24 +38,39 @@ export class AuthService {
           that.subject.error(err);
           return;
         }
-        that.tokenId = session.getIdToken().getJwtToken(); 
-        that.subject.next(that.tokenId);
-        that.subject.complete();
+        
         //console.log(that.tokenId);
-        user.getUserData(function(err, userData) {
-          if (err) {
-            alert(err.message || JSON.stringify(err));
-            return;
-          }
-          that._userData = userData;
-        });
+        this.initAuth(user, session.getIdToken().getJwtToken(),that);
       });
       
     }
     
   }
+  
+  private initAuth(user: CognitoUser, tokenId:string,that: this) {
+    that._cognitoUser = user;
+    that.tokenId = tokenId;
+    user.getUserData(function (err, userData) {
+      if (err) {
+        alert(err.message || JSON.stringify(err));
+        return;
+      }
+      that._userData = userData;
+      that.subject.next(that.tokenId);
+      that.subject.complete();
+    });
+  }
+
   onAuthentication(): Observable<string> {
-    return this.subject.asObservable();    
+    var obs = this.subject.asObservable();    
+
+    // obs.subscribe(data=>{
+    //   console.log('obs token received',data)
+    // },err=>{
+    //   console.log('obs error token received',err)
+    // },()=>{console.log('obs subject completed')});    
+
+    return obs;
   }
   getTokenId(): string {
     return this.tokenId;
@@ -83,16 +104,15 @@ export class AuthService {
       var authenticationDetails =
         new AmazonCognitoIdentity.AuthenticationDetails(authenticationData);
 
-      this._cognitoUser = new AmazonCognitoIdentity.CognitoUser(userData);
+      let user = new AmazonCognitoIdentity.CognitoUser(userData);
       var that = this;
-      this._cognitoUser.authenticateUser(authenticationDetails, {
-        onSuccess: function (result) {
-          var accessToken = result.getIdToken().getJwtToken();
-          observer.next(accessToken);
-          observer.complete();
+      user.authenticateUser(authenticationDetails, {
+        onSuccess: function (result) {          
+          var tokenId = result.getIdToken().getJwtToken();
+          that.initAuth(user,tokenId,that);
           
-          that.subject.next(accessToken);
-          that.subject.complete();
+          observer.next(tokenId);          
+          observer.complete();
         },
 
         onFailure: function (err) {          

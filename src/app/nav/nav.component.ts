@@ -8,10 +8,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavComponent implements OnInit {
   currentUserName:string;
-  constructor(public _authService:AuthService ) { }
+  constructor(public _authService:AuthService) { }
 
   ngOnInit() {
-    this.currentUserName = this._authService.getCurrentUserEmail();
+    this._authService.onAuthentication().subscribe(token=>{
+      this.currentUserName = this._authService.getCurrentUserEmail();
+    });
+    
   }
+  signOut(){
+    this._authService.signOut();
 
+  }
 }
