@@ -2,6 +2,7 @@ import { UsersService } from '../users.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog, MatTable, MatPaginator, MatTableDataSource, MatSort } from '@angular/material';
 import { DialogBoxComponent } from '../dialog-box/dialog-box.component';
+import { ConfirmationDialogComponent } from '../shared/confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'app-users',
@@ -62,6 +63,17 @@ export class UsersComponent implements OnInit {
       this.action = null;
       this.updatedUserId = null;
     }, err => console.log('error saving user', err));
+  }
+  onDeleteClick(userId:number){
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '200px',
+      data: "האם אתה בטוח?"
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if(result) {
+        this.deleteUser(userId);
+      }
+    });
   }
   deleteUser(userId: number) {
     this.usersService.deleteUser(userId).subscribe(() => {

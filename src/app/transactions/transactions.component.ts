@@ -7,6 +7,7 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Observable, combineLatest } from 'rxjs';
 import { startWith, map } from 'rxjs/operators';
 import { NgForm } from '@angular/forms';
+import { ConfirmationDialogComponent } from '../shared/confirmation-dialog/confirmation-dialog.component';
 @Component({
   selector: 'app-transactions',
   templateUrl: './transactions.component.html',
@@ -154,7 +155,20 @@ export class TransactionsComponent implements OnInit {
       });
     },err=>console.log('error saving user',err));
   }
-  deleteTransaction(transId: number) {
+
+  onDeleteClick(transId:number){
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '200px',
+      data: "האם אתה בטוח?"
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if(result) {
+        this.deleteTransaction(transId);
+      }
+    });
+  }
+
+  deleteTransaction(transId: number) {    
     this.transactionsService.deleteTransaction(transId).subscribe(()=>{
       var ids = this.transactions.map(t=>t.id).filter(id=>id!==transId);
       this.transactionsService.getTransactionsByIds(ids).subscribe((transactions : any[])=>{

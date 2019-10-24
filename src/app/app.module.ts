@@ -19,7 +19,6 @@ import { MatSortModule,
   MatAutocompleteModule,
   MatToolbarModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { DialogBoxComponent } from './dialog-box/dialog-box.component';
 import { NavComponent } from './nav/nav.component';
 import { HomeComponent } from './home/home.component';
 import { UsersComponent } from './users/users.component';
@@ -32,11 +31,18 @@ import { DataService } from './data.service';
 import { HttpClientModule } from '@angular/common/http';
 import { ReportsService } from './reports.service';
 import { LoginComponent } from './login/login.component';
+import { ConfirmationDialogComponent } from './shared/confirmation-dialog/confirmation-dialog.component';
 
 @NgModule({
   declarations: [
     AppComponent,    
-    DialogBoxComponent, NavComponent, HomeComponent, UsersComponent, TransactionsComponent, ReportsComponent, LoginComponent,  
+    NavComponent, 
+    HomeComponent, 
+    UsersComponent, 
+    TransactionsComponent, 
+    ReportsComponent, 
+    LoginComponent, 
+    ConfirmationDialogComponent,  
   ],
   imports: [
     BrowserModule,
@@ -62,7 +68,7 @@ import { LoginComponent } from './login/login.component';
     AngularFontAwesomeModule
   ],
   entryComponents: [
-    DialogBoxComponent
+    ConfirmationDialogComponent
   ],
   providers: [UsersService, TransactionsService,ReportsService],
   bootstrap: [AppComponent]
