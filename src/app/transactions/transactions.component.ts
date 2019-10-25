@@ -30,7 +30,7 @@ export class TransactionsComponent implements OnInit {
   filteredTransactionsTypes: Observable<string[]>;
 
   newRow: any;//{userId: number,typeId: number,amount: number,date: Date};
-  displayedColumns = ['id', 'userName', 'transactionType', 'amount', 'date', 'action'];
+  displayedColumns = ['id', 'userName', 'transactionType', 'amount','comment', 'date', 'action'];
   @ViewChild(MatTable, { static: true }) table: MatTable<any>;
   @ViewChild(NgForm, { static: true }) templateForm: NgForm;
   
