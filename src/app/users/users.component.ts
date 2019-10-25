@@ -1,7 +1,7 @@
 import { UsersService } from '../users.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog, MatTable, MatPaginator, MatTableDataSource, MatSort } from '@angular/material';
-import { DialogBoxComponent } from '../dialog-box/dialog-box.component';
+
 import { ConfirmationDialogComponent } from '../shared/confirmation-dialog/confirmation-dialog.component';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
