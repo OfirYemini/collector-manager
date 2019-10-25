@@ -41,10 +41,8 @@ export class AuthService {
         
         //console.log(that.tokenId);
         this.initAuth(user, session.getIdToken().getJwtToken(),that);
-      });
-      
-    }
-    
+      });      
+    }     
   }
   
   private initAuth(user: CognitoUser, tokenId:string,that: this) {

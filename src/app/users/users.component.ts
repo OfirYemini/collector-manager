@@ -3,6 +3,8 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog, MatTable, MatPaginator, MatTableDataSource, MatSort } from '@angular/material';
 import { DialogBoxComponent } from '../dialog-box/dialog-box.component';
 import { ConfirmationDialogComponent } from '../shared/confirmation-dialog/confirmation-dialog.component';
+import { Router } from '@angular/router';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-users',
@@ -20,9 +22,16 @@ export class UsersComponent implements OnInit {
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   dataSource:MatTableDataSource<User>;
-  constructor(private usersService: UsersService, public dialog: MatDialog) { }
+  constructor(private usersService: UsersService, public dialog: MatDialog,private router: Router,private _authService:AuthService) { 
+    if (!this._authService.isAuthenticated()) {
+      this.router.navigateByUrl('/login');
+    }
+  }
 
   ngOnInit() {
+
+    
+
     this.usersService.getUsers().subscribe((data: any[]) => {
       console.log('ngOnInit ', data);
       this.users = data.filter(u => u.isActive);      

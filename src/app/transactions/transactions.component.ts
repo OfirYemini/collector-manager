@@ -8,6 +8,8 @@ import { Observable, combineLatest } from 'rxjs';
 import { startWith, map } from 'rxjs/operators';
 import { NgForm } from '@angular/forms';
 import { ConfirmationDialogComponent } from '../shared/confirmation-dialog/confirmation-dialog.component';
+import { Router } from '@angular/router';
+import { AuthService } from '../auth.service';
 @Component({
   selector: 'app-transactions',
   templateUrl: './transactions.component.html',
@@ -41,9 +43,14 @@ export class TransactionsComponent implements OnInit {
   //filteredUsers: any[];
   defaultFrom: Date;
   
-  constructor(private transactionsService: TransactionsService, private usersService: UsersService, public dialog: MatDialog) { }
+  constructor(private transactionsService: TransactionsService, private usersService: UsersService, public dialog: MatDialog,private router: Router,private _authService:AuthService) { 
+    if (!this._authService.isAuthenticated()) {
+      this.router.navigateByUrl('/login');
+    }
+  }
 
   ngOnInit() {
+    
     this.defaultFrom = new Date();
     this.defaultFrom.setDate(this.defaultFrom.getDate() - 14);
     this.newRow={userId:null,typeId:null,amount:null,date:new Date()};   

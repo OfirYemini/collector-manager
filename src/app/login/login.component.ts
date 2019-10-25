@@ -24,10 +24,10 @@ export class LoginComponent implements OnInit {
     private authenticationService: AuthService,
     
   ) {
-    // redirect to home if already logged in
-    // if (this.authenticationService.currentUserValue) {
-    //   this.router.navigate(['/']);
-    // }
+    //redirect to home if already logged in
+    if (this.authenticationService.isAuthenticated()) {
+      this.router.navigate(['/']);
+    }
   }
 
   ngOnInit() {
@@ -57,7 +57,7 @@ export class LoginComponent implements OnInit {
     this.loading = true;
     this.authenticationService.signIn(this.f.username.value, this.f.password.value).subscribe(
         data => {
-          //this.router.navigate([this.returnUrl]);
+          this.router.navigate(['/']);
           this.loading = false;
           console.log(data);
         },

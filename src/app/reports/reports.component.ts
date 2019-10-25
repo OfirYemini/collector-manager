@@ -4,6 +4,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { ReportsService } from '../reports.service';
 import Hebcal from 'hebcal';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-reports',
@@ -35,7 +36,12 @@ export class ReportsComponent implements OnInit {
   selectedPeriodIndex:number;
   selectedYear:{value:number,text:string};
 
-  constructor(route: ActivatedRoute, private reportService: ReportsService,  private usersService: UsersService) {
+  constructor(route: ActivatedRoute, private reportService: ReportsService,  private usersService: UsersService,private _authService:AuthService,private router: Router) {
+
+    if (!this._authService.isAuthenticated()) {
+      this.router.navigateByUrl('/login');
+    }
+
     var currentYear = new Hebcal.HDate(new Date()).year;
     for (var i = 0; i <= 3; i++) {
       this.years[i] = {value:currentYear - i,text:Hebcal.gematriya(currentYear - i)};
@@ -59,6 +65,7 @@ export class ReportsComponent implements OnInit {
   }
 
   ngOnInit() {
+    
     var day = new Hebcal.HDate(14, 1); //ערב פסח
 
     this.usersService.getUsers().subscribe((users: any[]) => {

@@ -13,11 +13,16 @@ export class AuthGuard implements CanActivate {
   constructor(private authService: AuthService) {
 
   }
+  
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> {
-    var result = this.authService.onAuthentication().pipe(map(item => item !== null));
+    var result = this.authService.onAuthentication().pipe(map(item => {
+      console.log('auth guard: ',item);
+      return item !== null
+    }));
     return result;
   }
+  
 
 }

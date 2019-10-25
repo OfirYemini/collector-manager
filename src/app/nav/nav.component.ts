@@ -19,7 +19,7 @@ export class NavComponent implements OnInit {
   }
   signOut(){
     this._authService.signOut();
-    this.router.navigate(["../../"],{relativeTo: this.route});
+    this.router.navigate(["../login"],{relativeTo: this.route});
     location.reload();
   }
 }
