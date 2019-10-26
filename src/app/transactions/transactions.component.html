@@ -8,8 +8,14 @@
                 {{template.name}}
             </mat-option>
         </mat-select>
-
     </mat-form-field>
+
+    <ng-container *ngIf="isReceiptInputVisible">
+        <mat-form-field>
+            <input matInput placeholder="מספר קבלה התחלתי" type="number" [formControl]="receiptInitNumberCtl" (change)="onReceiptInitNumber()">
+            
+        </mat-form-field>
+    </ng-container>
 
     <mat-form-field>
         <input matInput [matDatepicker]="picker1" placeholder="Angular forms" [formControl]="templateDateCtl">

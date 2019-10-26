@@ -22,6 +22,7 @@ export class TransactionsComponent implements OnInit {
   templatesArr:any[]= [];
   transactionsTypesArr: any;
   templateDateCtl:FormControl;
+  receiptInitNumberCtl:FormControl =new FormControl();
   
   users: any[];
   currentTemplate:any[];
@@ -41,6 +42,7 @@ export class TransactionsComponent implements OnInit {
   updatedTransactionId: number;
   //filteredUsers: any[];
   defaultFrom: Date;
+  isReceiptInputVisible: boolean = false;
   
   constructor(private transactionsService: TransactionsService, private usersService: UsersService, public dialog: MatDialog,private router: Router,private _authService:AuthService) { 
     if (!this._authService.isAuthenticated()) {
@@ -113,6 +115,15 @@ export class TransactionsComponent implements OnInit {
       obj.filteredUsers = _this.users;
     });
     return transactions;
+  }
+
+  onReceiptInitNumber(){
+    this.receiptInitNumberCtl.value
+
+    this.currentTemplate.forEach((row,index) => {
+      var number = +(this.receiptInitNumberCtl.value) + index;
+      row.comment = `קבלה ${number}`
+    });
   }
 
   getTransactions() {    
@@ -191,6 +202,7 @@ export class TransactionsComponent implements OnInit {
   }
   onTemplateChanged(templateId:number){
     console.log('template ', templateId);    
+    this.isReceiptInputVisible = this.templates[templateId].name=="קבלה"; 
     this.currentTemplate = [];
     this.templates[templateId].trans_type_ids.forEach(transTypeId => {
       this.currentTemplate.push({
