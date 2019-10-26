@@ -17,7 +17,7 @@ export class UsersComponent implements OnInit {
   @ViewChild(MatTable, { static: true }) table: MatTable<any>;
   action: string;
   updatedUserId: number;
-  newRow: any = { isGuest: false };
+  newRow: any = {email:null,isGuest:false};;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
@@ -54,11 +54,16 @@ export class UsersComponent implements OnInit {
     this.updatedUserId = obj.id;
   }
   addUser() {
-    this.usersService.addUser(this.newRow).subscribe((data: any) => {
+    this.usersService.addUser({
+      firstName: this.newRow.firstName,
+      lastName: this.newRow.lastName,
+      email: this.newRow.email,
+      isGuest: this.newRow.isGuest
+    }).subscribe((data: any) => {
       this.refreshUsers();
       this.action = null;
       this.updatedUserId = null;
-      this.newRow = {};
+      this.newRow = {email:null,isGuest:false};
     }, err => console.log('error adding user', err));
   }
   saveUser(row) {
