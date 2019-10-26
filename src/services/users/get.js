@@ -19,7 +19,10 @@ exports.handler = async (event) => {
             id: res.rows[0].id,
             firstName: res.rows[0].first_name,
             lastName: res.rows[0].last_name,            
-            isGuest: res.rows[0].is_guest
+            email:res.rows[0].email,
+            isGuest:res.rows[0].is_guest,
+            isActive:res.rows[0].in_activity_date ==null
+            
         });
         
     } catch (e) {

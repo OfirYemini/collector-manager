@@ -19,7 +19,7 @@ exports.handler = async (event) => {
                 lastName:r.last_name,
                 email:r.email,
                 isGuest:r.is_guest,
-                isActive:r.is_active
+                isActive:r.in_activity_date ==null
             }
         })),
     };
