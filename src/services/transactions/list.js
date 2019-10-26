@@ -29,6 +29,7 @@ exports.handler = async (event) => {
                 id: r.id,
                 userId: r.user_id,
                 typeId: r.type_id,
+                comment: r.comment,
                 amount: r.amount,
                 date: r.exec_date.toLocaleDateString()
             };

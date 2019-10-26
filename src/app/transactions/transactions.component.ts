@@ -146,6 +146,7 @@ export class TransactionsComponent implements OnInit {
     this.transactionsService.updateTransaction(trans.id,{
       userId: trans.userId,
       typeId: trans.typeId,
+      comment:trans.comment,
       amount:trans.amount,
       date: trans.date
     }).subscribe((data : any)=>{
@@ -209,6 +210,7 @@ export class TransactionsComponent implements OnInit {
         transactionsToAdd.push({
           userId:v.userId,
           typeId:v.typeId,
+          comment:v.comment,
           amount:v.amount,
           date:date
         });

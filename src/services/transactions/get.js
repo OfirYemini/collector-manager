@@ -19,6 +19,7 @@ exports.handler = async (event) => {
           id:res.rows[0].id,
           userId:res.rows[0].user_id,
           typeId: res.rows[0].type_id,
+          comment: res.rows[0].comment,
           amount: res.rows[0].amount,
           date: res.rows[0].exec_date
       });

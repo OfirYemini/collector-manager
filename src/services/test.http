@@ -35,19 +35,21 @@ DELETE https://24mdfdusj8.execute-api.eu-central-1.amazonaws.com/dev/users/21
 ### create transaction
 POST https://kgz5a5cmll.execute-api.eu-central-1.amazonaws.com/dev/transactions
 Content-Type: application/json
-Authorization: eyJraWQiOiJGUXFVZEVySUFOR2NRcW1FVGE3U1wvRlMxNGJkNGQ4aml4MDQybVQ1d1hGST0iLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiI5ZjgwN2QzNi1jZGE3LTRiNDktYTJjZC0yMTg1OWIzMmVlOGEiLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwiaXNzIjoiaHR0cHM6XC9cL2NvZ25pdG8taWRwLmV1LWNlbnRyYWwtMS5hbWF6b25hd3MuY29tXC9ldS1jZW50cmFsLTFfa2JoZUZoNlNVIiwicGhvbmVfbnVtYmVyX3ZlcmlmaWVkIjp0cnVlLCJjb2duaXRvOnVzZXJuYW1lIjoiOWY4MDdkMzYtY2RhNy00YjQ5LWEyY2QtMjE4NTliMzJlZThhIiwiYXVkIjoidHFvcG02YmdicW05MG5xNWlpcGcyYTdiNyIsImV2ZW50X2lkIjoiYmUwOWI4ZGItZDRkMC00MTAzLWFjMTgtYWZlZWMxZjFiYjlhIiwidG9rZW5fdXNlIjoiaWQiLCJhdXRoX3RpbWUiOjE1NzE5MDI3OTQsInBob25lX251bWJlciI6Iis5NzI1MjMzOTIwMTciLCJleHAiOjE1NzE5MDY5MTEsImlhdCI6MTU3MTkwMzMxMSwiZW1haWwiOiJvZmlyeTE5ODFAZ21haWwuY29tIn0.WaLQZcDHuLpHyQA8n3-vje0gAc1YbB_D717h4U11jrNJUwkvZKy1_YTil3NvgOJYlqM7rxqdTxDRZgAqfr5NgeZFlT1O77pqRAV7MZntCN72op6JlvlVbCxJrLfGsof2gTzOEbDS6jJrp5SbgjcJoIAR6BLWpgIPMuTUAStiqty0Nj4l5OTFfhwkiJnwNXANRbjnnauKxb0jjl4dAzdhePItnVXcTymS9leLSQFDLx8lnVHVpjXRpR2EhPokJTUOBKkPAqnbkfN3aZcAbzYCyL_ImxF3epek2i7I9aeYtW36yUEO0J4tXWuTr0p5E96w1yQblQAN08b-HayoGPEHBw
+Authorization: eyJraWQiOiJGUXFVZEVySUFOR2NRcW1FVGE3U1wvRlMxNGJkNGQ4aml4MDQybVQ1d1hGST0iLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiI5ZjgwN2QzNi1jZGE3LTRiNDktYTJjZC0yMTg1OWIzMmVlOGEiLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwiaXNzIjoiaHR0cHM6XC9cL2NvZ25pdG8taWRwLmV1LWNlbnRyYWwtMS5hbWF6b25hd3MuY29tXC9ldS1jZW50cmFsLTFfa2JoZUZoNlNVIiwicGhvbmVfbnVtYmVyX3ZlcmlmaWVkIjp0cnVlLCJjb2duaXRvOnVzZXJuYW1lIjoiOWY4MDdkMzYtY2RhNy00YjQ5LWEyY2QtMjE4NTliMzJlZThhIiwiYXVkIjoidHFvcG02YmdicW05MG5xNWlpcGcyYTdiNyIsImV2ZW50X2lkIjoiYWEzNjI5ZmYtOWI1Yi00YmFmLTgwMGItYmRmYWZlYTZjYzdhIiwidG9rZW5fdXNlIjoiaWQiLCJhdXRoX3RpbWUiOjE1NzIxMTY1NDIsInBob25lX251bWJlciI6Iis5NzI1MjMzOTIwMTciLCJleHAiOjE1NzIxMjAxNDIsImlhdCI6MTU3MjExNjU0MiwiZW1haWwiOiJvZmlyeTE5ODFAZ21haWwuY29tIn0.E3EgJwmfNGcIHY0b_2t2P2Z9_AG-pToWQLXh8PGwLK0fckQmD3-XezLrL6R1DTH382nuKyGq-xbfSXumCr4wswU2mqitw_3JiyZpep4LZd3mxrl_EeyjeRX66dpHdS97yI_8rn_GE2BQ9Go0xDU913cK7UbSYCMYF3LpUvORMbMkNtNDqc5JY5lSgCEhgk1nnw3One3XZEY8GO-ibH4mhbYgz9TpZyK4L0eHYebL0kddNK12HosQwvgESjTvrjUMm4P37FbGUEp3hNtNs7VFJ15oJjYwbEYTtQbaPYNR_X-1lrPNS8c0KDZzBU6_v0RCPBwScu5dbgloakG8x-g9Fg
 
 [
     {
         "userId": 2,
         "typeId": 5,
         "amount":85,
-        "date": "2019-03-12T16:15:15"
+        "comment":null,
+        "date": "2019-10-25T16:15:15"
     },
     {
         "userId": 2,
         "typeId": 6,
         "amount":75,
+        "comment": "this is a comment",
         "date": "2019-10-23T07:56:26.749Z"
     }
 ]

@@ -57,6 +57,7 @@ CREATE TABLE public.transactions (
 	user_id int2 NOT NULL,
 	type_id int2 NOT NULL,
 	exec_date date NOT NULL,
+	comment varchar(50) NULL,
 	amount numeric(10,2) NOT NULL,
 	CONSTRAINT transactions_pkey PRIMARY KEY (id),
 	CONSTRAINT transactions_type_id_fkey FOREIGN KEY (type_id) REFERENCES transaction_types(id),

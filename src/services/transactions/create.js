@@ -25,9 +25,9 @@ exports.handler = async (event) => {
         let values = [];
         data.forEach(function(v){ 
           //values.push(Object.values(v));
-          values.push([v.userId,v.typeId,v.amount,v.date]);
+          values.push([v.userId,v.typeId,v.comment,v.amount,v.date]);
         }); 
-        const text = format('INSERT INTO transactions (user_id,type_id,amount,exec_date) VALUES %L returning id',values);
+        const text = format('INSERT INTO transactions (user_id,type_id,comment,amount,exec_date) VALUES %L returning id',values);
         console.log(text);
         const res = await client.query(text);
         response = sendRes(201,res.rows,"application/json");
