@@ -45,9 +45,10 @@
                 <ng-template #userTemplate>
                     <mat-form-field>
                         <mat-select #userName name="userName-{{i}}" placeholder="{{row.userFullName}}" [(ngModel)]="row.userId"
-                            (openedChange)="userNameInput.focus()" required>
+                            (openedChange)="userNameInput.focus()" (selectionChange)="onUserChange($event.source.value,i)">
                             <input #userNameInput matInput focused="'true'" type="text"
                                 (keyup)="filterUsers($event.target.value,row)" autocomplete="off">
+                            <mat-option></mat-option>
                             <mat-option *ngFor="let user of row.filteredUsers" [value]="user.id">
                                 {{user.fullName}}
                             </mat-option>
@@ -83,9 +84,9 @@
             <th mat-header-cell *matHeaderCellDef mat-sort-header>סכום</th>
             <td mat-cell *matCellDef="let row; let i = index;">
                 <mat-form-field>
-                    <input name="amount-{{i}}" matInput [(ngModel)]="row.amount" #amount="ngModel" required>
+                    <input name="amount-{{i}}" matInput [(ngModel)]="row.amount" #amount="ngModel" (change)="onAmountChange($event.target,i)">
                 </mat-form-field>
-                <div *ngIf="amount.errors?.required && amount.touched">
+                <div *ngIf="(amount.errors?.required && amount.touched)">
                     סכום לא תקין
                 </div>
             </td>

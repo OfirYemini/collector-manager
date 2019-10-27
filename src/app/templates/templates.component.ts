@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormControl, NgForm } from '@angular/forms';
+import { FormControl, NgForm, Validators } from '@angular/forms';
 import { TransactionsService } from '../transactions.service';
 import { Observable, combineLatest } from 'rxjs';
 import { UsersService } from '../users.service';
@@ -25,8 +25,8 @@ export class TemplatesComponent implements OnInit {
   isReceiptInputVisible: boolean = false;
   users: any[];
   @ViewChild(NgForm, { static: true }) templateForm: NgForm;
-  displayedColumns = ['id', 'userName', 'transactionType', 'amount','comment', 'date', 'action'];
-  constructor(private transactionsService: TransactionsService, private usersService: UsersService,private router: Router,private _authService:AuthService) { 
+  displayedColumns = ['id', 'userName', 'transactionType', 'amount', 'comment', 'date', 'action'];
+  constructor(private transactionsService: TransactionsService, private usersService: UsersService, private router: Router, private _authService: AuthService) {
     if (!this._authService.isAuthenticated()) {
       this.router.navigateByUrl('/login');
     }
@@ -66,8 +66,38 @@ export class TemplatesComponent implements OnInit {
         this.users = data.users;
         this.onTemplateChanged(1);
       })
-  }
 
+    //     this.templateForm.valueChanges.subscribe(value => {
+    //       console.log('on change');
+    //       if(value.b === 'first') {
+    //           this.templateForm.controls['one'].setValidators(Validators.required)
+    //           this.form.controls['two'].clearValidators()
+    //       } else {
+    //           this.form.controls['two'].setValidators(Validators.required)
+    //           this.form.controls['one'].clearValidators()
+    //       }    
+
+    //       this.templateForm.controls['one'].updateValueAndValidity({onlySelf:true})
+    //       this.templateForm.controls['two'].updateValueAndValidity({onlySelf:true})
+    //  })
+  }
+  onAmountChange(target,index) {        
+    let otherControl = this.templateForm.controls['userName-' + index];
+    this.onValueChange(otherControl,target.value);
+  }
+  onValueChange(control,value){    
+    if(value!=='' && value!==undefined) {
+      control.setValidators(Validators.required);
+    }        
+    else {
+      control.clearValidators();
+    }
+    control.updateValueAndValidity({ onlySelf: true });    
+  }
+  onUserChange(value,index){
+    let otherControl = this.templateForm.controls['amount-' + index];
+    this.onValueChange(otherControl,value);
+  }
   onReceiptInitNumber() {
     this.receiptInitNumberCtl.value
 
@@ -96,7 +126,7 @@ export class TemplatesComponent implements OnInit {
         filteredUsers: this.users
       });
     });
-    
+
   }
   addTransactions() {
     if (this.templateForm.valid) {
