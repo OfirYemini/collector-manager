@@ -135,14 +135,18 @@ export class TemplatesComponent implements OnInit {
       let date = new Date(this.templateDateCtl.value.toDateString());
       this.currentTemplate.forEach(function (v) {
         v.filteredUsers = _this.users;
-        transactionsToAdd.push({
-          userId: v.userId,
-          typeId: v.typeId,
-          comment: v.comment,
-          amount: v.amount,
-          date: date
-        });
+        if(v.userId !==undefined && v.amount!==undefined){
+          transactionsToAdd.push({
+            userId: v.userId,
+            typeId: v.typeId,
+            comment: v.comment,
+            amount: v.amount,
+            date: date
+          });
+        }
+        
       });
+      
       console.log('template', JSON.stringify(transactionsToAdd));
       this.transactionsService.addTransactions(transactionsToAdd).subscribe(() => {
         // this.transactionsService.getTransactionsByDate(date, new Date()).subscribe((data: any[]) => {
