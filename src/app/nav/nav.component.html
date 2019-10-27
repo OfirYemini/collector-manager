@@ -8,6 +8,7 @@
         <button *ngIf="_authService.isAuthenticated()" mat-button (click)="signOut()"> התנתק </button>        
         <button mat-button [routerLink]="'/reports'"> דוחות </button>
         <button mat-button [routerLink]="'/transactions'"> תנועות </button>
+        <button mat-button [routerLink]="'/templates'"> תבניות </button>
         <button mat-button [routerLink]="'/users'"> מתפללים </button>                        
         
     </mat-toolbar-row>     

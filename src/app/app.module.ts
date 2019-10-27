@@ -32,6 +32,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { ReportsService } from './reports.service';
 import { LoginComponent } from './login/login.component';
 import { ConfirmationDialogComponent } from './shared/confirmation-dialog/confirmation-dialog.component';
+import { TemplatesComponent } from './templates/templates.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +43,7 @@ import { ConfirmationDialogComponent } from './shared/confirmation-dialog/confir
     TransactionsComponent, 
     ReportsComponent, 
     LoginComponent, 
-    ConfirmationDialogComponent,  
+    ConfirmationDialogComponent, TemplatesComponent,  
   ],
   imports: [
     BrowserModule,

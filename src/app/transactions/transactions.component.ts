@@ -16,16 +16,11 @@ import { AuthService } from '../auth.service';
 })
 export class TransactionsComponent implements OnInit {
   transactions: any[];
-  transactionsTypes: string[];
-  templates: any[];
-  filteredTemplatesArr:any[];
-  templatesArr:any[]= [];
+  transactionsTypes: string[];  
   transactionsTypesArr: any;
-  templateDateCtl:FormControl;
-  receiptInitNumberCtl:FormControl =new FormControl();
   
   users: any[];
-  currentTemplate:any[];
+  
 
   filteredPrayers: Observable<any[]>;
   filteredTransactionsTypes: Observable<string[]>;
@@ -33,8 +28,7 @@ export class TransactionsComponent implements OnInit {
   newRow: any;//{userId: number,typeId: number,amount: number,date: Date};
   displayedColumns = ['id', 'userName', 'transactionType', 'amount','comment', 'date', 'action'];
   @ViewChild(MatTable, { static: true }) table: MatTable<any>;
-  @ViewChild(NgForm, { static: true }) templateForm: NgForm;
-  
+    
 
   addPrayerControl = new FormControl();
   addTransControl = new FormControl();
@@ -42,7 +36,7 @@ export class TransactionsComponent implements OnInit {
   updatedTransactionId: number;
   //filteredUsers: any[];
   defaultFrom: Date;
-  isReceiptInputVisible: boolean = false;
+  
   
   constructor(private transactionsService: TransactionsService, private usersService: UsersService, public dialog: MatDialog,private router: Router,private _authService:AuthService) { 
     if (!this._authService.isAuthenticated()) {
@@ -56,9 +50,7 @@ export class TransactionsComponent implements OnInit {
     this.defaultFrom.setDate(this.defaultFrom.getDate() - 14);
     this.newRow={userId:null,typeId:null,amount:null,date:new Date()};   
 
-    var prevSaturday = new Date();
-    prevSaturday.setDate(prevSaturday.getDate() - (prevSaturday.getDay()+3) % 7)
-    this.templateDateCtl = new FormControl(new Date(prevSaturday));
+    
     
     const transactions$ = this.transactionsService.getTransactionsByDate(this.defaultFrom,new Date());
     const users$ = this.usersService.getUsers();
@@ -80,17 +72,12 @@ export class TransactionsComponent implements OnInit {
     combineLatest(transactions$, users$, transactionTypes$, (transactions: any[], users: any[], settings: any) => ({ transactions: transactions, users: users, settings: settings }))
       .subscribe(data => {
         initTransactionTypes(data.settings.transTypes);
-        this.templates = data.settings.templates;
-        Object.keys(data.settings.templates).forEach(templateId => {          
-          this.templatesArr.push({id:templateId,name:data.settings.templates[templateId].name});          
-        });
-        this.filteredTemplatesArr = this.templatesArr;
+                
         data.users.forEach((u) => {
           u.fullName = u.lastName + ' ' + u.firstName;          
         });
         this.users = data.users;
-        this.onTemplateChanged(1);        
-                
+                        
         this.addPrayerControl.setValue(this.newRow.userName);
         this.newRow.filteredUsers = data.users;
         this.transactions = this.initTransactions(data.transactions);
@@ -117,14 +104,7 @@ export class TransactionsComponent implements OnInit {
     return transactions;
   }
 
-  onReceiptInitNumber(){
-    this.receiptInitNumberCtl.value
-
-    this.currentTemplate.forEach((row,index) => {
-      var number = +(this.receiptInitNumberCtl.value) + index;
-      row.comment = `קבלה ${number}`
-    });
-  }
+  
 
   getTransactions() {    
     this.transactionsService.getTransactionsByDate(this.defaultFrom,new Date()).subscribe((transactions : any[])=>{      
@@ -197,42 +177,6 @@ export class TransactionsComponent implements OnInit {
     },err=>console.log('error removing user',err));
   }
   
-  filterTemplates(val) {      
-    this.filteredTemplatesArr = this.templatesArr.filter((t) => t.name.indexOf(val) > -1);
-  }
-  onTemplateChanged(templateId:number){
-    console.log('template ', templateId);    
-    this.isReceiptInputVisible = this.templates[templateId].name=="קבלה"; 
-    this.currentTemplate = [];
-    this.templates[templateId].trans_type_ids.forEach(transTypeId => {
-      this.currentTemplate.push({
-        typeId:transTypeId,
-        date:this.templateDateCtl.value,
-        filteredUsers:this.users
-      });
-    });
-  }
-  addTransactions() {    
-    if (this.templateForm.valid) {
-      var transactionsToAdd = [];
-      let _this = this;
-      let date = new Date(this.templateDateCtl.value.toDateString());
-      this.currentTemplate.forEach(function(v){ 
-        v.filteredUsers = _this.users;
-        transactionsToAdd.push({
-          userId:v.userId,
-          typeId:v.typeId,
-          comment:v.comment,
-          amount:v.amount,
-          date:date
-        });
-      });
-      console.log('template', JSON.stringify(transactionsToAdd));
-      this.transactionsService.addTransactions(transactionsToAdd).subscribe(()=>{
-            this.transactionsService.getTransactionsByDate(date,new Date()).subscribe((data:any[])=>{
-              this.transactions = this.initTransactions(data);
-            });            
-          },err=>console.log('error adding transactions',err));
-    }
-  }
+  
+  
 }

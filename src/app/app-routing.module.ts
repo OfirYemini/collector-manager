@@ -1,3 +1,4 @@
+import { TemplatesComponent } from './templates/templates.component';
 import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
 import { ReportsComponent } from './reports/reports.component';
@@ -14,6 +15,7 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'users', component: UsersComponent},
   { path: 'transactions', component: TransactionsComponent },
+  { path: 'templates', component: TemplatesComponent },
   { path: 'reports', component: ReportsComponent},  
 ];
 
