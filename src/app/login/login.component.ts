@@ -16,13 +16,13 @@ export class LoginComponent implements OnInit {
   loading = false;
   submitted = false;
   returnUrl: string;
-
+  signInError:string = null;
+  showPassword: boolean = false;
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private authenticationService: AuthService,
-    
+    private authenticationService: AuthService    
   ) {
     //redirect to home if already logged in
     if (this.authenticationService.isAuthenticated()) {
@@ -42,10 +42,14 @@ export class LoginComponent implements OnInit {
 
   // convenience getter for easy access to form fields
   get f() { return this.loginForm.controls; }
+  
+  onShowHidePassword() {
+    this.showPassword = !this.showPassword;
+  }
 
   onSubmit() {
     this.submitted = true;
-
+    this.signInError = null;
     // reset alerts on submit
     
 
@@ -63,6 +67,7 @@ export class LoginComponent implements OnInit {
         },
         error => {
           console.log(error);
+          this.signInError = error.message;
           this.loading = false;
         });
   }

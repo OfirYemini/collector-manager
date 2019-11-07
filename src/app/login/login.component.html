@@ -8,9 +8,10 @@
     </div>
     <div class="form-group">
         <label for="password">Password</label>
-        <input type="password" formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
+        <input [type]="showPassword ? 'text' : 'password'" formControlName="password" class="form-control password-input" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
+        <i [class]="showPassword ? 'fa fa-eye-slash': 'fa fa-eye'" aria-hidden="true" (click)="onShowHidePassword()"></i>        
         <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
-            <div *ngIf="f.password.errors.required">Password is required</div>
+            <div *ngIf="f.password.errors.required">Password is required</div>            
         </div>
     </div>
     <div class="form-group">
@@ -18,5 +19,7 @@
             <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
             Login
         </button>        
+        <div *ngIf="signInError!=null" class="login-error">{{signInError}}</div>
     </div>
+    
 </form>
