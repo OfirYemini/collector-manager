@@ -1,34 +1,42 @@
 <div class="right-align">
     <h5>חיפוש:</h5>
+    <form [formGroup]="searchForm" (ngSubmit)="searchTransactions(searchForm.value)" class="form">
+        <mat-form-field class="form-element">
+            <input matInput placeholder="מתפלל" formControlName="user" [matAutocomplete]="auto">
+        </mat-form-field>
 
-    <mat-form-field>
-        <mat-select placeholder="מתפלל" [(ngModel)]="search.user.userId" (openedChange)="userNameInput.focus()">
-            <input #userNameInput matInput focused="'true'" type="text"
-                (keyup)="filterUsers($event.target.value,search.user)" autocomplete="off">
-            <mat-option *ngFor="let user of search.user.filteredUsers" [value]="user.id">
-                {{user.fullName}}
+        <mat-autocomplete #auto="matAutocomplete">
+            <mat-option *ngFor="let user of search.filteredUsers" [value]="user.fullName">
+                {{ user.fullName }}
             </mat-option>
-        </mat-select>
-    </mat-form-field>
-    <mat-form-field>
-        <input type="date" matInput [(ngModel)]="search.from">
-    </mat-form-field>
-    <mat-form-field>
-        <input type="date" matInput [(ngModel)]="search.to">
-    </mat-form-field>
-    <mat-form-field>
-        <mat-select placeholder="סוג תנועה" [(ngModel)]="search.transTypes.typeId" (openedChange)="myInput.focus()">
-            <input #myInput matInput focused="'true'" type="text" (keyup)="filterTransactions($event.target.value,search.transTypes)"
-                autocomplete="off">
-            <mat-option *ngFor="let transSettings of search.transTypes.filteredTransactionsTypes" [value]="transSettings.id">
-                {{transSettings.name}}
-            </mat-option>
-        </mat-select>
-    </mat-form-field>
-    <button class="btn" mat-button type="submit" (click)="searchTransactions()" dir="rtl" mat-flat-button
-        color="primary">חיפוש</button>
+        </mat-autocomplete>
+
+        <mat-form-field class="form-element">
+            <input matInput type="date" formControlName="from">
+            <mat-error *ngIf="!searchForm.controls['from'].valid">
+                from has to be before to
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="form-element">
+            <input matInput type="date" formControlName="to">
+            <mat-error *ngIf="!searchForm.controls['to'].valid">
+                to has to be after from
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="form-element">
+            <input matInput placeholder="סוג תנועה" formControlName="typeId">
+        </mat-form-field>
 
 
+        <button mat-raised-button color="primary" type="submit" class="button" [disabled]="!searchForm.valid">חיפוש
+        </button>
+
+
+    </form>
+
+    
 
 
 </div>
