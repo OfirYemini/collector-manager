@@ -2,4 +2,9 @@ div.right-align {
     text-align: right;
     margin-right: 25px;
     margin-left: auto;
+    direction: rtl;
+}
+
+mat-form-field {
+    text-align: right;
 }

@@ -20,9 +20,9 @@ export class TransactionsComponent implements OnInit {
   transactionsTypesArr: any;
   
   users: any[];
-  
+  search:{user:{userId?:number,filteredUsers:any[]},from?:Date,to?:Date,comment?:string,transTypes:{filteredTransactionsTypes:any[],typeId?:number}}  
 
-  filteredPrayers: Observable<any[]>;
+  //filteredPrayers: Observable<any[]>;
   filteredTransactionsTypes: Observable<string[]>;
 
   newRow: any;//{userId: number,typeId: number,amount: number,date: Date};
@@ -36,7 +36,7 @@ export class TransactionsComponent implements OnInit {
   updatedTransactionId: number;
   //filteredUsers: any[];
   defaultFrom: Date;
-  
+  @ViewChild(NgForm, { static: true }) searchForm: NgForm;
   
   constructor(private transactionsService: TransactionsService, private usersService: UsersService, public dialog: MatDialog,private router: Router,private _authService:AuthService) { 
     if (!this._authService.isAuthenticated()) {
@@ -50,7 +50,10 @@ export class TransactionsComponent implements OnInit {
     this.defaultFrom.setDate(this.defaultFrom.getDate() - 14);
     this.newRow={userId:null,typeId:null,amount:null,date:new Date()};   
 
-    
+    this.search = {
+      user:{userId:null,filteredUsers:[]},
+      transTypes:{typeId:null,filteredTransactionsTypes:[]}
+    };
     
     const transactions$ = this.transactionsService.getTransactionsByDate(this.defaultFrom,new Date());
     const users$ = this.usersService.getUsers();
@@ -63,7 +66,8 @@ export class TransactionsComponent implements OnInit {
         return map;
       }, {});
       _this.filteredTransactionsTypes = settings;
-      _this.transactionsTypesArr = settings;      
+      _this.transactionsTypesArr = settings;     
+      _this.search.transTypes.filteredTransactionsTypes = settings; 
     };
 
 
@@ -80,6 +84,7 @@ export class TransactionsComponent implements OnInit {
                         
         this.addPrayerControl.setValue(this.newRow.userName);
         this.newRow.filteredUsers = data.users;
+        this.search.user.filteredUsers = data.users;
         this.transactions = this.initTransactions(data.transactions);
       })
   }
@@ -105,14 +110,28 @@ export class TransactionsComponent implements OnInit {
   }
 
   
-
+  searchTransactions(){
+    let searchParams = {
+      userId:this.search.user.userId,
+      from:this.search.from,
+      to:this.search.to,
+      comment:this.search.comment,
+      transType:this.search.transTypes.typeId,
+    };
+    console.log(JSON.stringify(searchParams));
+  }
   getTransactions() {    
     this.transactionsService.getTransactionsByDate(this.defaultFrom,new Date()).subscribe((transactions : any[])=>{      
       this.transactions = this.initTransactions(transactions);      
     });
   }
-  filterTransactions(val) {      
-    this.filteredTransactionsTypes = this.transactionsTypesArr.filter((t) => t.name.indexOf(val) > -1);
+  filterTransactions(val,obj) {      
+    if(obj === undefined){
+      this.filteredTransactionsTypes = this.transactionsTypesArr.filter((t) => t.name.indexOf(val) > -1);
+    } else{
+      obj.filteredTransactionsTypes = this.transactionsTypesArr.filter((t) => t.name.indexOf(val) > -1);
+    }
+    
   }
   filterUsers(val: string,row:any) {    
     console.log('filterUsers ', val, row);    

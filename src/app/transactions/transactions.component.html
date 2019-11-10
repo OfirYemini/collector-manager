@@ -1,5 +1,41 @@
+<div class="right-align">
+    <h5>חיפוש:</h5>
 
- <table mat-table class="full-width-table" matSort aria-label="Elements" [dataSource]="transactions" dir="rtl">
+    <mat-form-field>
+        <mat-select placeholder="מתפלל" [(ngModel)]="search.user.userId" (openedChange)="userNameInput.focus()">
+            <input #userNameInput matInput focused="'true'" type="text"
+                (keyup)="filterUsers($event.target.value,search.user)" autocomplete="off">
+            <mat-option *ngFor="let user of search.user.filteredUsers" [value]="user.id">
+                {{user.fullName}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+        <input type="date" matInput [(ngModel)]="search.from">
+    </mat-form-field>
+    <mat-form-field>
+        <input type="date" matInput [(ngModel)]="search.to">
+    </mat-form-field>
+    <mat-form-field>
+        <mat-select placeholder="סוג תנועה" [(ngModel)]="search.transTypes.typeId" (openedChange)="myInput.focus()">
+            <input #myInput matInput focused="'true'" type="text" (keyup)="filterTransactions($event.target.value,search.transTypes)"
+                autocomplete="off">
+            <mat-option *ngFor="let transSettings of search.transTypes.filteredTransactionsTypes" [value]="transSettings.id">
+                {{transSettings.name}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    <button class="btn" mat-button type="submit" (click)="searchTransactions()" dir="rtl" mat-flat-button
+        color="primary">חיפוש</button>
+
+
+
+
+</div>
+
+
+
+<table mat-table class="full-width-table" matSort aria-label="Elements" [dataSource]="transactions" dir="rtl">
     <!-- Id Column -->
     <ng-container matColumnDef="id">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>מספר תנועה</th>
