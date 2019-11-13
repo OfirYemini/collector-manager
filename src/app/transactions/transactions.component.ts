@@ -50,11 +50,7 @@ export class TransactionsComponent implements OnInit {
     });
 
   }
-  private _filter(value: string): string[] {
-    const filterValue = value.toLowerCase();
-
-    return this.users.filter(u => u.fullName.includes(filterValue));
-  }
+  
   ngOnInit() {
 
     this.defaultFrom = new Date();
@@ -62,15 +58,11 @@ export class TransactionsComponent implements OnInit {
     this.newRow = { userId: null, typeId: null, amount: null, date: new Date() };
 
     this.search = {
-      filteredUsers:new Observable<any[]>(),
-      filteredTransactionsTypes:new Observable<any[]>()
+      filteredUsers: new Observable<any[]>(),
+      filteredTransactionsTypes: new Observable<any[]>()
     };
-    
-    this.search.filteredUsers = this.searchForm.get('user').valueChanges
-      .pipe(
-        startWith(''),
-        map(value => this._filter(value))
-      );
+
+
     const transactions$ = this.transactionsService.getTransactionsByDate(this.defaultFrom, new Date());
     const users$ = this.usersService.getUsers();
     const transactionTypes$ = this.transactionsService.getTransactionTypes();
@@ -101,10 +93,37 @@ export class TransactionsComponent implements OnInit {
         this.addPrayerControl.setValue(this.newRow.userName);
         this.newRow.filteredUsers = data.users;
         //this.search.user.filteredUsers = data.users;
+        this.search.filteredUsers = this.searchForm.get('user').valueChanges
+          .pipe(
+            startWith(''),
+            map(value => this._filterUsers(value))
+          );
         this.transactions = this.initTransactions(data.transactions);
+
+        this.search.filteredTransactionsTypes = this.searchForm.get('typeId').valueChanges
+          .pipe(
+            startWith(''),
+            map(value => this._filterTransactionsTypes(value))
+          );
       })
   }
 
+  displayUser = (userId:number) =>{
+    if(userId==null) return '';
+    return this.users.filter(u=>u.id==userId)[0].fullName;
+  }
+  displayTransType = (transId:number)=>{
+    if(!transId) return '';
+    return this.transactionsTypes[transId];
+  }
+  private _filterUsers (value: string): string[] {    
+    return this.users.filter(u => u.fullName.includes(value));
+  }
+
+  private _filterTransactionsTypes (value: string): string[] {    
+
+    return this.transactionsTypesArr.filter(u => u.name.includes(value));
+  }
 
   set newRowDate(e) {
     e = e.split('-');
