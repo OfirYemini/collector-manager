@@ -9,6 +9,7 @@ import { NgForm } from '@angular/forms';
 import { ConfirmationDialogComponent } from '../shared/confirmation-dialog/confirmation-dialog.component';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
+import { formatDate } from '@angular/common';
 @Component({
   selector: 'app-transactions',
   templateUrl: './transactions.component.html',
@@ -42,9 +43,12 @@ export class TransactionsComponent implements OnInit {
     if (!this._authService.isAuthenticated()) {
       this.router.navigateByUrl('/login');
     }
+    this.defaultFrom = new Date();
+    this.defaultFrom.setDate(this.defaultFrom.getDate() - 14);
+
     this.searchForm = this.formBuilder.group({
-      'from': [null, Validators.required],
-      'to': [null, Validators.required],
+      'from': [this.defaultFrom, Validators.required],
+      'to': [new Date(), Validators.required],
       'user': [],
       'typeId': [],
     });
@@ -53,16 +57,14 @@ export class TransactionsComponent implements OnInit {
   
   ngOnInit() {
 
-    this.defaultFrom = new Date();
-    this.defaultFrom.setDate(this.defaultFrom.getDate() - 14);
+    
     this.newRow = { userId: null, typeId: null, amount: null, date: new Date() };
 
     this.search = {
       filteredUsers: new Observable<any[]>(),
       filteredTransactionsTypes: new Observable<any[]>()
     };
-
-
+    
     const transactions$ = this.transactionsService.getTransactionsByDate(this.defaultFrom, new Date());
     const users$ = this.usersService.getUsers();
     const transactionTypes$ = this.transactionsService.getTransactionTypes();
