@@ -147,15 +147,13 @@ export class TransactionsComponent implements OnInit {
   }
 
 
-  searchTransactions(searchParams) {
-    // let searchParams = {
-    //   userId:this.search.user.userId,
-    //   from:this.search.from,
-    //   to:this.search.to,
-    //   comment:this.search.comment,
-    //   transType:this.search.transTypes.typeId,
-    // };
+  searchTransactions(searchParams:any) {    
+    searchParams.from = new Date(searchParams.from);
+    searchParams.to = new Date(searchParams.to);
     console.log(JSON.stringify(searchParams));
+    this.transactionsService.searchTransactions(searchParams).subscribe((transactions: any[]) => {
+      this.transactions = this.initTransactions(transactions);
+    });
   }
   getTransactions() {
     this.transactionsService.getTransactionsByDate(this.defaultFrom, new Date()).subscribe((transactions: any[]) => {

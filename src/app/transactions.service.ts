@@ -36,7 +36,14 @@ export class TransactionsService {
   public getTransaction(id: number) {
     return this.httpClient.get(`${this.SERVER_URL + this.endpoint}/${id}`, { headers: this.headers });
   }
-
+  public searchTransactions(searchParams: any) {
+    let url = `${this.SERVER_URL + this.endpoint}/?from=${searchParams.from.getTime()}&to=${searchParams.to.getTime()}`;
+    url += searchParams.user ? `&userId=${searchParams.user}`:``;
+    url += searchParams.typeId ? `&typeId=${searchParams.typeId}`:``;
+    console.log(url);
+    return this.httpClient.get(url, { headers: this.headers });
+  }
+  
   public getTransactionByUser(userId: number) {
     return this.httpClient.get(`${this.SERVER_URL + this.endpoint}/users/${userId}`, { headers: this.headers });
   }
