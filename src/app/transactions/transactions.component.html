@@ -131,7 +131,7 @@
         </td>
     </ng-container>
 
-    <!-- Amount Column -->
+    <!-- Desc Column -->
     <ng-container matColumnDef="comment">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>תיאור</th>
         <td mat-cell *matCellDef="let row">
@@ -158,7 +158,7 @@
     <!-- Amount Column -->
     <ng-container matColumnDef="amount">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>סכום</th>
-        <td mat-cell *matCellDef="let row">
+        <td mat-cell *matCellDef="let row" [ngClass]="'amount-field'">
             <ng-container
                 *ngIf="action == 'edit' && row.id==updatedTransactionId; then saveTemplate; else editTemplate">
             </ng-container>
@@ -173,7 +173,7 @@
             </ng-template>
         </td>
         <td mat-footer-cell *matFooterCellDef>
-            <mat-form-field>
+            <mat-form-field [ngClass]="'amount-field'">
                 <input placeholder="סכום" matInput [(ngModel)]="newRow.amount">
             </mat-form-field>
         </td>

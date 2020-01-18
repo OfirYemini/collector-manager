@@ -7,6 +7,9 @@ table {
     margin-right: 0px;
     margin-left: auto
 }
+.amount-field {
+  direction: ltr;
+}
 
 .mat-row {
     height: auto !important;
