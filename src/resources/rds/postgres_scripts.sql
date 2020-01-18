@@ -200,7 +200,8 @@ insert into transaction_types (name) values
 ('חצי שנה - כהנים'),
 ('חצי שנה - הוצאת ספר תורה'),
 ('חצי שנה - גלילה'),
-('חצי שנה - מנחת שבת')
+('חצי שנה - מנחת שבת'),
+('זיכוי')
 
 
 INSERT INTO public.users (first_name,last_name,email,is_guest,in_activity_date) VALUES 
