@@ -110,7 +110,7 @@
                 <mat-form-field>
                     <mat-select placeholder="סוג תנועה" [(ngModel)]="row.typeId" (openedChange)="myInput.focus()">
                         <input #myInput matInput focused="'true'" type="text"
-                            (keyup)="filterTransactions($event.target.value)" autocomplete="off">
+                            (keyup)="filterTransactions($event.target.value,undefined)" autocomplete="off">
                         <mat-option *ngFor="let transSettings of filteredTransactionsTypes" [value]="transSettings.id">
                             {{transSettings.name}}
                         </mat-option>
@@ -122,7 +122,7 @@
             <mat-form-field>
                 <mat-select placeholder="סוג תנועה" [(ngModel)]="newRow.typeId" (openedChange)="myInput.focus()">
                     <input #myInput matInput focused="'true'" type="text"
-                        (keyup)="filterTransactions($event.target.value)" autocomplete="off">
+                        (keyup)="filterTransactions($event.target.value,undefined)" autocomplete="off">
                     <mat-option *ngFor="let transSettings of filteredTransactionsTypes" [value]="transSettings.id">
                         {{transSettings.name}}
                     </mat-option>
