@@ -9,8 +9,18 @@ exports.handler = async (event) => {
     if(event.queryStringParameters.from && event.queryStringParameters.to){
         const from = new Date(parseInt(event.queryStringParameters.from));
         const to = new Date(parseInt(event.queryStringParameters.to));
-        text = `select * from transactions where exec_date >= $1 and exec_date <= $2;`;
+        text = `select * from transactions where exec_date >= $1 and exec_date <= $2`;
         values = [from,to];
+        let index = 3;
+        if(event.queryStringParameters.userId){
+            values = [...values,event.queryStringParameters.userId]; 
+            text += ` and user_id = $` + index++;
+        }
+        if(event.queryStringParameters.typeId){
+            values = [...values,event.queryStringParameters.typeId]; 
+            text += ` and type_id = $` + index++;
+        }
+        text += `;`
     } else if(event.queryStringParameters.id){        
         text = `select * from transactions where id in (` + event.queryStringParameters.id + `)`;        
         values = [];        
@@ -18,7 +28,7 @@ exports.handler = async (event) => {
         return sendRes(400,{error:'no suitable qs variables were found'},{});
     }
 
-    
+    console.log()    
     try{
         const client = new Client();
         await client.connect();
@@ -35,7 +45,7 @@ exports.handler = async (event) => {
             };
         }), {});
     } catch(e){
-        console.log(e);
+        console.log(`error on list trans text=> ${text}, values = ${values} `,e);
         return sendRes(500,{error:e.details},{});
     }
     
