@@ -11,6 +11,13 @@ table {
   direction: ltr;
 }
 
+.positive {
+  color: green;  
+}
+.negative {
+  color: red;
+}
+
 .mat-row {
     height: auto !important;
   }
