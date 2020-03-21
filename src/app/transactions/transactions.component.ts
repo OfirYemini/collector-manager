@@ -47,8 +47,8 @@ export class TransactionsComponent implements OnInit {
     this.defaultFrom.setDate(this.defaultFrom.getDate() - 14);
 
     this.searchForm = this.formBuilder.group({
-      'from': [this.defaultFrom, Validators.required],
-      'to': [new Date(), Validators.required],
+      'from': [this.defaultFrom.toISOString().substring(0, 10), Validators.required],
+      'to': [new Date().toISOString().substring(0, 10), Validators.required],
       'user': [],
       'typeId': [],
     });
