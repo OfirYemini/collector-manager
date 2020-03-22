@@ -1,7 +1,9 @@
+import { environment } from './../environments/environment.prod';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { stringify } from '@angular/compiler/src/util';
 import { AuthService } from './auth.service';
+
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +12,7 @@ export class UsersService {
 
 
   //SERVER_URL: string = "http://localhost:8080/api/";
-  SERVER_URL: string = "https://24mdfdusj8.execute-api.eu-central-1.amazonaws.com/dev/";
+  SERVER_URL: string = `https://24mdfdusj8.execute-api.eu-central-1.amazonaws.com/${environment.urlPrefix}/`;
   endpoint = 'users';
   private headers:HttpHeaders;
   constructor(private httpClient: HttpClient, private authService: AuthService) { 

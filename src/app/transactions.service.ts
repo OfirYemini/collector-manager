@@ -1,12 +1,13 @@
 import { AuthService } from './auth.service';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { environment } from 'src/environments/environment.prod';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TransactionsService {
-  SERVER_URL: string = "https://kgz5a5cmll.execute-api.eu-central-1.amazonaws.com/dev/";
+  SERVER_URL: string = `https://kgz5a5cmll.execute-api.eu-central-1.amazonaws.com/${environment.urlPrefix}/`;
   endpoint = 'transactions';
   settingsEndpoint = 'transactionsSettings';
   private headers: HttpHeaders;
