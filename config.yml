@@ -5,6 +5,7 @@ default: &default
 dev:
   <<: *default
   #authorizerArn: arn:aws:cognito-idp:eu-central-1:345413125048:userpool/eu-central-1_kbheFh6SU
+  dbName: postgres_dev
 
 test:
   <<: *default
@@ -14,3 +15,4 @@ test:
 prod:
   <<: *default
   #authorizerArn: arn:aws:cognito-idp:eu-central-1:345413125048:userpool/eu-central-1_kbheFh6SU
+  dbName: postgres

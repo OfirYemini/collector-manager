@@ -9,7 +9,7 @@ provider:
   runtime: nodejs10.x
   region: eu-central-1
   environment:
-    PGDATABASE: postgres
+    PGDATABASE: "${self:custom.config.dbName}"
     PGHOST: collector-manager-db.cs1yuxavq9wp.eu-central-1.rds.amazonaws.com
     PGPASSWORD: "${self:custom.secrets.POSTGRES_PASS}"
     PGPORT: 5432
@@ -55,7 +55,7 @@ functions:
               - X-Amz-User-Agent
             allowCredentials: false
           authorizer:
-            arn: ${self:custom.shared.authorizerArn}
+            arn: ${self:custom.config.authorizerArn}
 
   list:
     handler: list.handler
@@ -80,7 +80,7 @@ functions:
               - X-Amz-User-Agent
             allowCredentials: false
           authorizer:
-            arn: ${self:custom.shared.authorizerArn}
+            arn: ${self:custom.config.authorizerArn}
   settings:
       handler: settings.handler
       package:
@@ -103,7 +103,7 @@ functions:
                 - X-Amz-User-Agent
               allowCredentials: false
             authorizer:
-              arn: ${self:custom.shared.authorizerArn}
+              arn: ${self:custom.config.authorizerArn}
 
   get:
     handler: get.handler
@@ -127,7 +127,7 @@ functions:
               - X-Amz-User-Agent
             allowCredentials: false
           authorizer:
-            arn: ${self:custom.shared.authorizerArn}
+            arn: ${self:custom.config.authorizerArn}
 
   update:
     handler: update.handler
@@ -151,7 +151,7 @@ functions:
               - X-Amz-User-Agent
             allowCredentials: false
           authorizer:
-            arn: ${self:custom.shared.authorizerArn}
+            arn: ${self:custom.config.authorizerArn}
 
   delete:
     handler: delete.handler
@@ -175,7 +175,7 @@ functions:
               - X-Amz-User-Agent
             allowCredentials: false
           authorizer:
-            arn: ${self:custom.shared.authorizerArn}
+            arn: ${self:custom.config.authorizerArn}
   reports:
     handler: reports.handler
     package:
@@ -198,9 +198,8 @@ functions:
               - X-Amz-User-Agent
             allowCredentials: false
           authorizer:
-            arn: ${self:custom.shared.authorizerArn}
+            arn: ${self:custom.config.authorizerArn}
 custom:
   stage: ${opt:stage, 'dev'}
   secrets: ${file(../../../secrets.yml):${self:custom.stage}}
-  config: file(../../config/${self:custom.stage}.json)
-  shared: ${file(../../../shared.yml):${self:custom.stage}}
+  config: ${file(../../../config.yml):${self:custom.stage}}  
