@@ -4,7 +4,9 @@
 
 export const environment = {
   production: false,
-  urlPrefix:'dev'
+  urlPrefix:'dev',
+  usersApiUrl: '24mdfdusj8',
+  transApiUrl: 'kgz5a5cmll',
 };
 
 /*

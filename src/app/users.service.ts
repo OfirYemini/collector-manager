@@ -12,7 +12,7 @@ export class UsersService {
 
 
   //SERVER_URL: string = "http://localhost:8080/api/";
-  SERVER_URL: string = `https://24mdfdusj8.execute-api.eu-central-1.amazonaws.com/${environment.urlPrefix}/`;
+  SERVER_URL: string = `https://${environment.usersApiUrl}.execute-api.eu-central-1.amazonaws.com/${environment.urlPrefix}/`;
   endpoint = 'users';
   private headers:HttpHeaders;
   constructor(private httpClient: HttpClient, private authService: AuthService) { 
