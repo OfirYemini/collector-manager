@@ -39,7 +39,7 @@
             <tbody>
                 <ng-container *ngFor="let row of report.transactions">
                     <tr>
-                        <td>{{ row.date }}</td>
+                        <td>{{ row.comment }}</td>
                         <td>{{ row.typeName }}</td>
                         <td class="amount"><i class="fa fa-shekel">{{ row.amount }}</i></td>
                     </tr>

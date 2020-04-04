@@ -69,7 +69,7 @@ CREATE INDEX transactions_exec_date_idx ON public.transactions USING btree (exec
 
 --reports function
 CREATE OR REPLACE FUNCTION public.get_transactions_reports(fromdate date, todate date)
- RETURNS TABLE(user_id smallint, type_name character varying, exec_date date, amount numeric)
+ RETURNS TABLE(user_id smallint, type_name character varying, exec_date date,comment character varying,amount numeric)
  LANGUAGE plpgsql
 AS $function$
 BEGIN
@@ -90,27 +90,30 @@ select
 t.user_id,
 tt."name" as type_name,
 t.exec_date,
+t."comment",
 t.amount
 from transactions t 
 join transaction_types tt 
 on tt.id=t.type_id 
 where t.exec_date>=fromDate and t.exec_date < toDate;
 
-RETURN QUERY SELECT b.user_id,b.type_name,b.exec_date,b.amount
+RETURN QUERY SELECT b.user_id,b.type_name,b.exec_date,b.type_name as comment, b.amount
 from user_balances b 
 union 
-select t.user_id,t.type_name,t.exec_date,t.amount from user_transactions t
+select t.user_id,t.type_name,t.exec_date,t."comment",t.amount from user_transactions t
 union 
 (select totals.user_id,
 	'closingBalance'::varchar(20) as type_name,
 	toDate as exec_date,
-	sum(totals.amount) as amount from (select ub.user_id,ub.amount from user_balances ub union SELECT uti.user_id,uti.amount from user_transactions uti) as totals
+	null as comment,
+	sum(totals.amount) as amount from (select ub.user_id,ub.amount from user_balances ub union SELECT uti.user_id,uti.amount from user_transactions uti) as totals	
 	group by totals.user_id)
 order by user_id,exec_date asc;
 
 END
 $function$
 ;
+
 
 
 --Data--

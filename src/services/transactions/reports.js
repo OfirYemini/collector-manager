@@ -35,7 +35,7 @@ exports.handler = async (event) => {
           typeName:row.type_name,
           amount:row.amount,
           date:row.exec_date,
-          hebrewDate:row.hebrewDate
+          comment:row.comment
         });
       }      
     });
