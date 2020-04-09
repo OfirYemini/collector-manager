@@ -16,7 +16,7 @@ exports.handler = async (event) => {
     const data = await client.query('select * from get_transactions_reports($1,$2)', [from, to]);
     await client.end();
     var res = [];
-    
+    var sum = 0;
     data.rows.forEach(function (row) {
       var currentUser = res.find(o => o.userId === row.user_id);
       
@@ -24,20 +24,18 @@ exports.handler = async (event) => {
         currentUser = {
           userId:row.user_id,
           transactions:[],
+          closingBalance:0
         };
         res.push(currentUser);
       }      
       console.log('currentUser ', currentUser);
-      if(row.type_name==='closingBalance'){
-        currentUser.closingBalance = row.amount;
-      } else{
+      currentUser.closingBalance += parseInt(row.amount);
         currentUser.transactions.push({
           typeName:row.type_name,
           amount:row.amount,
           date:row.exec_date,
           comment:row.comment
-        });
-      }      
+      });
     });
     response = sendRes(200, res);
   }
