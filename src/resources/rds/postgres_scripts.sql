@@ -68,8 +68,9 @@ CREATE INDEX transactions_exec_date_idx ON public.transactions USING btree (exec
 
 
 --reports function
+
 CREATE OR REPLACE FUNCTION public.get_transactions_reports(fromdate date, todate date)
- RETURNS TABLE(user_id smallint, type_name character varying, exec_date date, comment character varying, amount numeric)
+ RETURNS TABLE(id int,user_id smallint, type_name character varying, exec_date date, comment character varying, amount numeric)
  LANGUAGE plpgsql
 AS $function$
 BEGIN
@@ -87,6 +88,7 @@ group by t.user_id;
 DROP TABLE IF EXISTS user_transactions;
 CREATE TEMP TABLE user_transactions AS
 select 
+t.id,
 t.user_id,
 tt."name" as type_name,
 t.exec_date,
@@ -97,11 +99,11 @@ join transaction_types tt
 on tt.id=t.type_id 
 where t.exec_date>=fromDate and t.exec_date < toDate;
 
-RETURN QUERY SELECT b.user_id,b.type_name,b.exec_date,b.type_name as comment, b.amount
+RETURN QUERY SELECT 1 as id,b.user_id,b.type_name,b.exec_date,b.type_name as comment, b.amount
 from user_balances b 
 union 
-select t.user_id,t.type_name,t.exec_date,t."comment",t.amount from user_transactions t
-order by user_id,exec_date asc;
+select t.id,t.user_id,t.type_name,t.exec_date,t."comment",t.amount from user_transactions t
+order by user_id,exec_date,id asc;
 
 END
 $function$
