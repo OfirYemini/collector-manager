@@ -48,7 +48,7 @@
 
 
 
-<table mat-table class="full-width-table" matSort aria-label="Elements" [dataSource]="transactions" dir="rtl">
+<table mat-table class="full-width-table" matSort aria-label="Elements" [dataSource]="dataSource" dir="rtl">
     <!-- Id Column -->
     <ng-container matColumnDef="id">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>מספר תנועה</th>
@@ -59,7 +59,7 @@
     </ng-container>
 
     <!-- User Name Column -->
-    <ng-container matColumnDef="userName">
+    <ng-container matColumnDef="userFullName">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>מתפלל</th>
         <td mat-cell *matCellDef="let row">
             <ng-container

@@ -1,6 +1,6 @@
 import { UsersService } from './../users.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatDialog, MatTable, MatDatepicker, MatAutocomplete } from '@angular/material';
+import { MatDialog, MatTable, MatDatepicker, MatAutocomplete, MatSort, MatTableDataSource } from '@angular/material';
 import { TransactionsService } from './../transactions.service';
 import { FormControl, FormGroup, ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { Observable, combineLatest } from 'rxjs';
@@ -16,7 +16,7 @@ import { formatDate } from '@angular/common';
   styleUrls: ['./transactions.component.css']
 })
 export class TransactionsComponent implements OnInit {
-  transactions: any[];
+  transactions: TransactionRow[];
   transactionsTypes: string[];
   transactionsTypesArr: any;
 
@@ -27,10 +27,11 @@ export class TransactionsComponent implements OnInit {
   filteredTransactionsTypes: Observable<string[]>;
 
   newRow: any;//{userId: number,typeId: number,amount: number,date: Date};
-  displayedColumns = ['id', 'userName', 'transactionType', 'amount', 'comment', 'date', 'action'];
+  displayedColumns = ['id', 'userFullName', 'transactionType', 'amount', 'comment', 'date', 'action'];
   @ViewChild(MatTable, { static: true }) table: MatTable<any>;
-
-
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
+  
+  dataSource:MatTableDataSource<TransactionRow>;
   addPrayerControl = new FormControl();
   addTransControl = new FormControl();
   action: string;
@@ -101,6 +102,9 @@ export class TransactionsComponent implements OnInit {
             map(value => this._filterUsers(value))
           );
         this.transactions = this.initTransactions(data.transactions);
+        
+        this.dataSource = new MatTableDataSource<TransactionRow>(this.transactions);        
+        this.dataSource.sort = this.sort;
 
         this.search.filteredTransactionsTypes = this.searchForm.get('typeId').valueChanges
           .pipe(
@@ -136,7 +140,7 @@ export class TransactionsComponent implements OnInit {
   get newRowDate() {
     return this.newRow.date.toISOString().substring(0, 10);
   }
-  private initTransactions(transactions: any[]): any[] {
+  private initTransactions(transactions: any[]): TransactionRow[] {
     let _this = this;
     transactions.forEach(function (obj) {
       let user = _this.users.filter(u => u.id == obj.userId)[0];
@@ -153,11 +157,15 @@ export class TransactionsComponent implements OnInit {
     console.log(JSON.stringify(searchParams));
     this.transactionsService.searchTransactions(searchParams).subscribe((transactions: any[]) => {
       this.transactions = this.initTransactions(transactions);
+      this.dataSource.data = this.transactions;
+      this.table.renderRows();
     });
   }
   getTransactions() {
     this.transactionsService.getTransactionsByDate(this.defaultFrom, new Date()).subscribe((transactions: any[]) => {
       this.transactions = this.initTransactions(transactions);
+      this.dataSource.data = this.transactions;
+      this.table.renderRows();
     });
   }
   filterTransactions(val, obj) {
@@ -225,6 +233,8 @@ export class TransactionsComponent implements OnInit {
       var ids = this.transactions.map(t => t.id).filter(id => id !== transId);
       this.transactionsService.getTransactionsByIds(ids).subscribe((transactions: any[]) => {
         this.transactions = this.initTransactions(transactions);
+        this.dataSource.data = this.transactions;
+        this.table.renderRows();
         this.action = null;
         this.updatedTransactionId = null;
       });
@@ -233,4 +243,12 @@ export class TransactionsComponent implements OnInit {
 
 
 
+}
+export interface TransactionRow {
+  id:number,
+  userFullName: string,
+  transactionType: string,
+  comment: string,
+  amount: number,
+  date:Date
 }
