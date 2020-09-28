@@ -129,7 +129,8 @@ insert into templates (name) values
 ('פסח'),
 ('שביעי של פסח'),
 ('שבועות'),
-('קבלות')
+('קבלות'),
+('מס מתפלל')
 
 -- transaction types
 insert into transaction_types (name) values 
@@ -202,7 +203,8 @@ insert into transaction_types (name) values
 ('חצי שנה - גלילה'),
 ('חצי שנה - מנחת שבת'),
 ('זיכוי'),
-('אחר')
+('אחר'),
+('מס מתפלל')
 
 
 INSERT INTO public.users (first_name,last_name,email,is_guest,in_activity_date) VALUES 
@@ -538,4 +540,24 @@ INSERT INTO public.templates_settings (template_id,transaction_type_id) VALUES
 ,(13,69)
 ,(13,69)
 ,(13,69)
+,(14, 71)
+,(14, 71)
+,(14, 71)
+,(14, 71)
+,(14, 71)
+,(14, 71)
+,(14, 71)
+,(14, 71)
+,(14, 71)
+,(14, 71)
+,(14, 71)
+,(14, 71)
+,(14, 71)
+,(14, 71)
+,(14, 71)
+,(14, 71)
+,(14, 71)
+,(14, 71)
+,(14, 71)
+,(14, 71)
 ;
