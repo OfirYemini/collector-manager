@@ -35,7 +35,7 @@ export class ReportsComponent implements OnInit {
   users: any = {};
   selectedPeriodIndex:number;
   selectedYear:{value:number,text:string};
-
+  reportDisplayedYear:string;
   constructor(route: ActivatedRoute, private reportService: ReportsService,  private usersService: UsersService,private _authService:AuthService,private router: Router) {
 
     if (!this._authService.isAuthenticated()) {
@@ -77,7 +77,9 @@ export class ReportsComponent implements OnInit {
 
   getReports() {
     let selectedPeriod = this.periods[this.selectedPeriodIndex];
+    this.reportDisplayedYear = this.selectedPeriodIndex==0 ? this.selectedYear.text:Hebcal.gematriya(this.selectedYear.value+1);
     
+     
     //var day = new Hebcal.HDate(7, 2, 5770);
     var from = new Hebcal.HDate(selectedPeriod.startDay, selectedPeriod.startMonth,this.selectedYear.value); //ערב פסח
     var until = new Hebcal.HDate(selectedPeriod.endDay, selectedPeriod.endMonth,this.selectedYear.value); 
