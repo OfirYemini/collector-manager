@@ -38,6 +38,7 @@ export class TransactionsComponent implements OnInit {
   updatedTransactionId: number;
   //filteredUsers: any[];
   defaultFrom: Date;
+  prevSaturday: Date;
   searchForm: FormGroup;
 
   constructor(private transactionsService: TransactionsService, private usersService: UsersService, public dialog: MatDialog, private router: Router, private _authService: AuthService, private formBuilder: FormBuilder) {
@@ -57,9 +58,10 @@ export class TransactionsComponent implements OnInit {
   }
   
   ngOnInit() {
-
-    
-    this.newRow = { userId: null, typeId: null, amount: null, date: new Date() };
+    this.prevSaturday = new Date();
+    this.prevSaturday.setDate(this.prevSaturday.getDate() - (this.prevSaturday.getDay() + 3) % 7)
+        
+    this.newRow = { userId: null, typeId: null, amount: null, date: new Date(this.prevSaturday) };
 
     this.search = {
       filteredUsers: new Observable<any[]>(),
@@ -190,7 +192,7 @@ export class TransactionsComponent implements OnInit {
       this.getTransactions();
       this.action = null;
       this.updatedTransactionId = null;
-      this.newRow = { filteredUsers: this.users, date: new Date() };
+      this.newRow = { filteredUsers: this.users, date: new Date(this.prevSaturday) };
     }, err => console.log('error adding transaction', err));
   }
   saveTransaction(trans: any) {

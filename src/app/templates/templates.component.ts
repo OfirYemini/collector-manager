@@ -33,6 +33,7 @@ export class TemplatesComponent implements OnInit {
   }
 
   ngOnInit() {
+    debugger
     var prevSaturday = new Date();
     prevSaturday.setDate(prevSaturday.getDate() - (prevSaturday.getDay() + 3) % 7)
     this.templateDateCtl = new FormControl(new Date(prevSaturday));
