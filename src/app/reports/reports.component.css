@@ -11,7 +11,7 @@ div.root-element * {
 
 
 .invoice { page-break-after: always; }
-.invoice:last-child { page-break-after: avoid; }
+.guest-invoice { page-break-inside: avoid; }
 
 table {
     table-layout: fixed;

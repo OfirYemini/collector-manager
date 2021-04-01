@@ -32,6 +32,7 @@ export class ReportsComponent implements OnInit {
   hebrewDate: any;
   eofDateTs: number;
   reports: any[];
+  gReports: any[];
   users: any = {};
   selectedPeriodIndex:number;
   selectedYear:{value:number,text:string};
@@ -86,7 +87,18 @@ export class ReportsComponent implements OnInit {
     var HebcalDate = Hebcal.HDate;
     this.reportService.getAllReports(from.greg(), until.greg()).subscribe((data: any[]) => {
       console.log(data);
-      this.reports = data.map((r)=>{
+      
+      this.reports = data.filter(x=>!this.users[x.userId].isGuest).map((r)=>{
+        r.transactions = r.transactions.map((t)=>{
+          let hebDate = new HebcalDate(new Date(t.date));
+          var isStartOfPeriod = (selectedPeriod.startDay-1)==hebDate.getDate() && selectedPeriod.startMonth==hebDate.getMonth();
+          t.date = isStartOfPeriod ? ('ערב ' + selectedPeriod.startText + ' ' + this.selectedYear.text): (Hebcal.gematriya(hebDate.getDate()) + ' ' + this.gregToHebMonth[hebDate.getMonthName()]);
+          return t;
+        },this);
+        return r;
+      },this);
+
+      this.gReports = data.filter(x=>this.users[x.userId].isGuest).map((r)=>{
         r.transactions = r.transactions.map((t)=>{
           let hebDate = new HebcalDate(new Date(t.date));
           var isStartOfPeriod = (selectedPeriod.startDay-1)==hebDate.getDate() && selectedPeriod.startMonth==hebDate.getMonth();

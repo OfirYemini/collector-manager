@@ -23,45 +23,86 @@
     
 </div>
 <div class="printable">
-    <div *ngFor="let report of reports" class="invoice">
-        <div class=report-header>
-            <div>:לכבוד</div>
-            <div>{{users[report.userId].fullName}}</div>
-            
-            <div> להלן פירוט פעילותך בחשבון עד {{periods[selectedPeriodIndex].endText}} {{reportDisplayedYear}}</div>
-        </div>
-        <table dir="rtl">
-            <thead>
-                <th>תאריך</th>
-                <th>פרטים</th>
-                <th>חובה\זכות</th>
-            </thead>
-            <tbody>
-                <ng-container *ngFor="let row of report.transactions">
-                    <tr>
-                        <td>{{ row.comment }}</td>
-                        <td>{{ row.typeName }}</td>
-                        <td class="amount"><i class="fa fa-shekel">{{ row.amount }}</i></td>
-                    </tr>
-                </ng-container>
-
-
-
-            </tbody>
-            <tfoot>
-                <tr>
-                    <td>
-                        <div class="footer-space">&nbsp;</div>
-                    </td>
-                    <td>
-                        <div>סה"כ יתרתך:</div>
-                    </td>
-                    <td class="amount">
-                        <div><i class="fa fa-shekel">{{ report.closingBalance }}</i></div>
-                    </td>
-                </tr>
-            </tfoot>
-        </table>
-        <div class="report-footer">תזכו לשנים רבות ומועדים טובים</div>
+  <div *ngFor="let report of reports" class="invoice">
+    <div class=report-header>
+        <div>:לכבוד</div>
+        <div>{{users[report.userId].fullName}}</div>
+        
+        <div> להלן פירוט פעילותך בחשבון עד {{periods[selectedPeriodIndex].endText}} {{reportDisplayedYear}}</div>
     </div>
+    <table dir="rtl">
+        <thead>
+            <th>תאריך</th>
+            <th>פרטים</th>
+            <th>חובה\זכות</th>
+        </thead>
+        <tbody>
+            <ng-container *ngFor="let row of report.transactions">
+                <tr>
+                    <td>{{ row.comment }}</td>
+                    <td>{{ row.typeName }}</td>
+                    <td class="amount"><i class="fa fa-shekel">{{ row.amount }}</i></td>
+                </tr>
+            </ng-container>
+
+
+
+        </tbody>
+        <tfoot>
+            <tr>
+                <td>
+                    <div class="footer-space">&nbsp;</div>
+                </td>
+                <td>
+                    <div>סה"כ יתרתך:</div>
+                </td>
+                <td class="amount">
+                    <div><i class="fa fa-shekel">{{ report.closingBalance }}</i></div>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+    <div class="report-footer">תזכו לשנים רבות ומועדים טובים</div>
+</div>
+
+<div *ngFor="let gReport of gReports" class="guest-invoice">
+  <div class=report-header>
+      <div>&nbsp;</div>
+      <div>{{users[gReport.userId].fullName}}</div>
+      
+      <div> להלן פירוט פעילותך בחשבון עד {{periods[selectedPeriodIndex].endText}} {{reportDisplayedYear}}</div>
+  </div>
+  <table dir="rtl">
+      <thead>
+          <th>תאריך</th>
+          <th>פרטים</th>
+          <th>חובה\זכות</th>
+      </thead>
+      <tbody>
+          <ng-container *ngFor="let row of gReport.transactions">
+              <tr>
+                  <td>{{ row.comment }}</td>
+                  <td>{{ row.typeName }}</td>
+                  <td class="amount"><i class="fa fa-shekel">{{ row.amount }}</i></td>
+              </tr>
+          </ng-container>
+
+
+
+      </tbody>
+      <tfoot>
+          <tr>
+              <td>
+                  <div class="footer-space">&nbsp;</div>
+              </td>
+              <td>
+                  <div>סה"כ יתרתך:</div>
+              </td>
+              <td class="amount">
+                  <div><i class="fa fa-shekel">{{ gReport.closingBalance }}</i></div>
+              </td>
+          </tr>
+      </tfoot>
+  </table> 
+</div>
 </div>
