@@ -17,7 +17,8 @@ import { MatSortModule,
   MatDatepickerModule,
   MatNativeDateModule,
   MatAutocompleteModule,
-  MatToolbarModule } from '@angular/material';
+  MatToolbarModule, 
+  MatSnackBarModule} from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NavComponent } from './nav/nav.component';
 import { HomeComponent } from './home/home.component';
@@ -43,7 +44,7 @@ import { TemplatesComponent } from './templates/templates.component';
     TransactionsComponent, 
     ReportsComponent, 
     LoginComponent, 
-    ConfirmationDialogComponent, TemplatesComponent,  
+    ConfirmationDialogComponent, TemplatesComponent,      
   ],
   imports: [
     BrowserModule,
@@ -66,6 +67,7 @@ import { TemplatesComponent } from './templates/templates.component';
     MatToolbarModule,
     //InMemoryWebApiModule.forRoot(DataService),
     HttpClientModule,
+    MatSnackBarModule,
     AngularFontAwesomeModule
   ],
   entryComponents: [

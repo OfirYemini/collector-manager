@@ -5,7 +5,7 @@ import { Observable, combineLatest } from 'rxjs';
 import { UsersService } from '../users.service';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
-
+import {MatSnackBar} from '@angular/material/snack-bar';
 @Component({
   selector: 'app-templates',
   templateUrl: './templates.component.html',
@@ -18,7 +18,7 @@ export class TemplatesComponent implements OnInit {
   templateDateCtl: FormControl;
   receiptInitNumberCtl: FormControl = new FormControl();
   currentTemplate: any[];
-
+  currentTemplateId:number;
   transactionsTypes: string[];
   transactionsTypesArr: any;
   filteredTransactionsTypes: Observable<string[]>;
@@ -26,14 +26,13 @@ export class TemplatesComponent implements OnInit {
   users: any[];
   @ViewChild(NgForm, { static: true }) templateForm: NgForm;
   displayedColumns = ['id', 'userName', 'transactionType', 'amount', 'comment', 'date', 'action'];
-  constructor(private transactionsService: TransactionsService, private usersService: UsersService, private router: Router, private _authService: AuthService) {
+  constructor(private transactionsService: TransactionsService, private usersService: UsersService, private router: Router, private _authService: AuthService,private _snackBar: MatSnackBar) {
     if (!this._authService.isAuthenticated()) {
       this.router.navigateByUrl('/login');
     }
   }
 
-  ngOnInit() {
-    debugger
+  ngOnInit() {    
     var prevSaturday = new Date();
     prevSaturday.setDate(prevSaturday.getDate() - (prevSaturday.getDay() + 3) % 7)
     this.templateDateCtl = new FormControl(new Date(prevSaturday));
@@ -82,6 +81,12 @@ export class TemplatesComponent implements OnInit {
     //       this.templateForm.controls['two'].updateValueAndValidity({onlySelf:true})
     //  })
   }
+  setGlobalDesc(text:string){
+    this.currentTemplate.forEach(function (v) {      
+      v.comment = text;      
+    });
+  }
+
   onAmountChange(target,index) {        
     let otherControl = this.templateForm.controls['userName-' + index];
     this.onValueChange(otherControl,target.value);
@@ -118,6 +123,7 @@ export class TemplatesComponent implements OnInit {
   }
   onTemplateChanged(templateId: number) {
     console.log('template ', templateId);
+    this.currentTemplateId=templateId;
     this.isReceiptInputVisible = this.templates[templateId].name == "קבלה";
     this.currentTemplate = [];
     this.templates[templateId].trans_type_ids.forEach(transTypeId => {
@@ -150,10 +156,16 @@ export class TemplatesComponent implements OnInit {
       
       console.log('template', JSON.stringify(transactionsToAdd));
       this.transactionsService.addTransactions(transactionsToAdd).subscribe(() => {
+        this._snackBar.open("Transactions Added successfully",null,{duration: 5000,horizontalPosition:'left'});
         // this.transactionsService.getTransactionsByDate(date, new Date()).subscribe((data: any[]) => {
         //   this.transactions = this.initTransactions(data);
         // });
-      }, err => console.log('error adding transactions', err));
+        this.onTemplateChanged(this.currentTemplateId);
+        
+      }, err => {
+        this._snackBar.open("Error adding Transactions",null,{duration: 5000,horizontalPosition:'left'});
+        console.log('error adding transactions', err)
+      });
     }
   }
 }

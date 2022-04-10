@@ -1,6 +1,6 @@
 import { UsersService } from './../users.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatDialog, MatTable, MatDatepicker, MatAutocomplete, MatSort, MatTableDataSource } from '@angular/material';
+import { MatDialog, MatTable, MatDatepicker, MatAutocomplete, MatSort, MatTableDataSource, MatSelect } from '@angular/material';
 import { TransactionsService } from './../transactions.service';
 import { FormControl, FormGroup, ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { Observable, combineLatest } from 'rxjs';
@@ -30,7 +30,7 @@ export class TransactionsComponent implements OnInit {
   displayedColumns = ['id', 'userFullName', 'transactionType', 'amount', 'comment', 'date', 'action'];
   @ViewChild(MatTable, { static: true }) table: MatTable<any>;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
-  
+  @ViewChild('userNameSelect',{static:false}) userNameinput:MatSelect; 
   dataSource:MatTableDataSource<TransactionRow>;
   addPrayerControl = new FormControl();
   addTransControl = new FormControl();
@@ -149,7 +149,7 @@ export class TransactionsComponent implements OnInit {
       obj.userFullName = user.lastName + ' ' + user.firstName;
       obj.filteredUsers = _this.users;
     });
-    return transactions;
+    return transactions.sort((a,b)=>a.id-b.id);
   }
 
 
@@ -186,13 +186,14 @@ export class TransactionsComponent implements OnInit {
     this.action = action;
     this.updatedTransactionId = obj.id;
   }
-  addTransaction() {
+  addTransaction() {        
     delete this.newRow.filteredUsers;
     this.transactionsService.addTransactions([this.newRow]).subscribe((data: any) => {
       this.getTransactions();
       this.action = null;
       this.updatedTransactionId = null;
       this.newRow = { filteredUsers: this.users, date: new Date(this.prevSaturday) };
+      this.userNameinput.focus();  
     }, err => console.log('error adding transaction', err));
   }
   saveTransaction(trans: any) {

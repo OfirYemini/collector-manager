@@ -84,7 +84,7 @@
         </td>
         <td mat-footer-cell *matFooterCellDef>
             <mat-form-field>
-                <mat-select placeholder="מתפלל" [(ngModel)]="newRow.userId" (openedChange)="userNameInput.focus()">
+                <mat-select #userNameSelect placeholder="מתפלל" [(ngModel)]="newRow.userId" (openedChange)="userNameInput.focus()">
                     <input #userNameInput matInput focused="'true'" type="text"
                         (keyup)="filterUsers($event.target.value,newRow)" autocomplete="off">
                     <mat-option *ngFor="let user of newRow.filteredUsers" [value]="user.id">

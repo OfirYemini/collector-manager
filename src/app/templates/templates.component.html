@@ -23,7 +23,9 @@
         <mat-datepicker #picker1></mat-datepicker>
     </mat-form-field>
 
-
+    <mat-form-field>
+        <input matInput placeholder="תיאור גלובאלי" type="text" (change)="setGlobalDesc($event.target.value)">
+    </mat-form-field>
 </div>
 
 <form #templateForm="ngForm" (ngSubmit)="templateForm.form.valid" novalidate>
