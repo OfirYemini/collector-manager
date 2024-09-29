@@ -21,7 +21,7 @@ exports.handler = async (event) => {
             lastName: res.rows[0].last_name,            
             email:res.rows[0].email,
             isGuest:res.rows[0].is_guest,
-            isActive:res.rows[0].in_activity_date ==null
+            isActive:res.rows[0].is_active
             
         });
         

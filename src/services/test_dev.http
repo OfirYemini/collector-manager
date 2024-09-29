@@ -24,7 +24,8 @@ GET https://24mdfdusj8.execute-api.eu-central-1.amazonaws.com/dev/users/1
     "firstName":"ss",
     "lastName":"last_updated22",
     "email":"email_updated",
-    "isGuest":true
+    "isGuest":true,
+    "isActive": true
  }
 
 ###
