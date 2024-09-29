@@ -70,7 +70,7 @@ CREATE INDEX transactions_exec_date_idx ON public.transactions USING btree (exec
 --reports function
 
 CREATE OR REPLACE FUNCTION public.get_transactions_reports(fromdate date, todate date)
- RETURNS TABLE(id int,user_id smallint, type_name character varying, exec_date date, comment character varying, amount numeric)
+ RETURNS TABLE(id integer, user_id smallint, type_name character varying, exec_date date, comment character varying, amount numeric)
  LANGUAGE plpgsql
 AS $function$
 BEGIN
@@ -80,9 +80,16 @@ select
 	t.user_id,
 	'העברת יתרה'::varchar(20) as type_name,
 	fromDate as exec_date,
-	sum(t.amount) as amount
+	sum(t.amount) as amount,
+	EXISTS (
+            SELECT 1 
+            FROM transactions t2 
+            WHERE t2.user_id = t.user_id 
+              AND t2.exec_date >= fromDate 
+              AND t2.exec_date < toDate
+        ) AS has_active_transactions
 from transactions t join users u on u.Id=t.user_id
-where t.exec_date < fromDate and (u.in_activity_date is null or u.in_activity_date > fromDate)
+where t.exec_date < fromDate 
 group by t.user_id;
 
 DROP TABLE IF EXISTS user_transactions;
@@ -101,6 +108,7 @@ where t.exec_date>=fromDate and t.exec_date < toDate;
 
 RETURN QUERY SELECT 1 as id,b.user_id,b.type_name,b.exec_date,b.type_name as comment, b.amount
 from user_balances b 
+where b.has_active_transactions = true or b.amount < 0
 union 
 select t.id,t.user_id,t.type_name,t.exec_date,t."comment",t.amount from user_transactions t
 order by user_id,exec_date,id asc;
