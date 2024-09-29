@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, NgForm, Validators } from '@angular/forms';
 import { TransactionsService } from '../transactions.service';
-import { Observable, combineLatest } from 'rxjs';
+import { Observable, combineLatest, map } from 'rxjs';
 import { UsersService } from '../users.service';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
@@ -47,25 +47,37 @@ export class TemplatesComponent implements OnInit {
       _this.filteredTransactionsTypes = settings;
       _this.transactionsTypesArr = settings;
     };
-    const users$ = this.usersService.getUsers();
-    const transactionTypes$ = this.transactionsService.getTransactionTypes();
+    const users$:Observable<any> = this.usersService.getUsers();
+    const transactionTypes$:Observable<any> = this.transactionsService.getTransactionTypes();
 
 
-    combineLatest(users$, transactionTypes$, (users: any[], settings: any) => ({ users: users, settings: settings }))
-      .subscribe(data => {
-        initTransactionTypes(data.settings.transTypes);
-        this.templates = data.settings.templates;
-        Object.keys(data.settings.templates).forEach(templateId => {
-          this.templatesArr.push({ id: templateId, name: data.settings.templates[templateId].name });
-        });
-        this.filteredTemplatesArr = this.templatesArr;
+    combineLatest([users$, transactionTypes$])
+  .pipe(
+    map(([users, settings]) => ({
+      users: users,
+      settings: settings
+    }))
+  )
+  .subscribe(data => {
+    // Initialize transaction types
+    initTransactionTypes(data.settings.transTypes);
 
-        data.users.forEach((u) => {
-          u.fullName = u.lastName + ' ' + u.firstName;
-        });
-        this.users = data.users;
-        this.onTemplateChanged(1);
-      })
+    // Set up templates
+    this.templates = data.settings.templates;
+    Object.keys(data.settings.templates).forEach(templateId => {
+      this.templatesArr.push({ id: templateId, name: data.settings.templates[templateId].name });
+    });
+    this.filteredTemplatesArr = this.templatesArr;
+
+    // Update users with full names
+    data.users.forEach((u) => {
+      u.fullName = u.lastName + ' ' + u.firstName;
+    });
+    this.users = data.users;
+
+    // Trigger additional logic
+    this.onTemplateChanged(1);
+  });
 
     //     this.templateForm.valueChanges.subscribe(value => {
     //       console.log('on change');

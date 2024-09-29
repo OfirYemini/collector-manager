@@ -74,9 +74,9 @@ export class TransactionsComponent implements OnInit {
       filteredTransactionsTypes: new Observable<any[]>()
     };
     
-    const transactions$ = this.transactionsService.getTransactionsByDate(this.defaultFrom, new Date());
-    const users$ = this.usersService.getUsers();
-    const transactionTypes$ = this.transactionsService.getTransactionTypes();
+    const transactions$:Observable<any> = this.transactionsService.getTransactionsByDate(this.defaultFrom, new Date());
+    const users$:Observable<any> = this.usersService.getUsers();
+    const transactionTypes$:Observable<any> = this.transactionsService.getTransactionTypes();
 
     let _this = this;
     function initTransactionTypes(settings: any) {
@@ -92,7 +92,10 @@ export class TransactionsComponent implements OnInit {
 
 
 
-    combineLatest(transactions$, users$, transactionTypes$, (transactions: any[], users: any[], settings: any) => ({ transactions: transactions, users: users, settings: settings }))
+    combineLatest([transactions$, users$, transactionTypes$])
+      .pipe(
+        map(([transactions, users, settings]) => ({ transactions, users, settings }))
+      )
       .subscribe(data => {
         initTransactionTypes(data.settings.transTypes);
 
