@@ -6,7 +6,7 @@ package:
     - ./**
 provider:
   name: aws  
-  runtime: nodejs10.x
+  runtime: nodejs20.x
   region: eu-central-1
   environment:
     PGDATABASE: "${self:custom.config.dbName}"
