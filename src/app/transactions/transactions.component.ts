@@ -1,6 +1,12 @@
 import { UsersService } from './../users.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatDialog, MatTable, MatDatepicker, MatAutocomplete, MatSort, MatTableDataSource, MatSelect } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
+import { MatTable, MatTableDataSource } from '@angular/material/table';
+import { MatDatepicker } from '@angular/material/datepicker';
+import { MatAutocomplete } from '@angular/material/autocomplete';
+import { MatSort } from '@angular/material/sort';
+import { MatSelect } from '@angular/material/select';
+
 import { TransactionsService } from './../transactions.service';
 import { FormControl, FormGroup, ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { Observable, combineLatest } from 'rxjs';
