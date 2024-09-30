@@ -1,11 +1,12 @@
+import { InMemoryDbService,RequestInfo  } from 'angular-in-memory-web-api';
 import { Injectable } from '@angular/core';
-import { InMemoryDbService, RequestInfo } from 'angular-in-memory-web-api'
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataService implements InMemoryDbService {
-  createDb(reqInfo?: RequestInfo): {} | import("rxjs").Observable<{}> | Promise<{}> {
+  createDb(reqInfo?: RequestInfo ): {} | import("rxjs").Observable<{}> | Promise<{}> {
     let users = [
       { id: 1, firstName: 'משה', lastName: 'זהבי' },
       { id: 2, firstName: 'שלמה', lastName: 'ימיני' },

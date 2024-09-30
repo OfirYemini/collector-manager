@@ -8,17 +8,18 @@ import { AppComponent } from './app.component';
 import { MatTableModule } from '@angular/material/table';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import { MatPaginatorModule } from '@angular/material/paginator';
-import { MatSortModule,
-  MatDialogModule, 
-  MatFormFieldModule,
-  MatInputModule,
-  MatButtonModule,
-  MatSelectModule,
-  MatDatepickerModule,
-  MatNativeDateModule,
-  MatAutocompleteModule,
-  MatToolbarModule, 
-  MatSnackBarModule} from '@angular/material';
+import { MatSortModule } from '@angular/material/sort';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatSelectModule } from '@angular/material/select';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NavComponent } from './nav/nav.component';
 import { HomeComponent } from './home/home.component';
@@ -69,10 +70,7 @@ import { TemplatesComponent } from './templates/templates.component';
     HttpClientModule,
     MatSnackBarModule,
     AngularFontAwesomeModule
-  ],
-  entryComponents: [
-    ConfirmationDialogComponent
-  ],
+  ],  
   providers: [UsersService, TransactionsService,ReportsService],
   bootstrap: [AppComponent]
 })
