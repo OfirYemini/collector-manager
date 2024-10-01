@@ -1,7 +1,7 @@
 import 'hammerjs';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { AngularFontAwesomeModule } from 'angular-font-awesome';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { FormsModule,ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -69,7 +69,7 @@ import { TemplatesComponent } from './templates/templates.component';
     //InMemoryWebApiModule.forRoot(DataService),
     HttpClientModule,
     MatSnackBarModule,
-    AngularFontAwesomeModule
+    FontAwesomeModule
   ],  
   providers: [UsersService, TransactionsService,ReportsService],
   bootstrap: [AppComponent]
